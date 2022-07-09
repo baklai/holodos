@@ -1,4 +1,4 @@
-# my-holodos-bot
+# holodos
 
 ## Project setup
 
