@@ -10,8 +10,8 @@ npm i
 
 ```
 TELEGRAM_TOKEN : Токен бота в telegram
-WEB_APP_URL    : Адрес web-сайтf
-PROXY_SERVER   : Прокси-сервер http://user:password@host:port/
+WEB_APP_URL    : Адрес web-сайта
+PROXY_SERVER   : Прокси-сервер `http://user:password@host:port/`
 ```
 
 ### Development
