@@ -30,10 +30,10 @@ tg.MainButton.onClick(() => {
   // console.log(JSON.stringify(products));
   // tg.answerWebAppQuery();
 
-  console.log(tg.initData.query_id);
+  const params = new URLSearchParams(tg.initData);
 
   answerWebAppQuery({
-    web_app_query_id: tg.initData.query_id,
+    web_app_query_id: params.get('query_id'),
     result: JSON.stringify(products)
   });
 
