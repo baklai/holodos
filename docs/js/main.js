@@ -1,7 +1,5 @@
 const tg = window.Telegram.WebApp;
 
-console.log(JSON.parse(tg));
-
 tg.expand();
 
 tg.MainButton.setParams({
@@ -31,6 +29,8 @@ Array.from(productItems).forEach((element) => {
 tg.MainButton.onClick(() => {
   // console.log(JSON.stringify(products));
   // tg.answerWebAppQuery();
+
+  console.log(tg);
 
   console.log(tg.answerWebAppQuery);
 
