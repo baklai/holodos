@@ -114,19 +114,27 @@ bot.onText(/\/status/, function (msg) {
     });
 });
 
-// bot.on('message', (msg) => {
-//     const chatId = msg.chat.id;
+bot.on('message', (msg) => {
+  const chatId = msg.chat.id;
 
-//     bot.sendMessage(chatId, 'Клавиатура', {
-//       reply_markup: {
-//         keyboard: [
-//           [
-//             {
-//               text: 'Открыть холодильник',
-//               web_app: { url: 'https://win-cli.netlify.app/' }
-//             }
-//           ]
-//         ]
-//       }
-//     });
-//   });
+  bot.sendMessage(chatId, 'Клавиатура', {
+    reply_markup: {
+      keyboard: [
+        [
+          {
+            text: 'Открыть холодильник',
+            web_app: { url: 'https://baklai.github.io/holodos/' }
+          }
+        ]
+      ]
+    }
+  });
+});
+
+bot.on('web_app_data', (msg) => {
+  console.log(msg);
+});
+
+// bot.onWebAppData('web_app_data', (msg) => {
+//   console.log(msg);
+// });
