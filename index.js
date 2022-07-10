@@ -53,12 +53,7 @@ bot
 
 bot.onText(/\/start/, function (msg) {
   const { id } = msg.chat;
-  const html = `
-      <b>Привет <i>${msg.from.first_name}</i></b>!\n
-      <i>Я помогу сдулать процесс похода в магазин
-      проще, быстрее, и что самое главное, эффективнее.</i>\n
-      👇 Открой холодос, чтобы начать...
-      `;
+  const html = `<b>Привет <i>${msg.from.first_name}</i></b>!\n\n<i>Я помогу сдулать процесс похода в магазин проще, быстрее, и что самое главное, эффективнее.</i>\n\n👇 Открой холодос, чтобы начать...`;
   bot
     .sendMessage(id, html, {
       parse_mode: 'HTML'
@@ -70,6 +65,8 @@ bot.onText(/\/start/, function (msg) {
 });
 
 bot.on('web_app_data', function (msg) {
+  console.log(msg);
+
   const data = JSON.parse(msg.web_app_data.data);
   if (data.length > 0) {
     let html = '<b>Список продуктов:</b>\n';
@@ -88,3 +85,11 @@ bot.on('web_app_data', function (msg) {
     });
   }
 });
+
+// bot.on('1100', (query) => {
+//   console.log(query);
+// });
+
+// bot.answerWebAppQuery('1100', result).then(function (msg) {
+//   console.log(msg);
+// });
