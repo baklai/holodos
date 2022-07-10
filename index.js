@@ -62,18 +62,7 @@ bot.onText(/\/start/, function (msg) {
     `;
   bot
     .sendMessage(id, html, {
-      parse_mode: 'HTML',
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: 'Открыть холодильник',
-              web_app: { url: WEB_APP_URL }
-              // callback_data: '1100'
-            }
-          ]
-        ]
-      }
+      parse_mode: 'HTML'
     })
     .catch((err) => {
       console.error(err.code);
@@ -90,38 +79,6 @@ bot.onText(/\/info/, function (msg) {
     console.error(err.response.body);
   });
 });
-
-// bot.on('callback_query', query => {
-//     bot.sendMessage(chatId, 'Клавиатура', {
-//     reply_markup: {
-//       keyboard: [
-//         [
-//           {
-//             text: 'Открыть холодильник',
-//             web_app: { url: 'https://baklai.github.io/holodos/' }
-//           }
-//         ]
-//       ]
-//     }
-//   });
-// })
-
-// bot.on('message', (msg) => {
-//   const chatId = msg.chat.id;
-
-//   bot.sendMessage(chatId, 'Клавиатура', {
-//     reply_markup: {
-//       keyboard: [
-//         [
-//           {
-//             text: 'Открыть холодильник',
-//             web_app: { url: 'https://baklai.github.io/holodos/' }
-//           }
-//         ]
-//       ]
-//     }
-//   });
-// });
 
 bot.on('web_app_data', function (msg) {
   const data = JSON.parse(msg.web_app_data.data);
