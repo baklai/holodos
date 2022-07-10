@@ -1,11 +1,14 @@
 const tg = window.Telegram.WebApp;
 
 tg.expand();
-tg.MainButton.show();
 
-tg.MainButton.text = 'Закрыть холодос'; //изменяем текст кнопки
-tg.MainButton.textColor = '#fff'; //изменяем цвет текста кнопки
-tg.MainButton.color = '#dc3545'; //изменяем цвет бэкграунда кнопки
+tg.MainButton.setParams({
+  text: 'Закрыть холодос',
+  color: '#dc3545',
+  textColor: '#fff'
+});
+
+tg.MainButton.show();
 
 const products = [];
 
@@ -23,16 +26,6 @@ Array.from(productItems).forEach((element) => {
   });
 });
 
-// tg.onEvent('mainButtonClicked', function () {
-//   alert(products);
-//   tg.sendData(JSON.stringify(products));
-//   //при клике на основную кнопку отправляем данные в строковом виде
-// });
-
-const btn = document.getElementById('mainButtonClicked');
-
-btn.addEventListener('click', function () {
-  // alert(products);
-  //вешаем событие на нажатие html-кнопки
+tg.onEvent('mainButtonClicked', function () {
   tg.sendData(JSON.stringify(products));
 });
