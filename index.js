@@ -3,9 +3,11 @@
  * Copyright(c) 2022 Dmitrii Baklai
  * MIT Licensed
  */
+process.env.NTBA_FIX_319 = 1;
 
 const path = require('path');
 const dotenv = require('dotenv');
+const TelegramBot = require('node-telegram-bot-api');
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
@@ -14,16 +16,8 @@ if (dotenv.error) {
   process.exit(1);
 }
 
-// Application config
 const { TELEGRAM_TOKEN, PROXY_SERVER, WEB_APP_URL } = process.env;
 
-// Permanent fix : 319
-process.env.NTBA_FIX_319 = 1;
-
-// Telegram Modules
-const TelegramBot = require('node-telegram-bot-api');
-
-// Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(TELEGRAM_TOKEN, {
   filepath: false,
   polling: {
@@ -36,28 +30,26 @@ const bot = new TelegramBot(TELEGRAM_TOKEN, {
   }
 });
 
+bot.on('polling_error', function (err) {
+  console.error(err.code);
+});
+
 const commands = [
   { command: 'start', description: 'старт' },
   { command: 'about', description: 'о боте' },
   { command: 'help', description: 'справка' }
 ];
 
-// Create the list of the bot commands
 bot
   .setMyCommands([...commands], {})
   .then(function (msg) {
     msg ? console.log('Telegram Bot is running...') : process.exit(1);
   })
   .catch((err) => {
-    console.log(err.code);
-    console.log(err.response);
+    console.error(err.code);
+    console.error(err.response);
     process.exit(1);
   });
-
-// Polling error
-bot.on('polling_error', function (err) {
-  console.log(err.code);
-});
 
 bot.onText(/\/start/, function (msg) {
   const { id } = msg.chat;
@@ -76,8 +68,8 @@ bot.onText(/\/start/, function (msg) {
       disable_web_page_preview: true
     })
     .catch((err) => {
-      console.log(err.code);
-      console.log(err.response.body);
+      console.error(err.code);
+      console.error(err.response.body);
     });
 });
 
@@ -94,8 +86,8 @@ bot.onText(/\/help/, function (msg) {
     command += `\n/${item.command} - ${item.description}`;
   });
   bot.sendMessage(id, html + command, { parse_mode: 'HTML' }).catch((err) => {
-    console.log(err.code);
-    console.log(err.response.body);
+    console.error(err.code);
+    console.error(err.response.body);
   });
 });
 
@@ -109,8 +101,8 @@ bot.onText(/\/status/, function (msg) {
       disable_web_page_preview: true
     })
     .catch((err) => {
-      console.log(err.code);
-      console.log(err.response.body);
+      console.error(err.code);
+      console.error(err.response.body);
     });
 });
 
@@ -131,26 +123,23 @@ bot.on('message', (msg) => {
   });
 });
 
-// bot.onWebAppData('web_app_data', (msg) => {
-//   console.log(msg);
-// });
-
 bot.on('web_app_data', function (msg) {
   console.log(msg);
   const data = JSON.parse(msg.web_app_data.data);
-  console.log(web_app_data);
+  console.log(data);
 
   if (data.length > 0) {
-    const html = '<b>Список продуктов:</b>!\n';
+    let html = '<b>Список продуктов:</b>\n';
 
     data.forEach((el, index) => {
-      html += `${index + 1}. ${el}`;
+      html += `<b>${index + 1}</b>. ${el}\n`;
     });
 
     bot.sendMessage(msg.chat.id, html, { parse_mode: 'HTML' }).catch((err) => {
-      console.log(err.code);
-      console.log(err.response.body);
+      console.error(err.code);
+      console.error(err.response.body);
     });
   } else {
+    console.log('dfkjghsdkljghsdkljf');
   }
 });
