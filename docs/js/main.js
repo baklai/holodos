@@ -33,7 +33,7 @@ tg.MainButton.onClick(() => {
   // tg.answerWebAppQuery();
 
   tg.answerWebAppQuery({
-    web_app_query_id: tg.query_id,
+    web_app_query_id: tg.initData.query_id,
     result: JSON.stringify(products)
   });
 

@@ -90,6 +90,6 @@ bot.on('web_app_data', function (msg) {
 //   console.log(query);
 // });
 
-// bot.answerWebAppQuery('1100', result).then(function (msg) {
+// bot.answerWebAppQuery(query_id, result).then(function (msg) {
 //   console.log(msg);
 // });
