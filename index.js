@@ -60,10 +60,25 @@ bot.onText(/\/start/, function (msg) {
     <b>&#187;</b> /start - запуск бота
     <b>&#187;</b> /info  - информация о боте\n
     `;
-  bot.sendMessage(id, html, { parse_mode: 'HTML' }).catch((err) => {
-    console.error(err.code);
-    console.error(err.response.body);
-  });
+  bot
+    .sendMessage(id, html, {
+      parse_mode: 'HTML',
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: 'Открыть холодильник',
+              web_app: { url: WEB_APP_URL }
+              // callback_data: '1100'
+            }
+          ]
+        ]
+      }
+    })
+    .catch((err) => {
+      console.error(err.code);
+      console.error(err.response.body);
+    });
 });
 
 bot.onText(/\/info/, function (msg) {
@@ -76,22 +91,37 @@ bot.onText(/\/info/, function (msg) {
   });
 });
 
-bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
+// bot.on('callback_query', query => {
+//     bot.sendMessage(chatId, 'Клавиатура', {
+//     reply_markup: {
+//       keyboard: [
+//         [
+//           {
+//             text: 'Открыть холодильник',
+//             web_app: { url: 'https://baklai.github.io/holodos/' }
+//           }
+//         ]
+//       ]
+//     }
+//   });
+// })
 
-  bot.sendMessage(chatId, 'Клавиатура', {
-    reply_markup: {
-      keyboard: [
-        [
-          {
-            text: 'Открыть холодильник',
-            web_app: { url: 'https://baklai.github.io/holodos/' }
-          }
-        ]
-      ]
-    }
-  });
-});
+// bot.on('message', (msg) => {
+//   const chatId = msg.chat.id;
+
+//   bot.sendMessage(chatId, 'Клавиатура', {
+//     reply_markup: {
+//       keyboard: [
+//         [
+//           {
+//             text: 'Открыть холодильник',
+//             web_app: { url: 'https://baklai.github.io/holodos/' }
+//           }
+//         ]
+//       ]
+//     }
+//   });
+// });
 
 bot.on('web_app_data', function (msg) {
   const data = JSON.parse(msg.web_app_data.data);
