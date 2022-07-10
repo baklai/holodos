@@ -137,17 +137,15 @@ bot.on('message', (msg) => {
 
 bot.on('web_app_data', function (msg) {
   console.log(msg);
-  const { web_app_data } = msg;
+  const data = JSON.parse(msg.web_app_data.data);
   console.log(web_app_data);
 
-  if (web_app_data.data.length > 0) {
+  if (data.length > 0) {
     const html = '<b>Список продуктов:</b>!\n';
 
-    // web_app_data.data.forEach((el, index) => {
-    //   html += `${index + 1}. ${el}`;
-    // });
-
-    console.log(html);
+    data.forEach((el, index) => {
+      html += `${index + 1}. ${el}`;
+    });
 
     bot.sendMessage(msg.chat.id, html, { parse_mode: 'HTML' }).catch((err) => {
       console.log(err.code);
