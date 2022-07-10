@@ -1,6 +1,6 @@
 const tg = window.Telegram.WebApp;
 
-console.log(tg);
+console.log(JSON.parse(tg));
 
 tg.expand();
 
@@ -32,10 +32,12 @@ tg.MainButton.onClick(() => {
   // console.log(JSON.stringify(products));
   // tg.answerWebAppQuery();
 
-  tg.answerWebAppQuery({
-    web_app_query_id: tg.initData.query_id,
-    result: JSON.stringify(products)
-  });
+  console.log(tg.answerWebAppQuery);
+
+  // tg.answerWebAppQuery({
+  //   web_app_query_id: tg.initData.query_id,
+  //   result: JSON.stringify(products)
+  // });
 
   // tg.sendData(JSON.stringify(products));
 });

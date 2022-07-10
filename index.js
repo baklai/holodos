@@ -93,3 +93,7 @@ bot.on('web_app_data', function (msg) {
 // bot.answerWebAppQuery(query_id, result).then(function (msg) {
 //   console.log(msg);
 // });
+
+bot.on('callback_query', (query) => {
+  console.log(query);
+});
