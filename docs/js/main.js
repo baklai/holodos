@@ -4,8 +4,6 @@ window.Telegram.WebApp.expand(); //расширяем на все окно
 
 window.Telegram.WebApp.MainButton.enable();
 
-console.log(tg.MainButton);
-
 tg.MainButton.text = 'Changed Text'; //изменяем текст кнопки
 tg.MainButton.setText('Changed Text1'); //изменяем текст кнопки иначе
 tg.MainButton.textColor = '#F55353'; //изменяем цвет текста кнопки
