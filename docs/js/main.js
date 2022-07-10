@@ -30,5 +30,10 @@ tg.MainButton.onClick(() => {
   // console.log(JSON.stringify(products));
   // tg.answerWebAppQuery();
 
-  tg.sendData(JSON.stringify(products));
+  tg.answerWebAppQuery({
+    web_app_query_id: '1100',
+    result: JSON.stringify(products)
+  });
+
+  // tg.sendData(JSON.stringify(products));
 });

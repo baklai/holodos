@@ -37,7 +37,7 @@ bot.on('polling_error', function (err) {
 const form = {
   menu_button: JSON.stringify({
     type: 'web_app',
-    text: 'Открыть холодос',
+    text: '👉 Открыть холодос',
     web_app: { url: WEB_APP_URL }
   })
 };
@@ -50,6 +50,24 @@ bot
   .catch(function (err) {
     console.error(err);
   });
+
+bot.onText(/\/start/, function (msg) {
+  const { id } = msg.chat;
+  const html = `
+      <b>Привет <i>${msg.from.first_name}</i></b>!\n
+      <i>Я помогу сдулать процесс похода в магазин
+      проще, быстрее, и что самое главное, эффективнее.</i>\n
+      👇 Открой холодос, чтобы начать...
+      `;
+  bot
+    .sendMessage(id, html, {
+      parse_mode: 'HTML'
+    })
+    .catch((err) => {
+      console.error(err.code);
+      console.error(err.response.body);
+    });
+});
 
 bot.on('web_app_data', function (msg) {
   const data = JSON.parse(msg.web_app_data.data);
