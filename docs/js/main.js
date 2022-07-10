@@ -1,6 +1,6 @@
 const tg = window.Telegram.WebApp;
 
-tg.expand(); //расширяем на все окно
+window.Telegram.WebApp.expand(); //расширяем на все окно
 
 tg.MainButton.text = 'Changed Text'; //изменяем текст кнопки
 tg.MainButton.setText('Changed Text1'); //изменяем текст кнопки иначе
