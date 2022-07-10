@@ -4,8 +4,8 @@ tg.expand();
 tg.MainButton.show();
 
 tg.MainButton.text = 'Закрыть холодос'; //изменяем текст кнопки
-tg.MainButton.textColor = '#dc3545'; //изменяем цвет текста кнопки
-tg.MainButton.color = '#fff'; //изменяем цвет бэкграунда кнопки
+tg.MainButton.textColor = '#fff'; //изменяем цвет текста кнопки
+tg.MainButton.color = '#dc3545'; //изменяем цвет бэкграунда кнопки
 
 const products = [];
 
