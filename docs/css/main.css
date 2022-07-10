@@ -99,6 +99,10 @@ h2 {
   opacity: 0.1;
 }
 
+.product-item-text {
+  text-shadow: 2px 2px 2px white, 0 0 1em #ffc107;
+}
+
 .product-item img {
   border-radius: 15px;
   transition: 0.5s;

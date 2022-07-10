@@ -4,7 +4,7 @@ tg.expand();
 
 tg.MainButton.setParams({
   text: 'Закрыть холодос',
-  color: '#dc3545',
+  color: '#008000',
   textColor: '#fff'
 });
 
