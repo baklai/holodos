@@ -27,10 +27,7 @@ Array.from(productItems).forEach((element) => {
 });
 
 tg.MainButton.onClick(() => {
-  tg.answerWebAppQuery({
-    web_app_query_id: '1100',
-    result: JSON.stringify(products)
-  });
+  tg.answerWebAppQuery();
 
   // tg.sendData(JSON.stringify(products));
 });
