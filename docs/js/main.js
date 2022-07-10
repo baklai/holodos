@@ -26,6 +26,6 @@ Array.from(productItems).forEach((element) => {
   });
 });
 
-tg.onEvent('mainButtonClicked', function () {
+tg.MainButton.onClick(() => {
   tg.sendData(JSON.stringify(products));
 });
