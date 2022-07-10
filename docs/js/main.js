@@ -32,7 +32,7 @@ tg.MainButton.onClick(() => {
 
   console.log(tg.initData);
 
-  tg.answerWebAppQuery({
+  answerWebAppQuery({
     web_app_query_id: tg.initData.query_id,
     result: JSON.stringify(products)
   });
