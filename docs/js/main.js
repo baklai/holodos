@@ -26,8 +26,16 @@ tg.MainButton.textColor = '#F55353'; //изменяем цвет текста к
 tg.MainButton.color = '#143F6B'; //изменяем цвет бэкграунда кнопки
 tg.MainButton.setParams({ color: '#143F6B' }); //так изменяются все параметры
 
-tg.onEvent('mainButtonClicked', function () {
+// tg.onEvent('mainButtonClicked', function () {
+//   alert(products);
+//   tg.sendData(JSON.stringify(products));
+//   //при клике на основную кнопку отправляем данные в строковом виде
+// });
+
+const btn = document.getElementById('mainButtonClicked');
+
+btn.addEventListener('click', function () {
   alert(products);
+  //вешаем событие на нажатие html-кнопки
   tg.sendData(JSON.stringify(products));
-  //при клике на основную кнопку отправляем данные в строковом виде
 });
