@@ -34,51 +34,22 @@ bot.on('polling_error', function (err) {
   console.error(err.code);
 });
 
-const commands = [
-  { command: 'start', description: 'запуск бота' },
-  { command: 'info', description: 'информация о боте' }
-];
+const form = {
+  menu_button: JSON.stringify({
+    type: 'web_app',
+    text: 'Открыть холодос',
+    web_app: { url: WEB_APP_URL }
+  })
+};
 
 bot
-  .setMyCommands([...commands], {})
+  .setChatMenuButton(form)
   .then(function (msg) {
     msg ? console.log('Telegram Bot is running...') : process.exit(1);
   })
-  .catch((err) => {
-    console.error(err.code);
-    console.error(err.response);
-    process.exit(1);
+  .catch(function (err) {
+    console.error(err);
   });
-
-bot.onText(/\/start/, function (msg) {
-  const { id } = msg.chat;
-  const html = `
-    <b>Привет <i>${msg.from.first_name}</i></b>!\n
-    <i>Я помогу сдулать процесс похода в магазин
-    проще, быстрее, и что самое главное, эффективнее.</i>\n
-    <b>Список быстрых ссылок:</b>
-    <b>&#187;</b> /start - запуск бота
-    <b>&#187;</b> /info  - информация о боте\n
-    `;
-  bot
-    .sendMessage(id, html, {
-      parse_mode: 'HTML'
-    })
-    .catch((err) => {
-      console.error(err.code);
-      console.error(err.response.body);
-    });
-});
-
-bot.onText(/\/info/, function (msg) {
-  const { id } = msg.chat;
-  const html = `<b>Привет <i>${msg.from.first_name}</i></b>!\n\n<b>Холодос</b> – это бот-приложение, делающее процесс похода в магазин проще, быстрее, и что самое главное, эффективнее. Благодаря боту Вы сможете быстро создавать и управлять списками покупок, делать их доступными знакомым. Все изменения сохраняются в чате, и у Вас в любое время есть к ним доступ как с телефона, так и через веб-сайт.`;
-
-  bot.sendMessage(id, html, { parse_mode: 'HTML' }).catch((err) => {
-    console.error(err.code);
-    console.error(err.response.body);
-  });
-});
 
 bot.on('web_app_data', function (msg) {
   const data = JSON.parse(msg.web_app_data.data);
