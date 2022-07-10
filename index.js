@@ -35,9 +35,8 @@ bot.on('polling_error', function (err) {
 });
 
 const commands = [
-  { command: 'start', description: 'старт' },
-  { command: 'about', description: 'о боте' },
-  { command: 'help', description: 'справка' }
+  { command: 'start', description: 'запуск бота' },
+  { command: 'info', description: 'информация о боте' }
 ];
 
 bot
@@ -54,56 +53,27 @@ bot
 bot.onText(/\/start/, function (msg) {
   const { id } = msg.chat;
   const html = `
-    <b>Привет <i>${msg.from.first_name}</i></b>!
-    <i>Я могу помочь тебе в использовании <b></b>.</i>\n
+    <b>Привет <i>${msg.from.first_name}</i></b>!\n
+    <i>Я помогу сдулать процесс похода в магазин
+    проще, быстрее, и что самое главное, эффективнее.</i>\n
     <b>Список быстрых ссылок:</b>
-    <b>&#187;</b> /help - справка по коммандам
-    <b>&#187;</b> /status - статус устройства\n
-    <b>Мой GitHub профиль:</b>
-    https://github.com/baklai
+    <b>&#187;</b> /start - запуск бота
+    <b>&#187;</b> /info  - информация о боте\n
     `;
-  bot
-    .sendMessage(id, html, {
-      parse_mode: 'HTML',
-      disable_web_page_preview: true
-    })
-    .catch((err) => {
-      console.error(err.code);
-      console.error(err.response.body);
-    });
-});
-
-bot.onText(/\/help/, function (msg) {
-  const { id } = msg.chat;
-  const html = `<b>Привет <i>${msg.from.first_name}</i></b>!`;
-  let command = `\nТы можешь управлять мной, <b>отправляя эти команды</b>:\n`;
-  command += `\n<b>${cmd.main.description}:</b>`;
-  cmd.main.commands.forEach(function (item) {
-    command += `\n/${item.command} - ${item.description}`;
-  });
-  command += `\n\n<b>${cmd.method.description}:</b>`;
-  cmd.method.commands.forEach(function (item) {
-    command += `\n/${item.command} - ${item.description}`;
-  });
-  bot.sendMessage(id, html + command, { parse_mode: 'HTML' }).catch((err) => {
+  bot.sendMessage(id, html, { parse_mode: 'HTML' }).catch((err) => {
     console.error(err.code);
     console.error(err.response.body);
   });
 });
 
-bot.onText(/\/status/, function (msg) {
-  const html = `
-      <b>Привет <i>${msg.from.first_name}</i></b>!\n
-      <b>Статус утсройства:</b>`;
-  bot
-    .sendMessage(msg.chat.id, html, {
-      parse_mode: 'HTML',
-      disable_web_page_preview: true
-    })
-    .catch((err) => {
-      console.error(err.code);
-      console.error(err.response.body);
-    });
+bot.onText(/\/info/, function (msg) {
+  const { id } = msg.chat;
+  const html = `<b>Привет <i>${msg.from.first_name}</i></b>!\n\n<b>Холодос</b> – это бот-приложение, делающее процесс похода в магазин проще, быстрее, и что самое главное, эффективнее. Благодаря боту Вы сможете быстро создавать и управлять списками покупок, делать их доступными знакомым. Все изменения сохраняются в чате, и у Вас в любое время есть к ним доступ как с телефона, так и через веб-сайт.`;
+
+  bot.sendMessage(id, html, { parse_mode: 'HTML' }).catch((err) => {
+    console.error(err.code);
+    console.error(err.response.body);
+  });
 });
 
 bot.on('message', (msg) => {
@@ -124,17 +94,12 @@ bot.on('message', (msg) => {
 });
 
 bot.on('web_app_data', function (msg) {
-  console.log(msg);
   const data = JSON.parse(msg.web_app_data.data);
-  console.log(data);
-
   if (data.length > 0) {
     let html = '<b>Список продуктов:</b>\n';
-
     data.forEach((el, index) => {
       html += `<b>${index + 1}</b>. ${el}\n`;
     });
-
     bot.sendMessage(msg.chat.id, html, { parse_mode: 'HTML' }).catch((err) => {
       console.error(err.code);
       console.error(err.response.body);

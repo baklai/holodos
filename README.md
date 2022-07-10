@@ -6,6 +6,10 @@
 знакомым. Все изменения сохраняются в чате, и у Вас в любое время есть к ним
 доступ как с телефона, так и через веб-сайт.
 
+<img src="/public/social-preview.png">
+
+## Telegram bot -> [Holodos bot](https://t.me/h_o_l_o_d_o_s_bot)
+
 ## Project setup
 
 ```
