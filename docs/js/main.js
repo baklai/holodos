@@ -27,6 +27,7 @@ Array.from(productItems).forEach((element) => {
 });
 
 tg.MainButton.onClick(() => {
+  console.log(JSON.stringify(products));
   tg.answerWebAppQuery();
 
   // tg.sendData(JSON.stringify(products));
