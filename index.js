@@ -140,6 +140,10 @@ bot.on('web_app_data', function (msg) {
       console.error(err.response.body);
     });
   } else {
-    console.log('dfkjghsdkljghsdkljf');
+    let html = '<b>Список продуктов пуст!</b>';
+    bot.sendMessage(msg.chat.id, html, { parse_mode: 'HTML' }).catch((err) => {
+      console.error(err.code);
+      console.error(err.response.body);
+    });
   }
 });
