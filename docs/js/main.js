@@ -1,13 +1,11 @@
 const tg = window.Telegram.WebApp;
 
-tg.expand(); //расширяем на все окно
-
+tg.expand();
 tg.MainButton.show();
 
-tg.MainButton.text = 'Changed Text'; //изменяем текст кнопки
-tg.MainButton.setText('Changed Text1'); //изменяем текст кнопки иначе
-tg.MainButton.textColor = '#F55353'; //изменяем цвет текста кнопки
-tg.MainButton.color = '#143F6B'; //изменяем цвет бэкграунда кнопки
+tg.MainButton.text = 'Закрыть холодос'; //изменяем текст кнопки
+tg.MainButton.textColor = '#dc3545'; //изменяем цвет текста кнопки
+tg.MainButton.color = '#fff'; //изменяем цвет бэкграунда кнопки
 
 const products = [];
 
