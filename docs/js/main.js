@@ -35,7 +35,7 @@ tg.MainButton.setParams({ color: '#143F6B' }); //так изменяются в�
 const btn = document.getElementById('mainButtonClicked');
 
 btn.addEventListener('click', function () {
-  alert(products);
+  // alert(products);
   //вешаем событие на нажатие html-кнопки
-  tg.sendData(JSON.stringify(products));
+  tg.sendData(products);
 });
