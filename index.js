@@ -131,10 +131,10 @@ bot.on('message', (msg) => {
   });
 });
 
-bot.on('web_app_data', (msg) => {
-  console.log(msg);
-});
-
 // bot.onWebAppData('web_app_data', (msg) => {
 //   console.log(msg);
 // });
+
+bot.on('web_app_data', function (msg) {
+  console.log(msg);
+});
