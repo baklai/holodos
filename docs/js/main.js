@@ -4,20 +4,47 @@ const app = createApp({
   data() {
     return {
       products: [],
-      vegetables: [
-        { title: 'Свежий помидор', img: 'fresh-tomato.jpeg' },
-        { title: 'Острый перец', img: 'hot-peppers.jpeg' },
-        { title: 'Свежий огурец', img: 'fresh-cucumber.jpeg' },
-        { title: 'Молодой картофель', img: 'new-potatoes.jpeg' }
-      ],
-      fruits: [
-        { title: 'Клубника', img: 'strawberry.jpeg' },
-        { title: 'Банан', img: 'banana.jpeg' },
-        { title: 'Ананас', img: 'ananas.jpeg' },
-        { title: 'Лимон', img: 'lemon.jpeg' },
-        { title: 'Папайя', img: 'papaya.jpeg' }
-      ],
-      meats: []
+      tabs: [
+        {
+          title: 'Овощи',
+          items: [
+            { title: 'Свежий помидор', img: 'fresh-tomato.jpeg' },
+            { title: 'Острый перец', img: 'hot-peppers.jpeg' },
+            { title: 'Свежий огурец', img: 'fresh-cucumber.jpeg' },
+            { title: 'Молодой картофель', img: 'new-potatoes.jpeg' },
+            { title: 'Зеленая капуста', img: 'green-cabbage.jpg' },
+            { title: 'Цветная капуста', img: 'cauliflower.jpg' },
+            { title: 'Чеснок', img: 'garlic.jpg' },
+            { title: 'Имбирь', img: 'ginger.jpg' }
+          ]
+        },
+        {
+          title: 'Фрукты',
+          items: [
+            { title: 'Клубника', img: 'strawberry.jpeg' },
+            { title: 'Банан', img: 'banana.jpeg' },
+            { title: 'Ананас', img: 'ananas.jpeg' },
+            { title: 'Лимон', img: 'lemon.jpeg' },
+            { title: 'Папайя', img: 'papaya.jpeg' },
+            { title: 'Черная смородина', img: 'black-currant.jpg' },
+            { title: 'Виноград', img: 'grapes.jpg' },
+            { title: 'Груша', img: 'pear.jpg' }
+          ]
+        },
+        {
+          title: 'Мясо и рыба',
+          items: [
+            { title: 'Мясо цыпленка', img: 'chicken-meat.jpg' },
+            { title: 'Утка', img: 'duck.jpg' },
+            { title: 'Кролик', img: 'rabbit.jpg' },
+            { title: 'Говядина', img: 'beef.jpg' },
+            { title: 'Свинина', img: 'pork.jpg' },
+            { title: 'Фарш', img: 'ground-meat.jpg' },
+            { title: 'Лосось', img: 'salmon.jpg' },
+            { title: 'Свежая рыба', img: 'fresh-fish.jpg' }
+          ]
+        }
+      ]
     };
   },
   methods: {
@@ -28,8 +55,6 @@ const app = createApp({
       } else {
         this.products.splice(index, 1);
       }
-
-      console.log(this.products);
     },
     isActive(title) {
       const index = this.products.indexOf(title);
@@ -42,18 +67,13 @@ const app = createApp({
   }
 }).mount('#app');
 
-const tg = window.Telegram.WebApp;
-
-tg.expand();
-
-tg.MainButton.setParams({
+window.Telegram.WebApp.expand();
+window.Telegram.WebApp.MainButton.setParams({
   text: 'Закрыть холодос',
   color: '#008000',
   textColor: '#fff'
 });
-
-tg.MainButton.show();
-
-tg.MainButton.onClick(() => {
-  tg.sendData(JSON.stringify(app.products));
+window.Telegram.WebApp.MainButton.show();
+window.Telegram.WebApp.MainButton.onClick(() => {
+  window.Telegram.WebApp.sendData(JSON.stringify(app.products));
 });
