@@ -1,5 +1,5 @@
 {
-  "name": "your-holodos-bot",
+  "name": "holodos",
   "version": "1.0.0",
   "description": "This is a Telegram bot",
   "main": "index.js",

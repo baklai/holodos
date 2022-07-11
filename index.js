@@ -16,9 +16,15 @@ if (dotenv.error) {
   process.exit(1);
 }
 
-const { TELEGRAM_TOKEN, PROXY_SERVER, WEB_APP_URL } = process.env;
+const { TELEGRAM_TOKEN, PROXY_SERVER, APP_URL, WEB_APP_URL } = process.env;
 
-const bot = new TelegramBot(TELEGRAM_TOKEN, {
+const optionsWebHook = {
+  webHook: {
+    port: process.env.PORT
+  }
+};
+
+const optionsPolling = {
   filepath: false,
   polling: {
     interval: 300,
@@ -28,11 +34,20 @@ const bot = new TelegramBot(TELEGRAM_TOKEN, {
   request: {
     proxy: PROXY_SERVER ? PROXY_SERVER : null
   }
-});
+};
 
-bot.on('polling_error', function (err) {
-  console.error(err.code);
-});
+const bot = new TelegramBot(
+  TELEGRAM_TOKEN,
+  process.env.NODE_ENV === 'production' ? optionsWebHook : optionsPolling
+);
+
+if (process.env.NODE_ENV === 'production') {
+  bot.setWebHook(`${APP_URL}/bot${TELEGRAM_TOKEN}`);
+} else {
+  bot.on('polling_error', function (err) {
+    console.error(err.code);
+  });
+}
 
 const commands = [{ command: 'start', description: 'старт' }];
 
