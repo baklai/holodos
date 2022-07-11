@@ -9,11 +9,12 @@ const path = require('path');
 const dotenv = require('dotenv');
 const TelegramBot = require('node-telegram-bot-api');
 
-dotenv.config({ path: path.join(__dirname, '.env') });
-
-if (dotenv.error) {
-  console.error(dotenv.error);
-  process.exit(1);
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: path.join(__dirname, '.env') });
+  if (dotenv.error) {
+    console.error(dotenv.error);
+    process.exit(1);
+  }
 }
 
 const { TELEGRAM_TOKEN, PROXY_SERVER, APP_URL, WEB_APP_URL } = process.env;
