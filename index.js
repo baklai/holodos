@@ -73,7 +73,7 @@ bot.onText(/\/start/, function (msg) {
         keyboard: [
           [
             {
-              text: '👉 Открыть холодос',
+              text: '🍎🍉🥑 Открыть холодос 🍊🥩🍆',
               web_app: { url: WEB_APP_URL }
             }
           ]
@@ -90,9 +90,9 @@ bot.onText(/\/start/, function (msg) {
 bot.on('web_app_data', function (msg) {
   const data = JSON.parse(msg.web_app_data.data);
   if (data.length > 0) {
-    let html = '<b>Список продуктов:</b>\n';
+    let html = '🔖 <b>Ваш список продуктов:</b>\n\n';
     data.forEach((el, index) => {
-      html += `<b>${index + 1}</b>. ${el}\n`;
+      html += `<b>${index + 1}</b>. 👉  ${el}\n`;
     });
     bot
       .sendMessage(msg.chat.id, html, {
@@ -103,7 +103,7 @@ bot.on('web_app_data', function (msg) {
         console.error(err.response.body);
       });
   } else {
-    let html = '<b>Список продуктов пуст!</b>';
+    let html = '🗣 <b>Ваш список продуктов пуст!</b>';
     bot.sendMessage(msg.chat.id, html, { parse_mode: 'HTML' }).catch((err) => {
       console.error(err.code);
       console.error(err.response.body);
