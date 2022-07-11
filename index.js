@@ -34,21 +34,17 @@ bot.on('polling_error', function (err) {
   console.error(err.code);
 });
 
-const form = {
-  menu_button: JSON.stringify({
-    type: 'web_app',
-    text: '👉 Открыть холодос',
-    web_app: { url: WEB_APP_URL }
-  })
-};
+const commands = [{ command: 'start', description: 'старт' }];
 
 bot
-  .setChatMenuButton(form)
+  .setMyCommands([...commands], {})
   .then(function (msg) {
     msg ? console.log('Telegram Bot is running...') : process.exit(1);
   })
-  .catch(function (err) {
-    console.error(err);
+  .catch((err) => {
+    console.log(err.code);
+    console.log(err.response);
+    process.exit(1);
   });
 
 bot.onText(/\/start/, function (msg) {
@@ -56,7 +52,18 @@ bot.onText(/\/start/, function (msg) {
   const html = `<b>Привет <i>${msg.from.first_name}</i></b>!\n\n<i>Я помогу сдулать процесс похода в магазин проще, быстрее, и что самое главное, эффективнее.</i>\n\n👇 Открой холодос, чтобы начать...`;
   bot
     .sendMessage(id, html, {
-      parse_mode: 'HTML'
+      parse_mode: 'HTML',
+      reply_markup: {
+        keyboard: [
+          [
+            {
+              text: 'Открыть холодос',
+              web_app: { url: WEB_APP_URL }
+            }
+          ]
+        ],
+        resize_keyboard: true
+      }
     })
     .catch((err) => {
       console.error(err.code);
@@ -65,8 +72,6 @@ bot.onText(/\/start/, function (msg) {
 });
 
 bot.on('web_app_data', function (msg) {
-  console.log(msg);
-
   const data = JSON.parse(msg.web_app_data.data);
   if (data.length > 0) {
     let html = '<b>Список продуктов:</b>\n';
@@ -84,16 +89,4 @@ bot.on('web_app_data', function (msg) {
       console.error(err.response.body);
     });
   }
-});
-
-// bot.on('1100', (query) => {
-//   console.log(query);
-// });
-
-// bot.answerWebAppQuery(query_id, result).then(function (msg) {
-//   console.log(msg);
-// });
-
-bot.on('callback_query', (query) => {
-  console.log(query);
 });
