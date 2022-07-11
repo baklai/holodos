@@ -91,6 +91,7 @@ h2 {
 }
 
 .product-item {
+  border-radius: 15px;
   box-shadow: 0 0 45px rgba(0, 0, 0, 0.07);
   cursor: pointer;
 }
@@ -100,7 +101,8 @@ h2 {
 }
 
 .product-item-text {
-  text-shadow: 2px 2px 2px white, 0 0 1em #ffc107;
+  text-shadow: 1px 1px 1px white, 0 0 0.5em #ffc107;
+  font-size: 0.5em;
 }
 
 .product-item img {
