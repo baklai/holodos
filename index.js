@@ -49,7 +49,7 @@ bot
 
 bot.onText(/\/start/, function (msg) {
   const { id } = msg.chat;
-  const html = `<b>Привет <i>${msg.from.first_name}</i></b>!\n\n<i>Я помогу сдулать процесс похода в магазин проще, быстрее, и что самое главное, эффективнее.</i>\n\n👇 Открой холодос, чтобы начать...`;
+  const html = `<b>Привет <i>${msg.from.first_name}</i></b>!\n\n<i>Я помогу сдулать процесс похода в магазин проще, быстрее, и что самое главное, эффективнее.</i>\n\nОткрой холодос, чтобы начать 👇`;
   bot
     .sendMessage(id, html, {
       parse_mode: 'HTML',
@@ -57,7 +57,7 @@ bot.onText(/\/start/, function (msg) {
         keyboard: [
           [
             {
-              text: 'Открыть холодос',
+              text: '👉 Открыть холодос',
               web_app: { url: WEB_APP_URL }
             }
           ]
@@ -78,10 +78,14 @@ bot.on('web_app_data', function (msg) {
     data.forEach((el, index) => {
       html += `<b>${index + 1}</b>. ${el}\n`;
     });
-    bot.sendMessage(msg.chat.id, html, { parse_mode: 'HTML' }).catch((err) => {
-      console.error(err.code);
-      console.error(err.response.body);
-    });
+    bot
+      .sendMessage(msg.chat.id, html, {
+        parse_mode: 'HTML'
+      })
+      .catch((err) => {
+        console.error(err.code);
+        console.error(err.response.body);
+      });
   } else {
     let html = '<b>Список продуктов пуст!</b>';
     bot.sendMessage(msg.chat.id, html, { parse_mode: 'HTML' }).catch((err) => {
