@@ -119,14 +119,12 @@ const app = createApp({
       handler(value) {
         if (!value && window.Telegram.WebApp.MainButton.isVisible) {
           window.Telegram.WebApp.MainButton.hide();
-          window.Telegram.WebApp.BackButton.hide();
         } else if (value && !window.Telegram.WebApp.MainButton.isVisible) {
           window.Telegram.WebApp.MainButton.setParams({
             text: 'Открыть список',
             color: '#ffc107',
             textColor: '#fff'
           });
-          window.Telegram.WebApp.BackButton.show();
           window.Telegram.WebApp.MainButton.show();
         }
       },
@@ -164,15 +162,6 @@ const app = createApp({
     delCounter(item) {
       --item.counter;
       --this.counter;
-    },
-
-    returnClick() {
-      window.Telegram.WebApp.MainButton.setParams({
-        text: 'Открыть список',
-        color: '#ffc107',
-        textColor: '#fff'
-      });
-      this.order = false;
     },
 
     itemClick(title) {
