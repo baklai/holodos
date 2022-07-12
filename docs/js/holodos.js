@@ -92,8 +92,6 @@ const app = createApp({
     };
   },
   mounted() {
-    console.log(window.Telegram.WebApp);
-
     window.Telegram.WebApp.expand();
 
     window.Telegram.WebApp.BackButton.onClick(() => {
@@ -189,3 +187,5 @@ const app = createApp({
     }
   }
 }).mount('#app');
+
+console.log(window.Telegram.WebApp.initDataUnsafe);
