@@ -108,6 +108,7 @@ const app = createApp({
             color: '#008000',
             textColor: '#fff'
           });
+          window.Telegram.WebApp.MainButton.show();
           window.Telegram.WebApp.MainButton.onClick(() => {
             this.order = true;
             window.Telegram.WebApp.MainButton.setParams({
@@ -116,10 +117,10 @@ const app = createApp({
               textColor: '#fff'
             });
           });
-          window.Telegram.WebApp.MainButton.show();
-          window.Telegram.WebApp.MainButton.onClick(() => {
-            window.Telegram.WebApp.sendData(JSON.stringify(this.products));
-          });
+
+          // window.Telegram.WebApp.MainButton.onClick(() => {
+          //   window.Telegram.WebApp.sendData(JSON.stringify(this.products));
+          // });
         }
       },
       deep: true
