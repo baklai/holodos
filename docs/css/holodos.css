@@ -430,7 +430,7 @@ main.order-mode .holodos-order-overview {
 }
 
 .holodos-text-field-wrap {
-  margin-top: 14px;
+  padding-top: 14px;
   background-color: var(--bg-color);
 }
 
