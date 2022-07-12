@@ -28,7 +28,7 @@
     <link href="css/holodos.css" rel="stylesheet" />
   </head>
 
-  <body id="app" class="holodos-bg-img">
+  <body id="app" class="holodos-bg-img" v-cloak>
     <main :class="order ? 'order-mode' : ''">
       <section class="holodos-page">
         <button
@@ -122,7 +122,7 @@
             <button
               type="button"
               class="holodos-order-edit"
-              @click="order = false"
+              @click="returnClick()"
               style="cursor: pointer; color: #fff"
             >
               ...

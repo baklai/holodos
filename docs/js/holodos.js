@@ -93,8 +93,6 @@ const app = createApp({
   },
   mounted() {
     window.Telegram.WebApp.expand();
-
-    // window.Telegram.WebApp.MainButton.show();
   },
 
   watch: {
@@ -109,6 +107,7 @@ const app = createApp({
             textColor: '#fff'
           });
           window.Telegram.WebApp.MainButton.show();
+        } else if (value && window.Telegram.WebApp.MainButton.isVisible) {
           window.Telegram.WebApp.MainButton.onClick(() => {
             this.order = true;
             window.Telegram.WebApp.MainButton.setParams({
@@ -117,10 +116,9 @@ const app = createApp({
               textColor: '#fff'
             });
           });
-
-          // window.Telegram.WebApp.MainButton.onClick(() => {
-          //   window.Telegram.WebApp.sendData(JSON.stringify(this.products));
-          // });
+          window.Telegram.WebApp.MainButton.onClick(() => {
+            window.Telegram.WebApp.sendData(JSON.stringify(this.products));
+          });
         }
       },
       deep: true
@@ -145,6 +143,15 @@ const app = createApp({
     delCounter(item) {
       --item.counter;
       --this.counter;
+    },
+
+    returnClick() {
+      window.Telegram.WebApp.MainButton.setParams({
+        text: 'Открыть список',
+        color: '#ffc107',
+        textColor: '#fff'
+      });
+      this.order = false;
     },
 
     itemClick(title) {
