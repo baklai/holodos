@@ -98,8 +98,18 @@ const app = createApp({
       textColor: '#fff'
     });
 
-    window.Telegram.WebApp.MainButton.show();
+    // window.Telegram.WebApp.MainButton.show();
   },
+
+  // watch: {
+  //   firstName: function (val) {
+  //     this.fullName = val + ' ' + this.lastName
+  //   },
+  //   lastName: function (val) {
+  //     this.fullName = this.firstName + ' ' + val
+  //   }
+  // },
+
   methods: {
     addCounter(item) {
       ++item.counter;
