@@ -32,21 +32,21 @@ body {
 ::-webkit-scrollbar {
   border-radius: 5px !important;
   border: 3px solid transparent !important;
-  background-color: rgba(0, 0, 0, 0.101961) !important;
+  background-color: transparent !important;
   background-clip: content-box !important;
   width: 10px !important;
 }
 ::-webkit-scrollbar:hover {
-  background-color: rgba(0, 0, 0, 0.172549) !important;
+  background-color: transparent !important;
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 5px !important;
   border: 3px solid transparent !important;
-  background-color: rgba(0, 0, 0, 0.32549) !important;
+  background-color: transparent !important;
   background-clip: content-box !important;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.478431) !important;
+  background-color: transparent !important;
 }
 
 body {
@@ -94,7 +94,7 @@ html.dark body {
 }
 
 body.order-mode {
-  /* background-color: var(--bg-color); */
+  background-color: var(--bg-color);
 }
 
 .holodos-bg-img {
@@ -311,9 +311,8 @@ button,
 
 .holodos-order-overview {
   display: none;
-
   font-family: var(--default-font);
-  /* background-color: var(--bg-color); */
+  background-color: var(--bg-color);
   transition: opacity var(--page-animation);
   opacity: 0;
 }
