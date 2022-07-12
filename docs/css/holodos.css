@@ -94,7 +94,7 @@ html.dark body {
 }
 
 body.order-mode {
-  background-color: var(--bg-color);
+  /* background-color: var(--bg-color); */
 }
 
 .holodos-bg-img {
