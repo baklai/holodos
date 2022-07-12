@@ -93,11 +93,6 @@ const app = createApp({
   },
   mounted() {
     window.Telegram.WebApp.expand();
-    window.Telegram.WebApp.MainButton.setParams({
-      text: 'Закрыть холодос',
-      color: '#008000',
-      textColor: '#fff'
-    });
 
     // window.Telegram.WebApp.MainButton.show();
   },
@@ -108,6 +103,22 @@ const app = createApp({
         if (!value && window.Telegram.WebApp.MainButton.isVisible) {
           window.Telegram.WebApp.MainButton.hide();
         } else if (value && !window.Telegram.WebApp.MainButton.isVisible) {
+          window.Telegram.WebApp.MainButton.setParams({
+            text: 'Открыть список',
+            color: '#008000',
+            textColor: '#fff'
+          });
+          window.Telegram.WebApp.MainButton.onClick(() => {
+            this.order = true;
+            window.Telegram.WebApp.MainButton.setParams({
+              text: 'Отправить список',
+              color: '#ffc107',
+              textColor: '#fff'
+            });
+            window.Telegram.WebApp.MainButton.onClick(() => {
+              window.Telegram.WebApp.sendData(JSON.stringify(this.products));
+            });
+          });
           window.Telegram.WebApp.MainButton.show();
         }
       },
