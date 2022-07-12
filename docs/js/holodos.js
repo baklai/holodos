@@ -90,6 +90,16 @@ const app = createApp({
       ]
     };
   },
+  mounted() {
+    window.Telegram.WebApp.expand();
+    window.Telegram.WebApp.MainButton.setParams({
+      text: 'Закрыть холодос',
+      color: '#008000',
+      textColor: '#fff'
+    });
+
+    window.Telegram.WebApp.MainButton.show();
+  },
   methods: {
     addCounter(item) {
       ++item.counter;
@@ -119,13 +129,6 @@ const app = createApp({
   }
 }).mount('#app');
 
-window.Telegram.WebApp.expand();
-window.Telegram.WebApp.MainButton.setParams({
-  text: 'Закрыть холодос',
-  color: '#008000',
-  textColor: '#fff'
-});
-window.Telegram.WebApp.MainButton.show();
 // window.Telegram.WebApp.MainButton.onClick(() => {
 //   window.Telegram.WebApp.sendData(JSON.stringify(app.products));
 // });

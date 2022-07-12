@@ -29,10 +29,12 @@
   </head>
 
   <body id="app" class="holodos-bg-img">
-    <button style="width: 100%; top: 0px" @click="order = true">
-      MAIN BUTTON
-    </button>
     <main :class="order ? 'order-mode' : ''">
+      <section class="holodos-page">
+        <button style="max-width: 480px; top: 0px" @click="order = true">
+          MAIN BUTTON
+        </button>
+      </section>
       <section
         class="holodos-page holodos-items"
         v-for="tab in tabs"
