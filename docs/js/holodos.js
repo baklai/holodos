@@ -115,11 +115,11 @@ const app = createApp({
               color: '#ffc107',
               textColor: '#fff'
             });
-            window.Telegram.WebApp.MainButton.onClick(() => {
-              window.Telegram.WebApp.sendData(JSON.stringify(this.products));
-            });
           });
           window.Telegram.WebApp.MainButton.show();
+          window.Telegram.WebApp.MainButton.onClick(() => {
+            window.Telegram.WebApp.sendData(JSON.stringify(this.products));
+          });
         }
       },
       deep: true
