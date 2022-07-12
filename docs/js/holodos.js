@@ -164,6 +164,10 @@ const app = createApp({
       --this.counter;
     },
 
+    getRndInteger(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+
     itemClick(title) {
       const index = this.products.indexOf(title);
       if (index === -1) {

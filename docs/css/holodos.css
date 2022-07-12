@@ -12,7 +12,7 @@
 
 html,
 body {
-  max-width: 100%;
+  width: 100%;
   overflow-x: hidden;
   scrollbar-width: none;
 }
@@ -336,6 +336,7 @@ button,
 
 .holodos-order-overview {
   display: none;
+  height: 100vh;
   font-family: var(--default-font);
   background-color: var(--bg-color);
   transition: opacity var(--page-animation);
