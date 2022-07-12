@@ -5,7 +5,8 @@ const app = createApp({
     return {
       order: null,
       comment: null,
-      totalPrice: null,
+      counter: null,
+      price: null,
       products: [],
       tabs: [
         {
@@ -101,6 +102,19 @@ const app = createApp({
     // window.Telegram.WebApp.MainButton.show();
   },
 
+  watch: {
+    counter: {
+      handler(value) {
+        if (!value && window.Telegram.WebApp.MainButton.isVisible) {
+          window.Telegram.WebApp.MainButton.hide();
+        } else if (value && !window.Telegram.WebApp.MainButton.isVisible) {
+          window.Telegram.WebApp.MainButton.show();
+        }
+      },
+      deep: true
+    }
+  },
+
   // watch: {
   //   firstName: function (val) {
   //     this.fullName = val + ' ' + this.lastName
@@ -113,10 +127,12 @@ const app = createApp({
   methods: {
     addCounter(item) {
       ++item.counter;
+      ++counter;
     },
 
     delCounter(item) {
       --item.counter;
+      --counter;
     },
 
     itemClick(title) {

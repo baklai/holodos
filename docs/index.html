@@ -31,7 +31,11 @@
   <body id="app" class="holodos-bg-img">
     <main :class="order ? 'order-mode' : ''">
       <section class="holodos-page">
-        <button style="max-width: 480px; top: 0px" @click="order = true">
+        <button
+          style="max-width: 480px; top: 0px"
+          @click="order = true"
+          v-if="counter"
+        >
           MAIN BUTTON
         </button>
       </section>
@@ -162,7 +166,7 @@
             <div class="holodos-order-item-label">
               <div class="holodos-order-item-title">Всего:</div>
             </div>
-            <div class="holodos-order-item-price">₴{{ totalPrice }}</div>
+            <div class="holodos-order-item-price">₴{{ price }}</div>
           </div>
         </div>
 
