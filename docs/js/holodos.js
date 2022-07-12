@@ -105,7 +105,7 @@ const app = createApp({
         } else if (value && !window.Telegram.WebApp.MainButton.isVisible) {
           window.Telegram.WebApp.MainButton.setParams({
             text: 'Открыть список',
-            color: '#008000',
+            color: '#ffc107',
             textColor: '#fff'
           });
           window.Telegram.WebApp.MainButton.show();
@@ -113,7 +113,7 @@ const app = createApp({
             this.order = true;
             window.Telegram.WebApp.MainButton.setParams({
               text: 'Отправить список',
-              color: '#ffc107',
+              color: '#008000',
               textColor: '#fff'
             });
           });
