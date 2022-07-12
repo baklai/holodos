@@ -94,10 +94,15 @@ const app = createApp({
   mounted() {
     window.Telegram.WebApp.expand();
 
+    window.Telegram.WebApp.BackButton.onClick(() => {
+      this.order = false;
+    });
+
     window.Telegram.WebApp.MainButton.onClick(() => {
       switch (window.Telegram.WebApp.MainButton.text) {
         case 'Открыть список':
           this.order = true;
+          window.Telegram.WebApp.BackButton.show();
           window.Telegram.WebApp.MainButton.setParams({
             text: 'Отправить список',
             color: '#008000',
@@ -118,7 +123,14 @@ const app = createApp({
       handler(value) {
         if (!value && window.Telegram.WebApp.MainButton.isVisible) {
           window.Telegram.WebApp.MainButton.hide();
+          window.Telegram.WebApp.BackButton.hide();
         } else if (value && !window.Telegram.WebApp.MainButton.isVisible) {
+          window.Telegram.WebApp.MainButton.setParams({
+            text: 'Открыть список',
+            color: '#ffc107',
+            textColor: '#fff'
+          });
+          window.Telegram.WebApp.BackButton.show();
           window.Telegram.WebApp.MainButton.show();
         }
       },
