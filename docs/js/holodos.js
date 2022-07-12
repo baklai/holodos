@@ -7,7 +7,6 @@ const app = createApp({
       comment: null,
       counter: null,
       price: null,
-      products: [],
       tabs: [
         {
           title: 'Овощи',
@@ -106,7 +105,18 @@ const app = createApp({
 
           break;
         case 'Отправить список':
-          window.Telegram.WebApp.sendData(JSON.stringify(this.products));
+          const products = [];
+
+          this.tabs.forEach((el) => {
+            const result = el.items.filter((item) => item.counter > 0);
+            if (result.length > 0) {
+              result.forEach((val) => {
+                products.push(val.title);
+              });
+            }
+          });
+
+          window.Telegram.WebApp.sendData(JSON.stringify(products));
           break;
         default:
           console.log('Sorry, we are out of.');
