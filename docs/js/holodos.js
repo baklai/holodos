@@ -103,11 +103,7 @@ const app = createApp({
         case 'Открыть список':
           this.order = true;
           window.Telegram.WebApp.BackButton.show();
-          window.Telegram.WebApp.MainButton.setParams({
-            text: 'Отправить список',
-            color: '#008000',
-            textColor: '#fff'
-          });
+
           break;
         case 'Отправить список':
           window.Telegram.WebApp.sendData(JSON.stringify(this.products));
@@ -132,6 +128,27 @@ const app = createApp({
           });
           window.Telegram.WebApp.BackButton.show();
           window.Telegram.WebApp.MainButton.show();
+        }
+      },
+      deep: true
+    },
+
+    order: {
+      handler(value) {
+        if (value) {
+          window.Telegram.WebApp.BackButton.show();
+          window.Telegram.WebApp.MainButton.setParams({
+            text: 'Отправить список',
+            color: '#008000',
+            textColor: '#fff'
+          });
+        } else {
+          window.Telegram.WebApp.BackButton.hide();
+          window.Telegram.WebApp.MainButton.setParams({
+            text: 'Открыть список',
+            color: '#ffc107',
+            textColor: '#fff'
+          });
         }
       },
       deep: true
