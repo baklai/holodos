@@ -127,12 +127,12 @@ const app = createApp({
   methods: {
     addCounter(item) {
       ++item.counter;
-      ++counter;
+      ++this.counter;
     },
 
     delCounter(item) {
       --item.counter;
-      --counter;
+      --this.counter;
     },
 
     itemClick(title) {
