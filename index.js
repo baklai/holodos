@@ -100,7 +100,9 @@ bot.on('web_app_data', function (msg) {
 
     price ? (html += `\nВСЕГО: ₴${price}`) : (html += '');
 
-    comment ? (html += `\nВаш комментарий: ${comment}`) : (html += '');
+    comment
+      ? (html += `\n<b>Ваш комментарий:</b> <i>${comment}</i>`)
+      : (html += '');
 
     bot
       .sendMessage(msg.chat.id, html, {
