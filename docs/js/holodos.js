@@ -111,12 +111,22 @@ const app = createApp({
             const result = el.items.filter((item) => item.counter > 0);
             if (result.length > 0) {
               result.forEach((val) => {
-                products.push(val.title);
+                products.push({
+                  title: val.title,
+                  counter: val.counter,
+                  price: val.price
+                });
               });
             }
           });
 
-          window.Telegram.WebApp.sendData(JSON.stringify(products));
+          const resList = {
+            products: products,
+            comment: this.comment,
+            price: this.price
+          };
+
+          window.Telegram.WebApp.sendData(JSON.stringify(resList));
           break;
         default:
           console.log('Sorry, we are out of.');

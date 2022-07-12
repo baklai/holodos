@@ -89,11 +89,20 @@ bot.onText(/\/start/, function (msg) {
 
 bot.on('web_app_data', function (msg) {
   const data = JSON.parse(msg.web_app_data.data);
-  if (data.length > 0) {
+  if (data.products.length > 0) {
     let html = '🔖 <b>Ваш список продуктов:</b>\n\n';
     data.forEach((el, index) => {
-      html += `<b>${index + 1}</b>. 👉  ${el}\n`;
+      html += `<b>${index + 1}</b>. 👉  ${el.title} : <b>${
+        el.counter
+      }x</b> - ₴${el.price}\n`;
     });
+
+    data.price ? (html += `\nВСЕГО: ₴${data.price}`) : (html += '');
+
+    data.comment
+      ? (html += `\nВаш комментарий: ${data.comment}`)
+      : (html += '');
+
     bot
       .sendMessage(msg.chat.id, html, {
         parse_mode: 'HTML'
