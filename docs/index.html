@@ -30,15 +30,6 @@
 
   <body id="app" class="holodos-bg-img" v-cloak>
     <main :class="order ? 'order-mode' : ''">
-      <!-- <section class="holodos-page">
-        <button
-          style="max-width: 480px; top: 0px"
-          @click="order = true"
-          v-if="counter"
-        >
-          MAIN BUTTON
-        </button>
-      </section> -->
       <section
         class="holodos-page holodos-items"
         v-for="tab in tabs"

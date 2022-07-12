@@ -187,5 +187,3 @@ const app = createApp({
     }
   }
 }).mount('#app');
-
-console.log(window.Telegram.WebApp.initDataUnsafe.hash);
