@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Холодос - Мой запас еды</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+      content="Холодос – это бот-приложение, делающее процесс похода в магазин проще, быстрее, и что самое главное, эффективнее."
+      name="description"
+    />
+
+    <!-- Favicon -->
+    <link href="./favicon.ico" rel="icon" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Icon Bootstrap Font Stylesheet -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
+    />
+    <!-- Bootstrap Stylesheet -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Stylesheet -->
+    <link href="css/main.css" rel="stylesheet" />
+  </head>
+
+  <body class="bg-img">
+    <main id="app">
+      <!-- Hero Start -->
+      <div class="container my-5 hero-height" hidden>
+        <div class="col-lg-7 p-3 p-lg-5 pt-lg-5">
+          <h2 class="fw-bold lh-1 mb-2" style="color: #ffc107">мой</h2>
+          <h1 class="display-1 fw-bold lh-1 mb-4">Холодос</h1>
+          <p class="lead mb-4 text-secondary">
+            Холодос – это бот-приложение, делающее процесс похода в магазин
+            проще, быстрее, и что самое главное, эффективнее. Благодаря боту Вы
+            сможете быстро создавать и управлять списками покупок, делать их
+            доступными знакомым. Все изменения сохраняются в чате, и у Вас в
+            любое время есть к ним доступ как с телефона, так и через веб-сайт.
+          </p>
+          <div class="d-grid d-md-flex justify-content-md-start mb-4 mb-lg-3">
+            <a
+              href="#products"
+              type="button"
+              class="btn btn-danger btn-lg px-4 me-md-2 fw-bold"
+            >
+              Открыть холодос
+            </a>
+          </div>
+        </div>
+        <img
+          class="hero-img"
+          src="img/bg-hero.png"
+          alt="Холодос фото"
+          width="600"
+        />
+      </div>
+      <!-- Hero End -->
+
+      <!-- Products Start -->
+      <div id="products" class="py-5">
+        <div class="container">
+          <div class="row g-0 gx-5 align-items-end">
+            <div class="col-lg-6">
+              <div
+                class="section-header text-start mb-5"
+                style="max-width: 500px"
+              >
+                <h2 class="display-5 mb-3">Мои продукты</h2>
+                <p>
+                  Выберите все продукты, которые у Вас отсутствуют в холодосе и
+                  которые хотите приобрести. И я составлю для Вас список для
+                  похода в магазин.
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-6 text-start text-lg-end">
+              <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+                <li
+                  class="nav-item me-2"
+                  v-for="(item, index) in tabs"
+                  :key="`${item.title}-${index}`"
+                >
+                  <a
+                    class="btn btn-sm btn-warning btn-outline-warning border-2"
+                    :class="index === 0 ? 'active' : ''"
+                    data-bs-toggle="pill"
+                    :href="`#tab-${index+1}`"
+                  >
+                    {{ item.title }}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tab-content">
+            <div
+              :id="`tab-${index+1}`"
+              class="tab-pane fade show p-0"
+              :class="index === 0 ? 'active' : ''"
+              v-for="(tab, index) in tabs"
+              :key="`tab-${index+1}`"
+            >
+              <div class="row g-2">
+                <div
+                  class="col-4 col-sm-6 col-md-6 col-lg-4 col-xl-3"
+                  v-for="(item, jndex) in tab.items"
+                  :key="`${tab.title}-${jndex}`"
+                  @click="itemClick(item.title)"
+                >
+                  <div
+                    class="product-item"
+                    :class="isActive(item.title) ? 'product-item-select' : 'product-item'"
+                  >
+                    <div class="position-relative overflow-hidden">
+                      <img
+                        class="card-img bg-transparent"
+                        :src="`img/products/${item.img}`"
+                        :alt="item.title"
+                      />
+                      <div class="card-img-overlay text-center pt-2">
+                        <h6 class="card-title text-dark product-item-text">
+                          {{ item.title }}
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 text-center">
+                  <a
+                    class="btn btn-warning btn-outline-warning rounded-pill mt-4"
+                    href="#products"
+                  >
+                    Просмотреть еще
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Products End -->
+    </main>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"></script>
+    <!-- Telegram JavaScript -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <!-- Javascript -->
+    <script src="js/main.js"></script>
+  </body>
+</html>
