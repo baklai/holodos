@@ -313,7 +313,7 @@ button,
   display: none;
 
   font-family: var(--default-font);
-  background-color: var(--bg-color);
+  /* background-color: var(--bg-color); */
   transition: opacity var(--page-animation);
   opacity: 0;
 }
