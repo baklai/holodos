@@ -427,6 +427,7 @@ main.order-mode .holodos-order-overview {
 
 .holodos-text-field-wrap {
   margin-top: 14px;
+  background-color: var(--block-bg-color);
 }
 
 .holodos-text-field {
@@ -472,6 +473,7 @@ main.order-mode .holodos-order-overview {
 
 .holodos-text-field-hint {
   font-family: var(--default-font);
+  background-color: var(--bg-color);
   font-size: 14px;
   line-height: 18px;
   -webkit-font-smoothing: antialiased;
