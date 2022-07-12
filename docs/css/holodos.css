@@ -130,6 +130,7 @@ main.closed .holodos-page {
   background-color: transparent;
   /* background-color: var(--block-bg-color); */
 }
+
 main.order-mode .holodos-items {
   max-height: 0 !important;
   opacity: 0 !important;
@@ -153,24 +154,29 @@ main.order-mode .holodos-items {
   position: relative;
   height: 78px;
 }
+
 .holodos-item-photo .holodos-item-emoji {
   font-size: 70px;
   line-height: 78px;
 }
+
 .holodos-item-lottie {
   display: inline-block;
   vertical-align: top;
   position: relative;
   margin: 0 auto;
 }
+
 .holodos-item-photo .holodos-item-lottie {
   width: 74px;
 }
+
 .holodos-item-lottie:before {
   content: '';
   display: block;
   padding-top: 100%;
 }
+
 .holodos-item-lottie img {
   display: flex;
   justify-content: space-evenly;
@@ -183,17 +189,21 @@ main.order-mode .holodos-items {
   width: 100%;
   height: 100%;
 }
+
 .holodos-item-label {
   display: flex;
   justify-content: center;
 }
+
 .holodos-item-title {
   font-weight: 500;
 }
+
 .holodos-item-price {
   font-weight: 700;
   white-space: nowrap;
 }
+
 .holodos-item-price:before {
   display: inline-block;
   vertical-align: top;
@@ -204,6 +214,7 @@ main.order-mode .holodos-items {
   background-color: currentColor;
   margin: 7px 4px;
 }
+
 .holodos-item-buttons {
   display: flex;
   width: 80px;
@@ -212,9 +223,11 @@ main.order-mode .holodos-items {
   position: relative;
   transition: all var(--animation);
 }
+
 button {
   cursor: pointer;
 }
+
 button,
 .holodos-item-counter {
   display: inline-block;
@@ -232,6 +245,7 @@ button,
   outline: none;
   border: none;
 }
+
 .holodos-item-counter {
   position: absolute;
   right: 0;
@@ -246,6 +260,7 @@ button,
   pointer-events: none;
   z-index: 3;
 }
+
 .holodos-item-incr-button {
   position: absolute !important;
   top: 0;
@@ -253,13 +268,16 @@ button,
   transition: width var(--animation);
   width: 80px;
 }
+
 .selected .holodos-item-incr-button {
   width: 38px;
 }
+
 .holodos-item-decr-button {
   position: relative;
   width: 38px;
 }
+
 .holodos-item-decr-button {
   background-color: #e64d44;
   pointer-events: none;
@@ -267,11 +285,13 @@ button,
   transition: transform var(--animation), visibility var(--animation);
   visibility: hidden;
 }
+
 .selected .holodos-item-decr-button {
   pointer-events: auto;
   transform: scale3d(1, 1, 1);
   visibility: visible;
 }
+
 .holodos-item-incr-button:before,
 .holodos-item-incr-button:after,
 .holodos-item-decr-button:before {
@@ -289,21 +309,26 @@ button,
   border-radius: 1px;
   z-index: 1;
 }
+
 .holodos-item-incr-button:before,
 .holodos-item-incr-button:after {
   background-color: rgba(255, 255, 255, 0);
   transition: background-color var(--animation);
 }
+
 .selected .holodos-item-incr-button:before,
 .selected .holodos-item-incr-button:after {
   background-color: #fff;
 }
+
 .holodos-item-incr-button .button-item-label {
   transition: transform var(--animation);
 }
+
 .selected .holodos-item-incr-button .button-item-label {
   transform: scale3d(0.4, 0, 1);
 }
+
 .holodos-item-incr-button:after {
   width: 3px;
   height: 14px;
@@ -316,14 +341,17 @@ button,
   transition: opacity var(--page-animation);
   opacity: 0;
 }
+
 main.order-mode .holodos-order-overview {
   opacity: 1;
 }
+
 .holodos-order-header-wrap {
   padding: 21px 20px 14px;
   display: flex;
   align-items: center;
 }
+
 .holodos-order-header {
   font-size: 17px;
   line-height: 21px;
@@ -332,45 +360,55 @@ main.order-mode .holodos-order-overview {
   padding: 0;
   margin: 0;
 }
+
 .holodos-order-edit {
   font-size: 15px;
   line-height: 18px;
   font-weight: bold;
   color: var(--accent-color);
 }
+
 .holodos-order-item {
   display: none;
   padding: 5px 20px 5px 14px;
 }
+
 .holodos-order-item.selected {
   display: flex;
 }
+
 .holodos-order-item-label {
   flex-grow: 1;
 }
+
 .holodos-order-item-photo {
   text-align: center;
   width: 50px;
   height: 50px;
   margin-right: 11px;
 }
+
 .holodos-order-item-photo .holodos-item-emoji {
   font-size: 38px;
   line-height: 50px;
 }
+
 .holodos-order-item-photo .holodos-item-lottie {
   width: 40px;
   margin: 4px 0;
 }
+
 .holodos-order-item-title {
   font-size: 15px;
   line-height: 18px;
   font-weight: 700;
   padding: 3px 0;
 }
+
 .holodos-order-item-counter {
   color: var(--main-color);
 }
+
 .holodos-order-item-description {
   font-size: 14px;
   line-height: 17px;
@@ -378,6 +416,7 @@ main.order-mode .holodos-order-overview {
   color: var(--page-hint-color);
   padding: 2px 0;
 }
+
 .holodos-order-item-price {
   font-size: 14px;
   line-height: 17px;
@@ -388,6 +427,7 @@ main.order-mode .holodos-order-overview {
 .holodos-text-field-wrap {
   margin-top: 14px;
 }
+
 .holodos-text-field {
   font-family: var(--default-font);
   font-size: 17px;
@@ -406,24 +446,29 @@ main.order-mode .holodos-order-overview {
   cursor: auto;
   width: 100%;
 }
+
 .holodos-text-field::-webkit-input-placeholder {
   transition: color var(--animation);
   color: var(--placeholder-color);
   text-overflow: ellipsis;
 }
+
 .holodos-text-field::-moz-placeholder {
   transition: color var(--animation);
   color: var(--placeholder-color);
   text-overflow: ellipsis;
 }
+
 .holodos-text-field:-ms-input-placeholder {
   transition: color var(--animation);
   color: var(--placeholder-color);
   text-overflow: ellipsis;
 }
+
 .holodos-text-field::placeholder {
   text-overflow: ellipsis;
 }
+
 .holodos-text-field-hint {
   font-family: var(--default-font);
   font-size: 14px;
@@ -436,6 +481,7 @@ main.order-mode .holodos-order-overview {
 .button-item.ripple-handler {
   position: relative;
 }
+
 .ripple-mask {
   position: absolute;
   left: 0;
@@ -446,9 +492,11 @@ main.order-mode .holodos-order-overview {
   overflow: hidden;
   pointer-events: none;
 }
+
 .button-item .ripple-mask {
   border-radius: inherit;
 }
+
 .button-item .ripple {
   position: absolute;
   width: 200%;
@@ -463,6 +511,7 @@ main.order-mode .holodos-order-overview {
     background-color var(--ripple-duration) ease-out;
   opacity: 0;
 }
+
 .button-item-label {
   display: inline-block;
   max-width: 100%;
@@ -477,6 +526,7 @@ main.order-mode .holodos-order-overview {
 .holodos-item-incr-button .ripple {
   background-color: #ffc107;
 }
+
 .holodos-item-decr-button .ripple {
   background-color: #dc3545;
 }
@@ -492,12 +542,14 @@ main.order-mode .holodos-order-overview {
   transform-origin: 50%;
   transition: all var(--animation);
 }
+
 main.loading .loading-icon {
   transition-delay: 0.4s;
   transform: scale(1);
   visibility: visible;
   opacity: 1;
 }
+
 .loading-icon-circle {
   stroke: #fff;
   stroke-width: 2.25px;
@@ -508,7 +560,7 @@ main.loading .loading-icon {
   animation: rotate-circle linear 1.5s infinite,
     resize-circle linear 360s infinite;
   stroke-dasharray: calc(var(--radius) * 6.28);
-  r: var(--radius);
+  /* r: var(--radius); */
   --radius: 9px;
 }
 
@@ -520,6 +572,7 @@ main.loading .loading-icon {
     transform: rotateZ(630deg);
   }
 }
+
 @keyframes rotate-circle {
   from {
     transform: rotateZ(-90deg);
@@ -537,6 +590,7 @@ main.loading .loading-icon {
     stroke-dashoffset: 12500px;
   }
 }
+
 @keyframes resize-circle {
   from {
     stroke-dashoffset: 0;
@@ -555,6 +609,7 @@ main.loading .loading-icon {
     transform: scale3d(1.2, 1.2, 1);
   }
 }
+
 @keyframes badge-incr {
   from,
   to {
@@ -574,6 +629,7 @@ main.loading .loading-icon {
     transform: scale3d(1.2, 1.2, 1);
   }
 }
+
 @keyframes badge-incr2 {
   from,
   to {
@@ -593,6 +649,7 @@ main.loading .loading-icon {
     transform: scale3d(0.8, 0.8, 1);
   }
 }
+
 @keyframes badge-decr {
   from,
   to {
@@ -612,6 +669,7 @@ main.loading .loading-icon {
     transform: scale3d(0.8, 0.8, 1);
   }
 }
+
 @keyframes badge-decr2 {
   from,
   to {
@@ -637,6 +695,7 @@ main.loading .loading-icon {
     visibility: visible;
   }
 }
+
 @keyframes badge-show {
   from {
     transform: scale3d(0.5, 0.5, 1);
@@ -665,6 +724,7 @@ main.loading .loading-icon {
     visibility: hidden;
   }
 }
+
 @keyframes badge-hide {
   from {
     transform: scale3d(1, 1, 1);
