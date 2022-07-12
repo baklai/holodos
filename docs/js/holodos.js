@@ -93,6 +93,24 @@ const app = createApp({
   },
   mounted() {
     window.Telegram.WebApp.expand();
+
+    window.Telegram.WebApp.MainButton.onClick(() => {
+      switch (window.Telegram.WebApp.MainButton.text) {
+        case 'Открыть список':
+          this.order = true;
+          window.Telegram.WebApp.MainButton.setParams({
+            text: 'Отправить список',
+            color: '#008000',
+            textColor: '#fff'
+          });
+          break;
+        case 'Отправить список':
+          window.Telegram.WebApp.sendData(JSON.stringify(this.products));
+          break;
+        default:
+          console.log('Sorry, we are out of.');
+      }
+    });
   },
 
   watch: {
@@ -101,38 +119,12 @@ const app = createApp({
         if (!value && window.Telegram.WebApp.MainButton.isVisible) {
           window.Telegram.WebApp.MainButton.hide();
         } else if (value && !window.Telegram.WebApp.MainButton.isVisible) {
-          window.Telegram.WebApp.MainButton.setParams({
-            text: 'Открыть список',
-            color: '#ffc107',
-            textColor: '#fff'
-          });
           window.Telegram.WebApp.MainButton.show();
-        } else if (value && window.Telegram.WebApp.MainButton.isVisible) {
-          window.Telegram.WebApp.MainButton.onClick(() => {
-            this.order = true;
-            window.Telegram.WebApp.MainButton.setParams({
-              text: 'Отправить список',
-              color: '#008000',
-              textColor: '#fff'
-            });
-          });
-          window.Telegram.WebApp.MainButton.onClick(() => {
-            window.Telegram.WebApp.sendData(JSON.stringify(this.products));
-          });
         }
       },
       deep: true
     }
   },
-
-  // watch: {
-  //   firstName: function (val) {
-  //     this.fullName = val + ' ' + this.lastName
-  //   },
-  //   lastName: function (val) {
-  //     this.fullName = this.firstName + ' ' + val
-  //   }
-  // },
 
   methods: {
     addCounter(item) {
@@ -173,7 +165,3 @@ const app = createApp({
     }
   }
 }).mount('#app');
-
-// window.Telegram.WebApp.MainButton.onClick(() => {
-//   window.Telegram.WebApp.sendData(JSON.stringify(app.products));
-// });
