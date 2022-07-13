@@ -51,7 +51,8 @@ const app = createApp({
                 products.push({
                   title: val.title,
                   counter: val.counter,
-                  price: val.price
+                  price: val.price,
+                  priceTitle: val.priceTitle
                 });
               });
             }
@@ -99,6 +100,7 @@ const app = createApp({
                 this.price += val.counter * val.price;
               });
             }
+            this.price = this.price.toFixed(2);
           });
 
           window.Telegram.WebApp.BackButton.show();
