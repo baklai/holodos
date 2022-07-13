@@ -253,6 +253,1008 @@
         "price": "49.89",
         "priceTitle": "грн/кг",
         "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/900/catalog_list_900.jpg",
+        "title": "Цибуля зeлeнa 100г шт. 1 гат",
+        "price": "25.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/28/catalog_list_28.jpg",
+        "title": "Цибуля Ріпчаста 1 гат",
+        "price": "23.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/11355/catalog_list_11355.jpg",
+        "title": "Часник ранній 1 гат",
+        "price": "89.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/3799/catalog_list_3799.jpg",
+        "title": "Яблуко 2 гат фас",
+        "price": "9.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/21/catalog_list_21.png",
+        "title": "Яблуко Айдаред 1 гат",
+        "price": "12.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/64/catalog_list_64.jpg",
+        "title": "Яблуко Голден 1 гат",
+        "price": "14.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2036/catalog_list_2036.jpg",
+        "title": "Яблуко Ред Принц 1гат",
+        "price": "18.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1160/catalog_list_1160.jpg",
+        "title": "Ядра 150г Розумний вибір бобів арахісу несмажені",
+        "price": "23.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      }
+    ]
+  },
+  {
+    "title": "М'ясо та яйця",
+    "items": [
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/18531/catalog_list_18531.jpg",
+        "title": "Кoвбaски 0,5кг для гpиля Глoбинo Часникові oхoлoджені",
+        "price": "65.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/25819/catalog_list_25819.jpg",
+        "title": "Ковбаcки 0,5кг Це-М'ясо Баварські охолоджені",
+        "price": "79.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/18575/catalog_list_18575.jpg",
+        "title": "Яйце куряче 10 шт Україна 1 категорія фас",
+        "price": "22.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/19507/catalog_list_19507.jpg",
+        "title": "Яйце куряче 10 шт Ясенсвіт 1 категорії фас",
+        "price": "27.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/18483/catalog_list_18483.jpg",
+        "title": "Яйце куряче 15 шт Ясенсвіт Для духмяних пирогів 1 категорія",
+        "price": "40.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/12286/catalog_list_12286.jpg",
+        "title": "Гомілка курчати-бройлера УЛАР в маринаді охолоджена",
+        "price": "83.45",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1377/catalog_list_1377.png",
+        "title": "Ескалоп 0,7кг Глобино Аитний охолоджений",
+        "price": "145.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/11859/catalog_list_11859.jpg",
+        "title": "Кoвбaски 0,6 кг для гpиля Глoбинo Мортадельки з сиром oхoлoджені",
+        "price": "93.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/27737/catalog_list_27737.jpg",
+        "title": "Ковбаски для гриля 0,6 кг Глобино Мюнхенські охолоджені",
+        "price": "71.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/10896/catalog_list_10896.jpg",
+        "title": "Люля-кебаб 0,5 кг Глобино охолоджений",
+        "price": "61.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/16733/catalog_list_16733.jpg",
+        "title": "Окіст Глобино для смаження свинячий охолоджений",
+        "price": "134.39",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/4171/catalog_list_4171.jpg",
+        "title": "Стегно курчат-бройлерів Епікур охолоджене",
+        "price": "119.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/12287/catalog_list_12287.jpg",
+        "title": "Стегно курчати-бройлера УЛАР в маринаді охолоджене",
+        "price": "96.99",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/5673/catalog_list_5673.jpg",
+        "title": "Філе курчат-бройлерів Улар охолоджене",
+        "price": "142.55",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1271/catalog_list_1271.png",
+        "title": "Фарш 0,5 кг Своя Лінія Домашній охолоджений ",
+        "price": "62.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/875/catalog_list_875.jpg",
+        "title": "Шашлик Глобино По-Кавказьки в маринаді охолоджений",
+        "price": "153.49",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2337/catalog_list_2337.jpg",
+        "title": "Шийна частина Глобино свиняча охолоджена",
+        "price": "169.99",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/223/catalog_list_223.png",
+        "title": "Яйце куряче 10 шт Квочка 1 категорія фас",
+        "price": "26.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/418/catalog_list_418.png",
+        "title": "Яйце куряче 10 шт Квочка Домашнє вища категорія фас",
+        "price": "29.50",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/364/catalog_list_364.jpg",
+        "title": "Яйце куряче 10 шт Ясенсвіт Справжні велетні вища категорія фас",
+        "price": "30.40",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2296/catalog_list_2296.jpg",
+        "title": "Яйце перепелине ФГ Миколай 18 шт",
+        "price": "40.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      }
+    ]
+  },
+  {
+    "title": "Ковбаса і м'ясні делікатеси",
+    "items": [
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/19517/catalog_list_19517.jpg",
+        "title": "Вирoби фаршеві 450 г Ковбасний ряд/Розумний вибір Ніжні",
+        "price": "29.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/28121/catalog_list_28121.jpg",
+        "title": "Вироби фаршеві 330 г Ковбасний ряд Ранкові вар вак/упак",
+        "price": "29.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/28123/catalog_list_28123.jpg",
+        "title": "Грудинка 120 г Добров Особлива к/в нарізка вак/упак",
+        "price": "37.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/28105/catalog_list_28105.jpg",
+        "title": "Закуска 150 г Ковбасний ряд/Розумний вибір По-домашньому п/амід",
+        "price": "20.40",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/19853/catalog_list_19853.jpg",
+        "title": "Ковбаса 300 г Ковбасний ряд/Розумний вибір Куряча вар",
+        "price": "37.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/28191/catalog_list_28191.jpg",
+        "title": "Ковбаса 80 г Добров Українська та Сервелат нарізка с/к вак/упак",
+        "price": "40.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/28129/catalog_list_28129.jpg",
+        "title": "Ковбаса Добров УКРАЇНСЬКА с/к",
+        "price": "547.99",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/20785/catalog_list_20785.jpg",
+        "title": "Крильця Своя лінія курячі",
+        "price": "224.59",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/20487/catalog_list_20487.jpg",
+        "title": "Балик 80 г Добров Дарницький, нарізка",
+        "price": "43.20",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/10865/catalog_list_10865.jpg",
+        "title": "Виріб м'ясомісткий 0,5 кг Ковбасний ряд/Розумний вибір Аитна",
+        "price": "33.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/8347/catalog_list_8347.jpg",
+        "title": "Виріб м'ясомісткий 420 г Ковбасний ряд/Розумний вибір Гурман з сиром",
+        "price": "60.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/9445/catalog_list_9445.jpg",
+        "title": "Виріб м'ясомісткий 420г Ковбасний ряд/Розумний вибір Часникова",
+        "price": "52.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/8346/catalog_list_8346.jpg",
+        "title": "Виріб фаршевий 420 г Ковбасний ряд/Розумний вибір Єгерська",
+        "price": "64.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/8350/catalog_list_8350.jpg",
+        "title": "Виріб фаршевий 420 г Ковбасний ряд/Розумний вибір Ново-Миргородська",
+        "price": "47.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/9444/catalog_list_9444.jpg",
+        "title": "Вироби м'ясомісткі Ковбасний ряд/Розумний вибір Домашні з сиром",
+        "price": "130.69",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/14599/catalog_list_14599.jpg",
+        "title": "Вироби м`ясомісткі 300 г Ковбасний ряд/Розумний вибір Кіровоградські",
+        "price": "40.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/8345/catalog_list_8345.jpg",
+        "title": "Вироби фаршевий Ковбасний ряд/Розумний вибір Бородінські",
+        "price": "123.79",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2143/catalog_list_2143.png",
+        "title": "Ковбаса 0,5 кг Добров Лікарська вар",
+        "price": "120.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2046/catalog_list_2046.png",
+        "title": "Ковбаса 0,5 кг Добров Шинко-рубана вар",
+        "price": "143.40",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1186/catalog_list_1186.png",
+        "title": "Ковбаса 0,5 кг М'ясна лавка До пюрешки вар",
+        "price": "48.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1383/catalog_list_1383.jpg",
+        "title": "Ковбаса 0,5 кг М'ясна лавка/Своя лінія Баликова н/к",
+        "price": "98.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/3077/catalog_list_3077.jpg",
+        "title": "Ковбаса 0,5 кг М'ясна лавка/Своя лінія Шинкова н/к",
+        "price": "137.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1391/catalog_list_1391.jpg",
+        "title": "Ковбаса 0,55 кг М'ясна лавка/Своя лінія Лікарська ДСТУ вар вектор",
+        "price": "96.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1392/catalog_list_1392.jpg",
+        "title": "Ковбаса 0,55 кг М'ясна лавка/Своя лінія Молочна ДСТУ вар вектор",
+        "price": "89.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/9431/catalog_list_9431.jpg",
+        "title": "Ковбаса 100 г Добров Шинко-рубана вар нарізка",
+        "price": "33.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/20971/catalog_list_20971.jpg",
+        "title": "Ковбаса 280 г Добров Сервелат в/к",
+        "price": "115.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/375/catalog_list_375.png",
+        "title": "Ковбаса 320 г Добров Дрогобицька н/к",
+        "price": "117.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2105/catalog_list_2105.png",
+        "title": "Ковбаса 320 г Добров Салямі Преміум н/к",
+        "price": "62.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/542/catalog_list_542.jpg",
+        "title": "Ковбаса 400 г Добров Шварцвальдська к/з",
+        "price": "122.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1382/catalog_list_1382.jpg",
+        "title": "Ковбаса 400 г М'ясна лавка/Своя лінія Австрійська к/з",
+        "price": "99.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/975/catalog_list_975.jpg",
+        "title": "Ковбаса 420 г Своя лінія Салямі Фінська н/к",
+        "price": "100.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/408/catalog_list_408.jpg",
+        "title": "Ковбаса 80 г Добров Брауншвейгська нарізка с/к",
+        "price": "42.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/3424/catalog_list_3424.jpg",
+        "title": "Ковбаса 80 г Добров Венеція с/в нарізка",
+        "price": "35.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2080/catalog_list_2080.jpg",
+        "title": "Ковбаса 80 г Добров Салямі Преміум н/к нарізка",
+        "price": "21.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/688/catalog_list_688.jpg",
+        "title": "Ковбаса 80 г Добров Сервелат с/к нарізка",
+        "price": "30.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/4222/catalog_list_4222.jpg",
+        "title": "Ковбаса 80 г М'ясна лавка/Своя лінія Золотиста нарізка с/в",
+        "price": "25.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/20509/catalog_list_20509.jpg",
+        "title": "Ковбаса Добров Елітна зі свининою вар",
+        "price": "287.99",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/347/catalog_list_347.jpg",
+        "title": "Ковбаса Добров Лікарська ДСТУ вар",
+        "price": "211.35",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/3076/catalog_list_3076.jpg",
+        "title": "Ковбаса М'ясна лавка/Своя лінія Салямі мускатна н/к",
+        "price": "274.29",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1387/catalog_list_1387.jpg",
+        "title": "Ковбаса М'ясна лавка/Своя лінія Єврейська с/в",
+        "price": "427.99",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1388/catalog_list_1388.jpg",
+        "title": "Ковбаса М'ясна лавка/Своя лінія Золотиста с/в",
+        "price": "353.99",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1390/catalog_list_1390.jpg",
+        "title": "Ковбаса М'ясна лавка/Своя лінія Краківська н/к",
+        "price": "292.99",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/3075/catalog_list_3075.jpg",
+        "title": "Ковбаса М'ясна лавка/Своя лінія Салямі Баварська с/к",
+        "price": "375.99",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1393/catalog_list_1393.jpg",
+        "title": "Ковбаса М'ясна лавка/Своя лінія Салямі Болгарська с/к",
+        "price": "325.59",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2763/catalog_list_2763.jpg",
+        "title": "Ковбаски 120 г Maestro Кабанос зі свинини",
+        "price": "60.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/4329/catalog_list_4329.jpg",
+        "title": "Ковбаски 140 г Добров Мюнхенські с/к",
+        "price": "57.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1395/catalog_list_1395.jpg",
+        "title": "Ковбаски 160 г М'ясна лавка/Своя лінія Салямки До пива с/в",
+        "price": "60.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2762/catalog_list_2762.jpg",
+        "title": "Ковбаски 60 г Maestro Кабанос з беконом",
+        "price": "30.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/8386/catalog_list_8386.jpg",
+        "title": "Ковбаски 60г Maestro з м'яса птиці та свиней з сиром копчені",
+        "price": "36.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/8452/catalog_list_8452.jpg",
+        "title": "М`ясні слайси 50 г Глобино зі свинини",
+        "price": "34.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/3925/catalog_list_3925.jpg",
+        "title": "Окiст Своя лінія Київський",
+        "price": "234.65",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/10866/catalog_list_10866.jpg",
+        "title": "Паштет 125 г Ковбасний ряд/Розумний вибір Екстра",
+        "price": "11.10",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/646/catalog_list_646.jpg",
+        "title": "Паштет 125г Своя лінія Домашній з грудинкою",
+        "price": "13.50",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2361/catalog_list_2361.jpg",
+        "title": "Паштет 125г Своя лінія Печінковий",
+        "price": "13.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1980/catalog_list_1980.jpg",
+        "title": "Паштет 150г Добров Віденський",
+        "price": "17.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2125/catalog_list_2125.png",
+        "title": "Сардельки Добров Ліонські",
+        "price": "194.45",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/410/catalog_list_410.jpg",
+        "title": "Сардельки Добров Свинячі",
+        "price": "208.70",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/20505/catalog_list_20505.jpg",
+        "title": "Сардельки Добров Шинкові",
+        "price": "247.29",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1394/catalog_list_1394.jpg",
+        "title": "Сосиски 300г М'ясна лавка/Своя лінія Тигреня",
+        "price": "50.40",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/409/catalog_list_409.jpg",
+        "title": "Сосиски 330г Добров Молочні",
+        "price": "73.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1397/catalog_list_1397.jpg",
+        "title": "Сосиски 330г М'ясна лавка/Своя лінія Дитячі",
+        "price": "65.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1399/catalog_list_1399.jpg",
+        "title": "Сосиски 330г М'ясна лавка/Своя лінія Докторські Фірмові",
+        "price": "52.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1398/catalog_list_1398.jpg",
+        "title": "Сосиски 330г М'ясна лавка/Своя лінія З молоком",
+        "price": "53.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/4225/catalog_list_4225.jpg",
+        "title": "Сосиски 330г М'ясна лавка/Своя лінія З сиром",
+        "price": "44.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/4618/catalog_list_4618.jpg",
+        "title": "Сосиски 350г М’ясна лавка/Своя лінія Докторські фірмові міні",
+        "price": "49.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1193/catalog_list_1193.jpg",
+        "title": "Сосиски 450г М'ясна лавка До пюрешки",
+        "price": "79.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/9402/catalog_list_9402.jpg",
+        "title": "Четвертина Своя лінія куряча",
+        "price": "181.45",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/8454/catalog_list_8454.jpg",
+        "title": "Чипси курячі 50 г Бащинский DRY CHICKEN",
+        "price": "48.50",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/10899/catalog_list_10899.jpg",
+        "title": "Шинкa 0,52 кг Ковбасний ряд/Розумний вибір До обiду",
+        "price": "72.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1401/catalog_list_1401.jpg",
+        "title": "Шинка 0,5 кг М'ясна лавка/Своя лінія Київська свиняча",
+        "price": "115.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/775/catalog_list_775.jpg",
+        "title": "Шинка 0,5 кг Своя лінія Куряча",
+        "price": "84.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2645/catalog_list_2645.jpg",
+        "title": "Шинка 0,5кг Добров Рулет курячий",
+        "price": "130.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/8336/catalog_list_8336.jpg",
+        "title": "Шинка 100 г М'ясна лавка Асорті нарізка",
+        "price": "26.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      }
+    ]
+  },
+  {
+    "title": "Риба і морепродукти",
+    "items": [
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/27883/catalog_list_27883.jpg",
+        "title": "Ікра 110г VOMOND Лосось імітована ск/банка",
+        "price": "29.40",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/28021/catalog_list_28021.jpg",
+        "title": "Мойва 200 г Master Fish х/к термоформа",
+        "price": "49.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/23687/catalog_list_23687.jpg",
+        "title": "Пресерви 180 г Veladis Оселедець в олії",
+        "price": "53.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/27903/catalog_list_27903.jpg",
+        "title": "Пресерви 180г VOMOND Оселедець філе-шматочки в олії п/упак",
+        "price": "44.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/25877/catalog_list_25877.jpg",
+        "title": "Пресерви 200 г Veladis м?ясо мідій у розсолі",
+        "price": "53.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/27269/catalog_list_27269.jpg",
+        "title": "Пресерви 210 г One Bite Філе атлантичного оселедця в олії шматочками слабосолоне класичне п/банка",
+        "price": "52.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/27265/catalog_list_27265.jpg",
+        "title": "Пресерви 240 г Zigmas Філе атлантичного оселедця в олії слабосолоне з додаванням спецій пл/уп",
+        "price": "56.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/27267/catalog_list_27267.jpg",
+        "title": "Пресерви 240 г Zigmas Філе атлантичного оселедця в олії слабосолоне класичне пл/уп",
+        "price": "56.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/23685/catalog_list_23685.jpg",
+        "title": "Пресерви 300 г Veladis Оселедець з італійськими спеціями в олії",
+        "price": "72.40",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/27901/catalog_list_27901.jpg",
+        "title": "Пресерви 300г VOMOND Оселедець філе-шматочки по-грузинськи п/упак",
+        "price": "66.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/27895/catalog_list_27895.jpg",
+        "title": "Салака 250 г VOMOND х/к вак/упак",
+        "price": "42.10",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/8378/catalog_list_8378.jpg",
+        "title": "Pate 100 г Veladis із скумбрії",
+        "price": "36.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/13327/catalog_list_13327.jpg",
+        "title": "Ікра 100 г Veladis минтая пробійна слабосолена",
+        "price": "51.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/12117/catalog_list_12117.jpg",
+        "title": "Ікра 100 г Veladis тріски пробійна слабосолена",
+        "price": "51.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2777/catalog_list_2777.png",
+        "title": "Ікра 100г Veladis Pate тріски",
+        "price": "34.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/15368/catalog_list_15368.jpg",
+        "title": "Ікра 110 г Водный мир сайди солона",
+        "price": "41.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/14204/catalog_list_14204.jpg",
+        "title": "Ікра 180 г Водный мир з скандинавської риби і лососем",
+        "price": "64.10",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/430/catalog_list_430.jpg",
+        "title": "Корюшка 90г Аris в'ялена",
+        "price": "46.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2312/catalog_list_2312.jpg",
+        "title": "Крабові палички 0,5 кг Своя лінія охолоджені",
+        "price": "82.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2269/catalog_list_2269.jpg",
+        "title": "Крабові палички 240г Розумний вибір охолоджені",
+        "price": "36.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2316/catalog_list_2316.jpg",
+        "title": "Крабові палички 240г Своя Лiнiя охолоджені",
+        "price": "42.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/11675/catalog_list_11675.jpg",
+        "title": "Крабові палички 250 г Водный Мир замороженіилен",
+        "price": "57.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/11677/catalog_list_11677.jpg",
+        "title": "Крабові палички 250 г Водный Мир охолодженіилен",
+        "price": "68.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/3511/catalog_list_3511.jpg",
+        "title": "Лящ Aris в'ялений",
+        "price": "202.75",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/9434/catalog_list_9434.jpg",
+        "title": "Окунь Аris в'ялений",
+        "price": "310.20",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/15145/catalog_list_15145.jpg",
+        "title": "Оселедець 0,85 кг/0,63 кг Norven патраний",
+        "price": "111.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2783/catalog_list_2783.jpg",
+        "title": "Паста 150г Veladis Креветочна делікатесна",
+        "price": "49.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2666/catalog_list_2666.jpg",
+        "title": "Паста 150г Veladis Креветочна з авокадо",
+        "price": "45.50",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/14202/catalog_list_14202.jpg",
+        "title": "Паста 180 г Водный мир \"Ікорка\" з ікрою скандинавської риби і копченою сьомгою",
+        "price": "57.10",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/14201/catalog_list_14201.jpg",
+        "title": "Паста 180 г Водный мир \"Ікорка\" з ікрою скандинавської риби і креветками",
+        "price": "57.10",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/422/catalog_list_422.jpg",
+        "title": "Плітка (плотва) Aris в'ялена",
+        "price": "227.99",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/15366/catalog_list_15366.jpg",
+        "title": "Пресерви 200г Водный Мир Морський коктейль солений в олії по-середземноморськи",
+        "price": "62.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/14159/catalog_list_14159.jpg",
+        "title": "Пресерви 200г Своя Лінія м'ясо мідій в олії з прянощами",
+        "price": "57.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2482/catalog_list_2482.jpg",
+        "title": "Пресерви 250г Norven Оселедець філе в олії",
+        "price": "54.50",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/12491/catalog_list_12491.jpg",
+        "title": "Пресерви 460г Norven Салака в олії",
+        "price": "59.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2779/catalog_list_2779.jpg",
+        "title": "Пресерви 470г Veladis Оселедець в олії",
+        "price": "116.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/3433/catalog_list_3433.jpg",
+        "title": "Салака 120г Aris в'ялена",
+        "price": "29.40",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/26465/catalog_list_26465.jpg",
+        "title": "Сьомга 80г Своя лінія слабосолона скибочками без шкіриунок",
+        "price": "108.80",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/15136/catalog_list_15136.jpg",
+        "title": "Форель 240 г Norven філе-кусок",
+        "price": "276.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
       }
     ]
   }
