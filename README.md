@@ -8,7 +8,7 @@
 
 <img width="1280" src="/public/social-preview.png">
 
-### Open Telegram bot : [Holodos bot](https://t.me/h_o_l_o_d_o_s_bot)
+### Open Telegram bot : [Holodos bot](https://t.me/MyHolodosBot)
 
 ## Project setup
 
