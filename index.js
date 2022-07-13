@@ -93,9 +93,9 @@ bot.on('web_app_data', function (msg) {
   if (products.length > 0) {
     let html = '🔖 <b>Ваш список продуктов:</b>\n\n';
     products.forEach((el, index) => {
-      html += `<b>${index + 1}</b>. <b>${el.title}</b> (${el.counter}x) - ₴${
+      html += `<b>${index + 1}</b>. <b>${el.title}</b> (${el.counter}x) - ${
         el.price
-      }\n`;
+      } ${el.priceTitle}\n`;
     });
 
     price ? (html += `\nВСЕГО: ₴${price}`) : (html += '');

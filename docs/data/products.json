@@ -1,0 +1,259 @@
+[
+  {
+    "title": "Овочі та фрукти",
+    "items": [
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/18529/catalog_list_18529.jpg",
+        "title": "Ананаси сушені 125г Своя лінія шматочки",
+        "price": "27.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/18533/catalog_list_18533.jpg",
+        "title": "Асорті 125г Своя Лінія горіхове",
+        "price": "69.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/21209/catalog_list_21209.jpg",
+        "title": "Асорті 125г Своя Лінія фруктово-горіхов",
+        "price": "37.50",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/18797/catalog_list_18797.jpg",
+        "title": "Банан 1 гат",
+        "price": "38.55",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/26307/catalog_list_26307.jpg",
+        "title": "Банани 100 г Almond сушені",
+        "price": "23.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/18495/catalog_list_18495.jpg",
+        "title": "Капуста 1 гат",
+        "price": "29.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/17973/catalog_list_17973.jpg",
+        "title": "Манго 100 г Almond сушене",
+        "price": "57.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/26871/catalog_list_26871.jpg",
+        "title": "Суміш 150 г Almond Kids Mix",
+        "price": "45.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/18507/catalog_list_18507.jpg",
+        "title": "Яблуко Сортове 1 гат.",
+        "price": "11.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1173/catalog_list_1173.jpg",
+        "title": "Абрикоси сушені 200г Своя лінія",
+        "price": "90.00",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/6651/catalog_list_6651.jpg",
+        "title": "Авокадо Хаас вагове 1 гат",
+        "price": "155.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/87/catalog_list_87.jpg",
+        "title": "Апельсин ваг. 1 гат",
+        "price": "38.75",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/2790/catalog_list_2790.jpg",
+        "title": "Асорті 125г Своя лінія фруктово-горіхове, з горіхами смаженими",
+        "price": "50.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/4623/catalog_list_4623.jpg",
+        "title": "Буряк ранній 1 гат",
+        "price": "33.65",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/901/catalog_list_901.png",
+        "title": "Вітaмінний пучок 100г (кpіп, пeтpушкa, цибуля зeлeнa) 1 гат",
+        "price": "25.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/611/catalog_list_611.jpg",
+        "title": "Виноград сушений 150г Своя лінія кишмиш Золотистий",
+        "price": "24.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/12522/catalog_list_12522.jpg",
+        "title": "Гарбуз 125 г Pepo кандирований в глюкозі",
+        "price": "28.30",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/5/catalog_list_5.jpg",
+        "title": "Грейпфрут 1гат",
+        "price": "28.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/5415/catalog_list_5415.jpg",
+        "title": "Гриби Печериці 0,5 кг 1 гат",
+        "price": "45.70",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1855/catalog_list_1855.jpg",
+        "title": "Кабачки 1 гат",
+        "price": "28.65",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/6511/catalog_list_6511.jpg",
+        "title": "Кавун 1 гат",
+        "price": "29.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/27/catalog_list_27.png",
+        "title": "Картопля 1 гат",
+        "price": "7.99",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/5242/catalog_list_5242.jpg",
+        "title": "Картопля рaння 1 гат",
+        "price": "18.89",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1919/catalog_list_1919.jpg",
+        "title": "Картопля сітка 1 гат",
+        "price": "15.59",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/1869/catalog_list_1869.png",
+        "title": "Кокос",
+        "price": "27.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/897/catalog_list_897.jpg",
+        "title": "Кріп 70г шт. 1 гат",
+        "price": "21.60",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/25/catalog_list_25.png",
+        "title": "Лимон 1 гат",
+        "price": "69.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/5461/catalog_list_5461.jpg",
+        "title": "Манго сушений 100г Vita Max",
+        "price": "46.90",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/366/catalog_list_366.png",
+        "title": "Мандарин Муркотт 1 гат",
+        "price": "29.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/5234/catalog_list_5234.jpg",
+        "title": "Морква рання 1гат",
+        "price": "32.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/4687/catalog_list_4687.jpg",
+        "title": "М’ята 50г шт. 1 гат",
+        "price": "20.40",
+        "priceTitle": "грн/шт",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/5238/catalog_list_5238.jpg",
+        "title": "Нектарин 1 гат",
+        "price": "57.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/6775/catalog_list_6775.jpg",
+        "title": "Огірки 1 гат",
+        "price": "28.75",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/5276/catalog_list_5276.jpg",
+        "title": "Персик інжирний 1 гат",
+        "price": "80.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/4645/catalog_list_4645.jpg",
+        "title": "Томати рожеві 1 гат",
+        "price": "69.95",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      },
+      {
+        "img": "https://src.zakaz.atbmarket.com/cache/photos/11/catalog_list_11.png",
+        "title": "Томати тепличні 1 гатунок",
+        "price": "49.89",
+        "priceTitle": "грн/кг",
+        "counter": 0
+      }
+    ]
+  }
+]

@@ -29,6 +29,10 @@
   </head>
 
   <body id="app" class="holodos-bg-img" v-cloak>
+    <button class="holodos-main-button" v-if="counter" @click="order = true">
+      MAIN BUTTON
+    </button>
+
     <main :class="order ? 'order-mode' : ''">
       <section
         class="holodos-page holodos-items"
@@ -49,12 +53,14 @@
           </div>
           <div class="holodos-item-photo">
             <picture class="holodos-item-lottie">
-              <img :src="`img/products/${item.img}.png`" :alt="item.title" />
+              <img :src="item.img" :alt="item.title" />
             </picture>
           </div>
           <div class="holodos-item-label">
-            <span class="holodos-item-title">Title</span>
-            <span class="holodos-item-price">₴{{ item.price }}</span>
+            <!-- <span class="holodos-item-title">Title</span> -->
+            <span class="holodos-item-price">
+              {{ item.price }} {{ item.priceTitle }}
+            </span>
           </div>
           <div class="holodos-item-buttons">
             <button
@@ -130,10 +136,7 @@
               >
                 <div class="holodos-order-item-photo">
                   <picture class="holodos-item-lottie">
-                    <img
-                      :src="`img/products/${item.img}.png`"
-                      :alt="item.title"
-                    />
+                    <img :src="item.img" :alt="item.title" />
                   </picture>
                 </div>
                 <div class="holodos-order-item-label">
@@ -147,7 +150,9 @@
                     {{ tab.title }}
                   </div>
                 </div>
-                <div class="holodos-order-item-price">₴{{ item.price }}</div>
+                <div class="holodos-order-item-price">
+                  {{ item.price }} {{ item.priceTitle }}
+                </div>
               </div>
             </div>
           </div>

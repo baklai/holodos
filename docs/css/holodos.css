@@ -101,6 +101,20 @@ body.order-mode {
   background-color: var(--bg-color);
 }
 
+.holodos-main-button {
+  background-color: var(--main-color);
+  position: fixed;
+  bottom: 0px;
+  border-radius: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-left: auto;
+  margin-right: auto;
+  width: 480px;
+  z-index: 999;
+  color: #fff;
+}
+
 .holodos-bg-img {
   background-image: url('../img/bg-img.png');
   background-attachment: fixed;
@@ -132,7 +146,6 @@ main.closed .holodos-page {
 .holodos-items {
   transition: max-height var(--page-animation), opacity var(--page-animation);
   background-color: transparent;
-  /* background-color: var(--block-bg-color); */
 }
 
 main.order-mode .holodos-items {
@@ -141,7 +154,6 @@ main.order-mode .holodos-items {
 }
 
 .holodos-items:after {
-  /* content: ''; */
   flex-grow: 2;
 }
 
