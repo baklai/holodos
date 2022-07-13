@@ -98,7 +98,7 @@ bot.on('web_app_data', function (msg) {
       } ${el.priceTitle}\n`;
     });
 
-    price ? (html += `\nВСЕГО: ₴${price}`) : (html += '');
+    price ? (html += `\n<b>ВСЕГО:</b> ₴${price}`) : (html += '');
 
     comment
       ? (html += `\n<b>Ваш комментарий:</b> <i>${comment}</i>`)
