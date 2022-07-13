@@ -3,10 +3,13 @@ const { createApp } = Vue;
 const app = createApp({
   data() {
     return {
+      modal: null,
       order: null,
       comment: null,
       counter: null,
+
       price: null,
+      item: null,
       tabs: []
     };
   },
@@ -131,6 +134,11 @@ const app = createApp({
     delCounter(item) {
       --item.counter;
       --this.counter;
+    },
+
+    onModal(item) {
+      this.item = item;
+      this.modal = true;
     },
 
     getRndInteger(min, max) {

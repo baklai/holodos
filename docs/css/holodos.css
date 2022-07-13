@@ -101,6 +101,10 @@ body.order-mode {
   background-color: var(--bg-color);
 }
 
+picture {
+  cursor: pointer;
+}
+
 .holodos-main-button {
   background-color: var(--main-color);
   position: fixed;
@@ -223,7 +227,6 @@ main.order-mode .holodos-items {
 .holodos-item-price:before {
   display: inline-block;
   vertical-align: top;
-  content: '';
   width: 2px;
   height: 2px;
   border-radius: 2px;

@@ -21,10 +21,7 @@
   },
   "homepage": "https://github.com/baklai/your-holodos-bot#readme",
   "dependencies": {
-    "axios": "^0.27.2",
     "dotenv": "^16.0.1",
-    "jsdom": "^20.0.0",
-    "node-fetch": "^3.2.8",
     "node-telegram-bot-api": "^0.58.0"
   },
   "devDependencies": {
