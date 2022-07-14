@@ -29,14 +29,14 @@
   </head>
 
   <body id="app" class="holodos-bg-img" v-cloak>
-    <!-- <button
+    <button
       id="pulse"
       class="holodos-main-button"
-      v-if="counter"
+      v-if="!id"
       @click="order = true"
     >
       MAIN BUTTON
-    </button> -->
+    </button>
 
     <div class="holodos-modal" v-if="modal" @click="modal = false">
       <div class="holodos-modal-content">

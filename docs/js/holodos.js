@@ -14,13 +14,11 @@ const app = createApp({
     };
   },
 
-  // computed: {
-  //   async tabs() {
-  //     const response = await fetch('./data/products.json');
-  //     const data = await response.json();
-  //     return [data];
-  //   }
-  // },
+  computed: {
+    id() {
+      return window.Telegram.WebApp.initDataUnsafe.user?.id;
+    }
+  },
 
   mounted() {
     fetch('./data/products.json')
