@@ -31,6 +31,8 @@ const app = createApp({
         this.tabs = data;
       });
 
+    console.log(window.Telegram.WebApp);
+
     window.Telegram.WebApp.expand();
 
     window.Telegram.WebApp.BackButton.onClick(() => {
@@ -95,23 +97,22 @@ const app = createApp({
     order: {
       handler(value) {
         if (value) {
+          let price = 0;
           this.tabs.forEach((el) => {
             const result = el.items.filter((item) => item.counter > 0);
-            this.price = 0;
             if (result.length > 0) {
               result.forEach((val) => {
-                this.price += val.counter * val.price;
+                price += val.counter * val.price;
               });
             }
-            this.price = this.price.toFixed(2);
+            this.price = price;
           });
-
-          window.Telegram.WebApp.BackButton.show();
           window.Telegram.WebApp.MainButton.setParams({
             text: 'Отправить список',
             color: '#008000',
             textColor: '#fff'
           });
+          window.Telegram.WebApp.BackButton.show();
         } else {
           window.Telegram.WebApp.BackButton.hide();
           window.Telegram.WebApp.MainButton.setParams({
