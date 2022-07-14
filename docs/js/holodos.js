@@ -103,7 +103,7 @@ const app = createApp({
                 price += val.counter * val.price;
               });
             }
-            this.price = price;
+            this.price = price.toFixed(2);
           });
           window.Telegram.WebApp.MainButton.setParams({
             text: 'Отправить список',
