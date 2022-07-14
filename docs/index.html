@@ -26,95 +26,18 @@
       setThemeClass();
     </script>
     <link href="css/holodos.css" rel="stylesheet" />
-
-    <style>
-      .modal {
-        position: fixed;
-        z-index: 999;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-      }
-
-      .modal-content {
-        transform: translate(-50%, -50%);
-        border-radius: 15px;
-        background-color: var(--tg-theme-bg-color);
-        margin: auto;
-        margin-top: 50%;
-        padding: 20px;
-        border: 1px solid #999;
-        width: 150px;
-        height: auto;
-        transform: scale(1.5);
-      }
-    </style>
   </head>
 
   <body id="app" class="holodos-bg-img" v-cloak>
-    <!-- <button
-      id="pulse"
-      class="holodos-main-button"
-      v-if="counter"
-      @click="order = true"
-    >
-      MAIN BUTTON
-    </button> -->
-
-    <!-- The Modal -->
-    <div id="myModal" class="modal" v-if="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
-        <!-- <span class="close">&times;</span> -->
-        <section class="holodos-page holodos-items">
-          <div
-            class="holodos-item"
-            :class="item.counter === 0 ? '' : 'selected'"
-            style="width: auto"
-          >
-            <div
-              class="holodos-item-counter"
-              :style="item.counter === 0 ? '' : 'animation-name: badge-incr'"
-            >
-              {{ item.counter }}
-            </div>
-            <div class="holodos-item-photo">
-              <picture class="holodos-item-lottie" @click="modal = false">
-                <img :src="item.img" :alt="item.title" />
-              </picture>
-            </div>
-            <div class="holodos-item-label" style="display: contents">
-              <p class="holodos-item-title">{{ item.title }}</p>
-              <span class="holodos-item-price">
-                {{ item.price }} {{ item.priceTitle }}
-              </span>
-            </div>
-            <div class="holodos-item-buttons">
-              <button
-                class="holodos-item-decr-button decr-btn button-item ripple-handler"
-                @click="delCounter(item)"
-              >
-                <span class="ripple-mask"><span class="ripple"></span></span>
-              </button>
-              <button
-                class="holodos-item-incr-button button-item ripple-handler"
-                @click="addCounter(item)"
-              >
-                <span class="button-item-label"> Add </span>
-                <span class="ripple-mask">
-                  <span
-                    class="ripple"
-                    :style="item.counter === 0 ? '' : 'transform: translate3d(4.34375px, -4px, 0px) scale3d(1, 1, 1); opacity: 0; transition-duration: var(--ripple-end-duration, 0.2s);'"
-                  >
-                  </span>
-                </span>
-              </button>
-            </div>
+    <div class="holodos-modal" v-if="modal" @click="modal = false">
+      <div class="holodos-modal-content">
+        <div class="holodos-modal-card">
+          <img :src="item.img" :alt="item.title" />
+          <div class="holodos-modal-container">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.price }} {{ item.priceTitle }}</p>
           </div>
-        </section>
+        </div>
       </div>
     </div>
 
