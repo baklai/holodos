@@ -29,13 +29,11 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-/* Scrollbar on Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--v-scrollbar-base) transparent;
 }
 
-/* Scrollbar on Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
   width: 0;
   height: 6px;
@@ -50,34 +48,6 @@ body::-webkit-scrollbar {
   border-radius: 1px;
   border: 1px solid var(--v-scrollbar-base);
 }
-/* 
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #fff transparent;
-}
-::-webkit-scrollbar {
-  border-radius: 5px !important;
-  border: 3px solid transparent !important;
-  background-color: transparent !important;
-  background-clip: content-box !important;
-  width: 10px !important;
-}
-::-webkit-scrollbar:hover {
-  background-color: transparent !important;
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 5px !important;
-  border: 3px solid transparent !important;
-  background-color: transparent !important;
-  background-clip: content-box !important;
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: transparent !important;
-} */
 
 body {
   font-family: var(--default-font);
