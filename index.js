@@ -121,6 +121,29 @@ bot.onText(/\/start/, function (msg) {
 bot.on('web_app_data', function (msg) {
   const { products, price, comment } = JSON.parse(msg.web_app_data.data);
 
+  User.findOneAndUpdate(
+    {
+      chat_id: msg.chat.id
+    },
+    {
+      $set: {
+        chat_id: msg.chat.id,
+        first_name: msg.chat.first_name,
+        last_name: msg.chat.last_name,
+        username: msg.chat.username
+      }
+    },
+    {
+      new: true,
+      upsert: true
+    },
+    (err, doc) => {
+      if (err) {
+        console.error('Something wrong when updating data!');
+      }
+    }
+  );
+
   if (products.length > 0) {
     let html = '🔖 <b>Ваш список продуктів:</b>\n\n';
     products.forEach((el, index) => {
