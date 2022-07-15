@@ -7,7 +7,9 @@ process.env.NTBA_FIX_319 = 1;
 
 const path = require('path');
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 const TelegramBot = require('node-telegram-bot-api');
+const User = require('./models/user.model');
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: path.join(__dirname, '.env') });
@@ -17,7 +19,13 @@ if (process.env.NODE_ENV !== 'production') {
   }
 }
 
-const { TELEGRAM_TOKEN, PROXY_SERVER, APP_URL, WEB_APP_URL } = process.env;
+const { TELEGRAM_TOKEN, MONGO_URL, PROXY_SERVER, APP_URL, WEB_APP_URL } =
+  process.env;
+
+mongoose.connect(MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 const optionsWebHook = {
   webHook: {
@@ -66,25 +74,48 @@ bot
 bot.onText(/\/start/, function (msg) {
   const { id } = msg.chat;
   const html = `<b>Вітання <i>${msg.from.first_name}</i></b>!\n\n<i>Я допоможу зробити процес походу в магазин простіше, швидше, і найголовніше, ефективніше.</i>\n\nВідкрий холодос, щоб почати 👇`;
-  bot
-    .sendMessage(id, html, {
-      parse_mode: 'HTML',
-      reply_markup: {
-        keyboard: [
-          [
-            {
-              text: '🍎🍉🥑 Відкрити холодос 🍊🥩🍆',
-              web_app: { url: WEB_APP_URL }
-            }
-          ]
-        ],
-        resize_keyboard: true
+
+  User.findOneAndUpdate(
+    {
+      chat_id: msg.chat.id
+    },
+    {
+      $set: {
+        chat_id: msg.chat.id,
+        first_name: msg.chat.first_name,
+        last_name: msg.chat.last_name,
+        username: msg.chat.username
       }
-    })
-    .catch((err) => {
-      console.error(err.code);
-      console.error(err.response.body);
-    });
+    },
+    {
+      new: true,
+      upsert: true
+    },
+    (err, doc) => {
+      if (err) {
+        console.error('Something wrong when updating data!');
+      }
+      bot
+        .sendMessage(id, html, {
+          parse_mode: 'HTML',
+          reply_markup: {
+            keyboard: [
+              [
+                {
+                  text: '🍎🍉🥑 Відкрити холодос 🍊🥩🍆',
+                  web_app: { url: WEB_APP_URL }
+                }
+              ]
+            ],
+            resize_keyboard: true
+          }
+        })
+        .catch((err) => {
+          console.error(err.code);
+          console.error(err.response.body);
+        });
+    }
+  );
 });
 
 bot.on('web_app_data', function (msg) {

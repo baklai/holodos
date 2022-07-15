@@ -22,6 +22,7 @@
   "homepage": "https://github.com/baklai/your-holodos-bot#readme",
   "dependencies": {
     "dotenv": "^16.0.1",
+    "mongoose": "^6.0.9",
     "node-telegram-bot-api": "^0.58.0"
   },
   "devDependencies": {
