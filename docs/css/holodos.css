@@ -93,10 +93,6 @@ html.dark body {
   --placeholder-color: #5d6163;
 }
 
-body.order-mode {
-  background-color: var(--bg-color);
-}
-
 .holodos-bg-img {
   background-image: url('../img/bg-img.png');
   background-attachment: fixed;
@@ -209,11 +205,6 @@ main.closed .holodos-page {
 .holodos-items {
   transition: max-height var(--page-animation), opacity var(--page-animation);
   background-color: transparent;
-}
-
-main.order-mode .holodos-items {
-  max-height: 0 !important;
-  opacity: 0 !important;
 }
 
 .holodos-items:after {
@@ -410,16 +401,10 @@ button,
 }
 
 .holodos-order-overview {
-  display: none;
   height: 100vh;
   font-family: var(--default-font);
   background-color: var(--bg-color);
   transition: opacity var(--page-animation);
-  opacity: 0;
-}
-
-main.order-mode .holodos-order-overview {
-  opacity: 1;
 }
 
 .holodos-order-header-wrap {
@@ -633,39 +618,6 @@ picture {
 
 .holodos-item-decr-button .ripple {
   background-color: #dc3545;
-}
-
-.loading-icon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  pointer-events: none;
-  transform: scale(0);
-  visibility: hidden;
-  opacity: 0.2;
-  transform-origin: 50%;
-  transition: all var(--animation);
-}
-
-main.loading .loading-icon {
-  transition-delay: 0.4s;
-  transform: scale(1);
-  visibility: visible;
-  opacity: 1;
-}
-
-.loading-icon-circle {
-  stroke: #fff;
-  stroke-width: 2.25px;
-  stroke-linecap: round;
-  fill: transparent;
-  transform: rotateZ(-90deg);
-  transform-origin: 50%;
-  animation: rotate-circle linear 1.5s infinite,
-    resize-circle linear 360s infinite;
-  stroke-dasharray: calc(var(--radius) * 6.28);
-  /* r: var(--radius); */
-  --radius: 9px;
 }
 
 @-webkit-keyframes rotate-circle {

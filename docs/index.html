@@ -28,8 +28,8 @@
     <link href="css/holodos.css" rel="stylesheet" />
   </head>
 
-  <body id="app" class="holodos-bg-img" v-cloak>
-    <main :class="page === 3 ? 'order-mode' : ''">
+  <body class="holodos-bg-img">
+    <main id="app" v-cloak>
       <section v-if="page === 0" class="holodos-start">
         <div class="holodos-start-item">
           <img
@@ -43,7 +43,11 @@
         </div>
       </section>
 
-      <section v-if="page === 1" class="holodos-start">
+      <section
+        v-if="page === 1"
+        class=""
+        style="margin-left: 80px; margin-right: 80px"
+      >
         <div class="holodos-start-item">
           <button
             class="holodos-start-btn"
@@ -144,10 +148,7 @@
 
           <div class="holodos-order-items">
             <div v-for="tab in items" :key="`order-${tab.category}`">
-              <template
-                v-for="(item, index) in tab.products"
-                :key="`order-${tab.title}-${index}`"
-              >
+              <template v-for="(item, index) in tab.products">
                 <div
                   v-if="item.counter > 0"
                   class="holodos-order-item selected"
@@ -217,7 +218,7 @@
       </div>
     </main>
 
-    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.4"></script>
     <script src="js/holodos.js"></script>
   </body>
 </html>

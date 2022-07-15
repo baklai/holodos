@@ -1,6 +1,5 @@
-const { createApp } = Vue;
-
-const app = createApp({
+const app = new Vue({
+  el: '#app',
   data() {
     return {
       modal: null,
@@ -161,4 +160,4 @@ const app = createApp({
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
   }
-}).mount('#app');
+});
