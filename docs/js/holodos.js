@@ -4,20 +4,14 @@ const app = createApp({
   data() {
     return {
       modal: null,
-      order: null,
       comment: null,
       counter: null,
-
+      category: null,
       price: null,
       item: null,
-      tabs: []
+      items: [],
+      page: 0
     };
-  },
-
-  computed: {
-    id() {
-      return window.Telegram.WebApp.initDataUnsafe.user?.id;
-    }
   },
 
   mounted() {
@@ -26,29 +20,28 @@ const app = createApp({
         return response.json();
       })
       .then((data) => {
-        this.tabs = data;
+        this.items = data;
       });
 
-    console.log(window.Telegram.WebApp);
+    window.Telegram.WebApp.BackButton.hide();
+    window.Telegram.WebApp.MainButton.hide();
 
     window.Telegram.WebApp.expand();
 
     window.Telegram.WebApp.BackButton.onClick(() => {
-      this.order = false;
+      --this.page;
     });
 
     window.Telegram.WebApp.MainButton.onClick(() => {
       switch (window.Telegram.WebApp.MainButton.text) {
-        case 'Открыть список':
-          this.order = true;
+        case 'Відкрити список':
+          this.page = 3;
           window.Telegram.WebApp.BackButton.show();
-
           break;
-        case 'Отправить список':
+        case 'Надіслати список':
           const products = [];
-
-          this.tabs.forEach((el) => {
-            const result = el.items.filter((item) => item.counter > 0);
+          this.items.forEach((el) => {
+            const result = el.products.filter((item) => item.counter > 0);
             if (result.length > 0) {
               result.forEach((val) => {
                 products.push({
@@ -60,17 +53,13 @@ const app = createApp({
               });
             }
           });
-
           const resList = {
             products: products,
             comment: this.comment,
             price: this.price
           };
-
           window.Telegram.WebApp.sendData(JSON.stringify(resList));
           break;
-        default:
-          console.log('Sorry, we are out of.');
       }
     });
   },
@@ -82,7 +71,7 @@ const app = createApp({
           window.Telegram.WebApp.MainButton.hide();
         } else if (value && !window.Telegram.WebApp.MainButton.isVisible) {
           window.Telegram.WebApp.MainButton.setParams({
-            text: 'Открыть список',
+            text: 'Відкрити список',
             color: '#ffc107',
             textColor: '#fff'
           });
@@ -92,32 +81,57 @@ const app = createApp({
       deep: true
     },
 
-    order: {
+    page: {
       handler(value) {
-        if (value) {
-          let price = 0;
-          this.tabs.forEach((el) => {
-            const result = el.items.filter((item) => item.counter > 0);
-            if (result.length > 0) {
-              result.forEach((val) => {
-                price += val.counter * val.price;
+        switch (value) {
+          case 0:
+            window.Telegram.WebApp.BackButton.hide();
+            window.Telegram.WebApp.MainButton.hide();
+            break;
+          case 1:
+            window.Telegram.WebApp.BackButton.show();
+            if (this.counter > 0) {
+              window.Telegram.WebApp.MainButton.setParams({
+                text: 'Відкрити список',
+                color: '#ffc107',
+                textColor: '#fff'
               });
+              window.Telegram.WebApp.MainButton.show();
+            } else {
+              window.Telegram.WebApp.MainButton.hide();
             }
-            this.price = price.toFixed(2);
-          });
-          window.Telegram.WebApp.MainButton.setParams({
-            text: 'Отправить список',
-            color: '#008000',
-            textColor: '#fff'
-          });
-          window.Telegram.WebApp.BackButton.show();
-        } else {
-          window.Telegram.WebApp.BackButton.hide();
-          window.Telegram.WebApp.MainButton.setParams({
-            text: 'Открыть список',
-            color: '#ffc107',
-            textColor: '#fff'
-          });
+            break;
+          case 2:
+            window.Telegram.WebApp.BackButton.show();
+            if (this.counter > 0) {
+              window.Telegram.WebApp.MainButton.setParams({
+                text: 'Відкрити список',
+                color: '#ffc107',
+                textColor: '#fff'
+              });
+              window.Telegram.WebApp.MainButton.show();
+            } else {
+              window.Telegram.WebApp.MainButton.hide();
+            }
+            break;
+          case 3:
+            let price = 0;
+            this.items.forEach((el) => {
+              const result = el.products.filter((item) => item.counter > 0);
+              if (result.length > 0) {
+                result.forEach((val) => {
+                  price += val.counter * val.price;
+                });
+              }
+              this.price = price.toFixed(2);
+            });
+            window.Telegram.WebApp.MainButton.setParams({
+              text: 'Надіслати список',
+              color: '#008000',
+              textColor: '#fff'
+            });
+            window.Telegram.WebApp.BackButton.show();
+            break;
         }
       },
       deep: true

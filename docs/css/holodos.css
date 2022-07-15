@@ -97,20 +97,6 @@ body.order-mode {
   background-color: var(--bg-color);
 }
 
-.holodos-main-button {
-  background-color: var(--main-color);
-  position: fixed;
-  bottom: 0px;
-  border-radius: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  margin-left: auto;
-  margin-right: auto;
-  width: 480px;
-  z-index: 999;
-  color: #fff;
-}
-
 .holodos-bg-img {
   background-image: url('../img/bg-img.png');
   background-attachment: fixed;
@@ -131,22 +117,73 @@ body.order-mode {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 }
+
 .holodos-modal-content {
   background-color: var(--block-bg-color);
+  animation-name: modal-zoom;
+  animation-duration: 0.6s;
   margin: auto;
   padding: 10px;
   border: 1px solid #888;
   max-width: 280px;
   border-radius: 15px;
 }
+
 .holodos-modal-card {
   text-align: center;
 }
+
 .holodos-modal-container {
   padding: 2px 16px;
 }
+
 .holodos-modal-card img {
   width: 90%;
+}
+
+@keyframes modal-zoom {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.holodos-start {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  max-width: 480px;
+  justify-content: space-around;
+  align-content: flex-end;
+}
+
+.holodos-start-item {
+  position: relative;
+  padding: 4px 5px 21px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.holodos-start-btn {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  font-family: var(--default-font);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  padding: 6px 16px;
+  border-radius: 7px;
+  box-sizing: border-box;
+  background-color: var(--main-color);
+  text-transform: uppercase;
+  color: #fff;
+  outline: none;
+  border: none;
 }
 
 .holodos-page {

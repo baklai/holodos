@@ -29,38 +29,40 @@
   </head>
 
   <body id="app" class="holodos-bg-img" v-cloak>
-    <!-- <button
-      id="pulse"
-      class="holodos-main-button"
-      v-if="counter"
-      @click="order = true"
-    >
-      MAIN BUTTON
-    </button> -->
+    <main :class="page === 3 ? 'order-mode' : ''">
+      <section v-if="page === 0" class="holodos-start">
+        <div class="holodos-start-item">
+          <img
+            src="img/bg-order.png"
+            alt=""
+            style="width: 200px; margin-bottom: 15px"
+          />
 
-    <div class="holodos-modal" v-if="modal" @click="modal = false">
-      <div class="holodos-modal-content">
-        <div class="holodos-modal-card">
-          <img :src="item.img" :alt="item.title" />
-          <div class="holodos-modal-container">
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.price }} {{ item.priceTitle }}</p>
-          </div>
+          <button class="holodos-start-btn" @click="page += 1">Відкрити</button>
+          <p>Бот агрегує список продуктів із мережі маркетів АТБ</p>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <main :class="order ? 'order-mode' : ''">
-      <section
-        class="holodos-page holodos-items"
-        v-for="tab in tabs"
-        :key="tab.title"
-      >
+      <section v-if="page === 1" class="holodos-start">
+        <div class="holodos-start-item">
+          <button
+            class="holodos-start-btn"
+            style="margin-top: 10px"
+            v-for="(item, index) in items"
+            :key="item.category"
+            @click="category = index; page += 1"
+          >
+            {{ item.category }}
+          </button>
+        </div>
+      </section>
+
+      <section v-if="page === 2" class="holodos-page holodos-items">
         <div
           class="holodos-item"
           :class="item.counter === 0 ? '' : 'selected'"
-          v-for="(item, index) in tab.items"
-          :key="`${tab.title}-${index}`"
+          v-for="(item, index) in items[category].products"
+          :key="`${items[category].category}-${index}`"
         >
           <div
             class="holodos-item-counter"
@@ -89,7 +91,7 @@
               class="holodos-item-incr-button button-item ripple-handler"
               @click="addCounter(item)"
             >
-              <span class="button-item-label"> Add </span>
+              <span class="button-item-label"> ТАК </span>
               <span class="ripple-mask">
                 <span
                   class="ripple"
@@ -103,8 +105,9 @@
       </section>
 
       <section
+        v-if="page === 3"
         class="holodos-page holodos-order-overview"
-        :style="order ? 'display: block' : ''"
+        style="display: block"
       >
         <div class="holodos-block" style="margin-bottom: 14px">
           <div class="holodos-order-header-wrap">
@@ -118,7 +121,7 @@
                 СПИСОК #{{ getRndInteger(1000000,9999999) }}
               </div>
               <div class="holodos-order-item-text">
-                Идеальный список для покупок
+                Ідеальний список для покупок
               </div>
               <div class="holodos-order-item-description">@MyHolodosBot</div>
             </div>
@@ -132,7 +135,7 @@
             <button
               type="button"
               class="holodos-order-edit"
-              @click="order = false"
+              @click="page = 1"
               style="cursor: pointer; color: #fff"
             >
               ...
@@ -140,42 +143,48 @@
           </div>
 
           <div class="holodos-order-items">
-            <div v-for="tab in tabs" :key="`order-${tab.title}`">
-              <div
-                class="holodos-order-item"
-                :class="item.counter === 0 ? '' : 'selected'"
-                v-for="(item, index) in tab.items"
+            <div v-for="tab in items" :key="`order-${tab.category}`">
+              <template
+                v-for="(item, index) in tab.products"
                 :key="`order-${tab.title}-${index}`"
               >
-                <div class="holodos-order-item-photo">
-                  <picture class="holodos-item-lottie">
-                    <img :src="item.img" :alt="item.title" />
-                  </picture>
-                </div>
-                <div class="holodos-order-item-label">
+                <div
+                  v-if="item.counter > 0"
+                  class="holodos-order-item selected"
+                >
+                  <div class="holodos-order-item-photo">
+                    <picture class="holodos-item-lottie">
+                      <img :src="item.img" :alt="item.title" />
+                    </picture>
+                  </div>
+                  <div class="holodos-order-item-label">
+                    <div
+                      class="holodos-order-item-title holodos-order-item-title-small"
+                    >
+                      {{ item.title }}
+                      <span class="holodos-order-item-counter">
+                        {{ item.counter }}x
+                      </span>
+                    </div>
+                    <div class="holodos-order-item-description">
+                      {{ tab.title }}
+                    </div>
+                  </div>
                   <div
-                    class="holodos-order-item-title holodos-order-item-title-small"
+                    class="holodos-order-item-price"
+                    style="font-size: small"
                   >
-                    {{ item.title }}
-                    <span class="holodos-order-item-counter">
-                      {{ item.counter }}x
-                    </span>
-                  </div>
-                  <div class="holodos-order-item-description">
-                    {{ tab.title }}
+                    {{ item.price }} {{ item.priceTitle }}
                   </div>
                 </div>
-                <div class="holodos-order-item-price">
-                  {{ item.price }} {{ item.priceTitle }}
-                </div>
-              </div>
+              </template>
             </div>
           </div>
 
           <div class="holodos-order-item selected">
             <div class="holodos-order-item-photo"></div>
             <div class="holodos-order-item-label">
-              <div class="holodos-order-item-title">Всего:</div>
+              <div class="holodos-order-item-title">Усього:</div>
             </div>
             <div class="holodos-order-item-price-all">₴{{ price }}</div>
           </div>
@@ -186,14 +195,26 @@
             class="holodos-text-field holodos-block"
             rows="1"
             v-model="comment"
-            placeholder="Добавить комментарий…"
+            placeholder="Додати коментар…"
             style="overflow: hidden visible; overflow-wrap: break-word"
           ></textarea>
           <div class="holodos-text-field-hint">
-            Любые особые пожелания, детали т.д.
+            Будь-які особливі побажання, деталі тощо.
           </div>
         </div>
       </section>
+
+      <div class="holodos-modal" v-if="modal" @click="modal = false">
+        <div class="holodos-modal-content">
+          <div class="holodos-modal-card">
+            <img :src="item.img" :alt="item.title" />
+            <div class="holodos-modal-container">
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.price }} {{ item.priceTitle }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <script src="https://unpkg.com/vue@3"></script>

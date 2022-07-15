@@ -65,7 +65,7 @@ bot
 
 bot.onText(/\/start/, function (msg) {
   const { id } = msg.chat;
-  const html = `<b>Привет <i>${msg.from.first_name}</i></b>!\n\n<i>Я помогу сделать процесс похода в магазин проще, быстрее, и что самое главное, эффективнее.</i>\n\nОткрой холодос, чтобы начать 👇`;
+  const html = `<b>Вітання <i>${msg.from.first_name}</i></b>!\n\n<i>Я допоможу зробити процес походу в магазин простіше, швидше, і найголовніше, ефективніше.</i>\n\nВідкрий холодос, щоб почати 👇`;
   bot
     .sendMessage(id, html, {
       parse_mode: 'HTML',
@@ -73,7 +73,7 @@ bot.onText(/\/start/, function (msg) {
         keyboard: [
           [
             {
-              text: '🍎🍉🥑 Открыть холодос 🍊🥩🍆',
+              text: '🍎🍉🥑 Відкрити холодос 🍊🥩🍆',
               web_app: { url: WEB_APP_URL }
             }
           ]
@@ -91,17 +91,17 @@ bot.on('web_app_data', function (msg) {
   const { products, price, comment } = JSON.parse(msg.web_app_data.data);
 
   if (products.length > 0) {
-    let html = '🔖 <b>Ваш список продуктов:</b>\n\n';
+    let html = '🔖 <b>Ваш список продуктів:</b>\n\n';
     products.forEach((el, index) => {
-      html += `<b>${index + 1}</b>. <b>${el.title}</b> (${el.counter}x) - ${
+      html += `<b>${index + 1}</b>. ${el.title} (${el.counter}x) - <i>${
         el.price
-      } ${el.priceTitle}\n`;
+      } ${el.priceTitle}</i>\n`;
     });
 
-    price ? (html += `\n<b>ВСЕГО:</b> ₴${price}`) : (html += '');
+    price ? (html += `\n<b>ВСЬОГО:</b> ₴${price}`) : (html += '');
 
     comment
-      ? (html += `\n<b>Ваш комментарий:</b> <i>${comment}</i>`)
+      ? (html += `\n<b>Ваш коментар:</b> <i>${comment}</i>`)
       : (html += '');
 
     bot
@@ -113,7 +113,7 @@ bot.on('web_app_data', function (msg) {
         console.error(err.response.body);
       });
   } else {
-    let html = '🗣 <b>Ваш список продуктов пуст!</b>';
+    let html = '🗣 <b>Ваш список продуктів порожній!</b>';
     bot.sendMessage(msg.chat.id, html, { parse_mode: 'HTML' }).catch((err) => {
       console.error(err.code);
       console.error(err.response.body);
