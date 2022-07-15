@@ -85,10 +85,12 @@ const app = createApp({
       handler(value) {
         switch (value) {
           case 0:
+            this.modal = false;
             window.Telegram.WebApp.BackButton.hide();
             window.Telegram.WebApp.MainButton.hide();
             break;
           case 1:
+            this.modal = false;
             window.Telegram.WebApp.BackButton.show();
             if (this.counter > 0) {
               window.Telegram.WebApp.MainButton.setParams({
@@ -115,6 +117,7 @@ const app = createApp({
             }
             break;
           case 3:
+            this.modal = false;
             let price = 0;
             this.items.forEach((el) => {
               const result = el.products.filter((item) => item.counter > 0);
