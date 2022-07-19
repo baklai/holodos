@@ -2,12 +2,12 @@ import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
 
-dotenv.config({
-  path:
-    process.env.NODE_ENV === 'production'
-      ? path.join(__dirname, '.env.prod')
-      : path.join(__dirname, '.env.dev')
-});
+// dotenv.config({
+//   path:
+//     process.env.NODE_ENV === 'production'
+//       ? path.join(__dirname, '.env.prod')
+//       : path.join(__dirname, '.env.dev')
+// });
 
 export default {
   telemetry: false,
