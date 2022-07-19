@@ -6,6 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# File hosting directories
+static/docs/*
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -37,7 +40,11 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
+# A manifestation of the manifest
+package-lock.json
+
 # Dependency directories
+package-lock.json
 node_modules/
 jspm_packages/
 
@@ -71,6 +78,8 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.env.dev
+.env.prod
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -103,4 +112,8 @@ dist
 # TernJS port file
 .tern-port
 
-package-lock.json
+# Service worker
+sw.*
+
+# Server certs
+certs

@@ -6,7 +6,7 @@
 знайомим. Всі зміни зберігаються в чаті, і у Вас у будь-який час є до них
 доступ як із телефону, так і через веб-сайт.
 
-<img width="1280" src="/public/social-preview.png">
+<img width="1280" src="/static/social-preview.png">
 
 ### Open Telegram bot : [Holodos bot](https://t.me/MyHolodosBot)
 
