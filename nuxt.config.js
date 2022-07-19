@@ -2,12 +2,12 @@ import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
 
-// dotenv.config({
-//   path:
-//     process.env.NODE_ENV === 'production'
-//       ? path.join(__dirname, '.env.prod')
-//       : path.join(__dirname, '.env.dev')
-// });
+dotenv.config({
+  path:
+    process.env.NODE_ENV === 'production'
+      ? path.join(__dirname, '.env.prod')
+      : path.join(__dirname, '.env.dev')
+});
 
 export default {
   telemetry: false,
@@ -23,21 +23,21 @@ export default {
 
   publicRuntimeConfig: {},
 
-  // server: {
-  //   port: process.env.NODE_ENV.PORT,
-  //   host: process.env.NODE_ENV.HOST,
-  //   // https:
-  //   //   process.env.NODE_ENV === 'production'
-  //   //     ? false
-  //   //     : {
-  //   //         key: fs.readFileSync(
-  //   //           path.resolve(__dirname, 'certs', 'server.key')
-  //   //         ),
-  //   //         cert: fs.readFileSync(
-  //   //           path.resolve(__dirname, 'certs', 'server.crt')
-  //   //         )
-  //   //       }
-  // },
+  server: {
+    port: process.env.NODE_ENV.PORT,
+    host: process.env.NODE_ENV.HOST,
+    https:
+      process.env.NODE_ENV === 'production'
+        ? false
+        : {
+            key: fs.readFileSync(
+              path.resolve(__dirname, 'certs', 'server.key')
+            ),
+            cert: fs.readFileSync(
+              path.resolve(__dirname, 'certs', 'server.crt')
+            )
+          }
+  },
 
   router: {
     prefetchLinks: false
@@ -47,7 +47,7 @@ export default {
     titleTemplate: `Холодос • %s`,
     title: 'мій список продуктів',
     htmlAttrs: {
-      lang: 'ua'
+      lang: 'en'
     },
     meta: [
       { charset: 'utf-8' },
