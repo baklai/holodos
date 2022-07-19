@@ -81,7 +81,7 @@ export default {
 
   css: ['~/assets/transition.css', '~/assets/holodos.css'],
 
-  modules: ['@nuxt/image'],
+  modules: ['@nuxt/image', '~/modules/index.js'],
 
   build: {
     publicPath: 'cdn/',

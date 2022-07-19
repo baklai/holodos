@@ -11,8 +11,7 @@ const User = require('./models/user.model');
 
 export default function () {
   this.nuxt.hook('listen', (server, { host, port }) => {
-    const { TELEGRAM_TOKEN, MONGO_URL, PROXY_SERVER, APP_URL } =
-      process.env;
+    const { TELEGRAM_TOKEN, MONGO_URL, PROXY_SERVER, APP_URL } = process.env;
 
     mongoose.connect(MONGO_URL, {
       useNewUrlParser: true,
@@ -21,7 +20,7 @@ export default function () {
 
     const optionsWebHook = {
       webHook: {
-        port: 443/// process.env.PORT
+        port: process.env.PORT
       }
     };
 

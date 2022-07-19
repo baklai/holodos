@@ -23,6 +23,10 @@
     "bot"
   ],
   "license": "MIT",
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
