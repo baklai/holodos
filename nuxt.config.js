@@ -24,8 +24,8 @@ export default {
   publicRuntimeConfig: {},
 
   server: {
-    port: process.env.NODE_ENV.PORT || 3000,
-    host: process.env.NODE_ENV.HOST || '0.0.0.0',
+    port: process.env.NODE_ENV.PORT,
+    host: process.env.NODE_ENV.HOST,
     https:
       process.env.NODE_ENV === 'production'
         ? false
