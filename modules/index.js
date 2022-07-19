@@ -20,7 +20,7 @@ export default function () {
 
     const optionsWebHook = {
       webHook: {
-        port: process.env.PORT
+        port: port //process.env.PORT
       }
     };
 
