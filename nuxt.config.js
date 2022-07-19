@@ -23,21 +23,21 @@ export default {
 
   publicRuntimeConfig: {},
 
-  server: {
-    port: process.env.NODE_ENV.PORT,
-    host: process.env.NODE_ENV.HOST,
-    // https:
-    //   process.env.NODE_ENV === 'production'
-    //     ? false
-    //     : {
-    //         key: fs.readFileSync(
-    //           path.resolve(__dirname, 'certs', 'server.key')
-    //         ),
-    //         cert: fs.readFileSync(
-    //           path.resolve(__dirname, 'certs', 'server.crt')
-    //         )
-    //       }
-  },
+  // server: {
+  //   port: process.env.NODE_ENV.PORT,
+  //   host: process.env.NODE_ENV.HOST,
+  //   // https:
+  //   //   process.env.NODE_ENV === 'production'
+  //   //     ? false
+  //   //     : {
+  //   //         key: fs.readFileSync(
+  //   //           path.resolve(__dirname, 'certs', 'server.key')
+  //   //         ),
+  //   //         cert: fs.readFileSync(
+  //   //           path.resolve(__dirname, 'certs', 'server.crt')
+  //   //         )
+  //   //       }
+  // },
 
   router: {
     prefetchLinks: false
