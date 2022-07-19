@@ -11,7 +11,7 @@ const User = require('./models/user.model');
 
 export default function () {
   this.nuxt.hook('listen', (server, { host, port }) => {
-    const { TELEGRAM_TOKEN, MONGO_URL, PROXY_SERVER, APP_URL, WEB_APP_URL } =
+    const { TELEGRAM_TOKEN, MONGO_URL, PROXY_SERVER, APP_URL } =
       process.env;
 
     mongoose.connect(MONGO_URL, {
@@ -95,7 +95,7 @@ export default function () {
                   [
                     {
                       text: '🍎🍉🥑 Відкрити холодос 🍊🥩🍆',
-                      web_app: { url: WEB_APP_URL }
+                      web_app: { url: APP_URL }
                     }
                   ]
                 ],

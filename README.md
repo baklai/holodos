@@ -19,8 +19,9 @@ npm i
 ## Project .env
 
 ```
+APP_URL        : Web app site address
+MONGO_URL      : Mongo DB url
 TELEGRAM_TOKEN : Bot token in telegram
-WEB_APP_URL    : Web app site address
 PROXY_SERVER   : Proxy server if needed
 ```
 
