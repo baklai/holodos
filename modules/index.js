@@ -19,9 +19,9 @@ export default function () {
     });
 
     const optionsWebHook = {
-      webHook: {
-        port: process.env.PORT
-      }
+      // webHook: {
+      //   port: process.env.PORT
+      // }
     };
 
     const optionsPolling = {
