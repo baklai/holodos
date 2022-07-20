@@ -40,7 +40,6 @@ export default {
   },
 
   router: {
-    base: `/holodos/`,
     prefetchLinks: false
   },
 
@@ -82,7 +81,15 @@ export default {
 
   css: ['~/assets/transition.css', '~/assets/holodos.css'],
 
-  modules: ['@nuxt/image', '~/modules/index.js'],
+  modules: ['@nuxt/image'],
+
+  serverMiddleware: [
+    {
+      path: '/bot/v1',
+      handler: '~/server/index.js',
+      prefix: false
+    }
+  ],
 
   build: {
     publicPath: 'cdn/',
