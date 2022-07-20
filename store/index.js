@@ -1,5 +1,3 @@
-// import holodos from '~/static/holodos.json';
-
 export const state = () => ({
   holodos: [],
   counter: null,

@@ -16,7 +16,7 @@
 
       <div class="holodos-item-photo" @click="onModal(item)">
         <picture class="holodos-item-lottie">
-          <nuxt-img
+          <img
             :src="item.img"
             :alt="item.title"
             loading="lazy"
