@@ -1,20 +1,10 @@
 export const state = () => ({
-  holodos: [],
-  counter: null,
-  error: null
+  holodos: []
 });
 
 export const getters = {
   holodos: (state) => {
     return state.holodos;
-  },
-  category: (state) => {
-    return state.holodos.map((item) => {
-      return item.category;
-    });
-  },
-  products: (state) => (index) => {
-    return state.holodos[index].products;
   },
 
   itemsOrder: (state) => {
@@ -33,14 +23,8 @@ export const getters = {
 };
 
 export const mutations = {
-  addCounter(state, item) {
-    ++state.counter;
-    ++state.holodos[item.category].products[item.index].counter;
-  },
-
-  delCounter(state, item) {
-    --state.counter;
-    --state.holodos[item.category].products[item.index].counter;
+  holodos(state, item) {
+    state.holodos.push(item);
   }
 };
 

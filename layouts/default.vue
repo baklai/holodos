@@ -6,14 +6,8 @@
 
 <script>
 export default {
-  data() {
-    return {};
-  },
   mounted() {
     window.Telegram.WebApp.expand();
-    window.Telegram.WebApp.BackButton.hide();
-    window.Telegram.WebApp.MainButton.hide();
-
     function setThemeClass() {
       document.documentElement.className = Telegram.WebApp.colorScheme;
     }

@@ -16,13 +16,7 @@
 
       <div class="holodos-item-photo" @click="onModal(item)">
         <picture class="holodos-item-lottie">
-          <img
-            :src="item.img"
-            :alt="item.title"
-            loading="lazy"
-            class="image_placeholder"
-            placeholder="../img/placeholder.png"
-          />
+          <img :src="item.img" loading="lazy" />
         </picture>
       </div>
       <div class="holodos-item-label">
@@ -33,13 +27,13 @@
       <div class="holodos-item-buttons">
         <button
           class="holodos-item-decr-button decr-btn button-item ripple-handler"
-          @click="delCounter(category, index)"
+          @click="delCounter(item)"
         >
           <span class="ripple-mask"><span class="ripple"></span></span>
         </button>
         <button
           class="holodos-item-incr-button button-item ripple-handler"
-          @click="addCounter(category, index)"
+          @click="addCounter(item)"
         >
           <span class="button-item-label"> ТАК </span>
           <span class="ripple-mask">
@@ -65,8 +59,14 @@ export default {
     const catalog = await $axios.$get(`catalog/${route.params.id}`);
     return { catalog };
   },
-  mounted() {
+  data() {
+    return {
+      counter: null
+    };
+  },
+  created() {
     window.Telegram.WebApp.BackButton.onClick(() => {
+      if (this.counter > 0) this.pushHolodos();
       this.$router.push('/catalog');
     });
 
@@ -77,22 +77,15 @@ export default {
     });
 
     window.Telegram.WebApp.MainButton.onClick(() => {
+      if (this.counter > 0) this.pushHolodos();
       this.$router.push('/order-list');
     });
 
     window.Telegram.WebApp.BackButton.show();
   },
-  computed: {
-    // category() {
-    //   return this.$route.params.id;
-    // },
-    // products() {
-    //   return this.$store.getters.products(this.$route.params.id);
-    // }
-  },
 
   watch: {
-    '$store.state.counter'(value) {
+    counter(value) {
       if (value > 0) {
         window.Telegram.WebApp.MainButton.show();
       } else {
@@ -102,12 +95,22 @@ export default {
   },
 
   methods: {
-    addCounter(category, index) {
-      this.$store.commit('addCounter', { category, index });
+    pushHolodos() {
+      const products = this.catalog.products.filter((item) => item.counter > 0);
+      this.$store.commit('holodos', {
+        category: this.catalog.category,
+        products: products
+      });
     },
 
-    delCounter(category, index) {
-      this.$store.commit('delCounter', { category, index });
+    addCounter(item) {
+      ++this.counter;
+      ++item.counter;
+    },
+
+    delCounter(item) {
+      --this.counter;
+      --item.counter;
     },
 
     onModal(item) {
@@ -118,9 +121,10 @@ export default {
 </script>
 
 <style scoped>
-.image_placeholder {
-  background: url('img/placeholder.png') no-repeat;
-  width: 200px;
-  height: 200px;
+img {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100px;
+  background-image: url('/img/placeholder.png');
 }
 </style>

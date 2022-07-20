@@ -1,5 +1,5 @@
 <template>
-  <section class="holodos-page holodos-order-overview" style="display: block">
+  <section class="holodos-page holodos-order-overview">
     <div class="holodos-block" style="margin-bottom: 14px">
       <div class="holodos-order-header-wrap">
         <img
@@ -130,6 +130,7 @@ export default {
 
     window.Telegram.WebApp.BackButton.show();
   },
+
   computed: {
     price() {
       let price = 0;
@@ -143,6 +144,7 @@ export default {
       });
       return price.toFixed(2);
     },
+
     holodos() {
       return this.$store.getters.holodos;
     }
@@ -154,3 +156,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+section {
+  display: block;
+}
+</style>
