@@ -174,6 +174,7 @@ bot.on('web_app_data', function (msg) {
 });
 
 app.post(`/bot${TELEGRAM_TOKEN}`, (req, res) => {
+  console.log(req.body);
   bot.processUpdate(req.body);
   res.sendStatus(200);
 });
