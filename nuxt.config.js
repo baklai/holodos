@@ -81,7 +81,12 @@ export default {
 
   css: ['~/assets/transition.css', '~/assets/holodos.css'],
 
-  modules: ['@nuxt/image'],
+  modules: ['@nuxtjs/axios', '@nuxt/image'],
+
+  axios: {
+    credentials: false,
+    baseURL: '/bot/v1'
+  },
 
   serverMiddleware: [
     {

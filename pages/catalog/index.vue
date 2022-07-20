@@ -3,11 +3,11 @@
     <div class="holodos-start-item">
       <nuxt-link
         class="button holodos-start-btn"
-        v-for="(item, index) in category"
-        :key="item"
-        :to="`/products/${index}`"
+        v-for="item in catalog"
+        :key="item.category"
+        :to="`/catalog/${item._id}`"
       >
-        {{ item }}
+        {{ item.category }}
       </nuxt-link>
     </div>
   </section>
@@ -15,16 +15,15 @@
 
 <script>
 export default {
+  async asyncData({ $axios }) {
+    const catalog = await $axios.$get('catalog');
+    return { catalog };
+  },
   mounted() {
     window.Telegram.WebApp.BackButton.onClick(() => {
       this.$router.push('/');
     });
     window.Telegram.WebApp.BackButton.show();
-  },
-  computed: {
-    category() {
-      return this.$store.getters.category;
-    }
   }
 };
 </script>

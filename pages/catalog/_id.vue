@@ -4,7 +4,7 @@
     <div
       class="holodos-item"
       :class="item.counter === 0 ? '' : 'selected'"
-      v-for="(item, index) in products"
+      v-for="(item, index) in catalog.products"
       :key="`product-${index}`"
     >
       <div
@@ -60,9 +60,13 @@
 
 <script>
 export default {
+  async asyncData({ $axios, route }) {
+    const catalog = await $axios.$get(`catalog/${route.params.id}`);
+    return { catalog };
+  },
   mounted() {
     window.Telegram.WebApp.BackButton.onClick(() => {
-      this.$router.push('/products');
+      this.$router.push('/catalog');
     });
 
     window.Telegram.WebApp.MainButton.setParams({
@@ -78,12 +82,12 @@ export default {
     window.Telegram.WebApp.BackButton.show();
   },
   computed: {
-    category() {
-      return this.$route.params.id;
-    },
-    products() {
-      return this.$store.getters.products(this.$route.params.id);
-    }
+    // category() {
+    //   return this.$route.params.id;
+    // },
+    // products() {
+    //   return this.$store.getters.products(this.$route.params.id);
+    // }
   },
 
   watch: {

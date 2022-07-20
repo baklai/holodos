@@ -9,7 +9,8 @@ const consola = require('consola');
 const express = require('express');
 const mongoose = require('mongoose');
 const TelegramBot = require('node-telegram-bot-api');
-const User = require('./models/user.model');
+const User = require('./services/user.service');
+const Catalog = require('./services/catalog.service');
 
 const { TELEGRAM_TOKEN, MONGO_URL, PROXY_SERVER, APP_URL } = process.env;
 
@@ -18,7 +19,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
-  .then((msg) => {
+  .then(() => {
     consola.info('Success MongoDB connected');
   })
   .catch((err) => {
@@ -69,78 +70,35 @@ bot
     process.exit(1);
   });
 
-bot.onText(/\/start/, function (msg) {
+bot.onText(/\/start/, async (msg) => {
   const { id } = msg.chat;
   const html = `<b>Вітання <i>${msg.from.first_name}</i></b>!\n\n<i>Я допоможу зробити процес походу в магазин простіше, швидше, і найголовніше, ефективніше.</i>\n\nВідкрий холодос, щоб почати 👇`;
 
-  User.findOneAndUpdate(
-    {
-      chat_id: msg.chat.id
-    },
-    {
-      $set: {
-        chat_id: msg.chat.id,
-        first_name: msg.chat.first_name,
-        last_name: msg.chat.last_name,
-        username: msg.chat.username
+  bot
+    .sendMessage(id, html, {
+      parse_mode: 'HTML',
+      reply_markup: {
+        keyboard: [
+          [
+            {
+              text: '🍎🍉🥑 Відкрити холодос 🍊🥩🍆',
+              web_app: { url: APP_URL }
+            }
+          ]
+        ],
+        resize_keyboard: true
       }
-    },
-    {
-      new: true,
-      upsert: true
-    },
-    (err, doc) => {
-      if (err) {
-        consola.error('Something wrong when updating data!');
-      }
-      bot
-        .sendMessage(id, html, {
-          parse_mode: 'HTML',
-          reply_markup: {
-            keyboard: [
-              [
-                {
-                  text: '🍎🍉🥑 Відкрити холодос 🍊🥩🍆',
-                  web_app: { url: APP_URL }
-                }
-              ]
-            ],
-            resize_keyboard: true
-          }
-        })
-        .catch((err) => {
-          consola.error(err.code);
-          consola.error(err.response.body);
-        });
-    }
-  );
+    })
+    .catch((err) => {
+      consola.error(err.code);
+      consola.error(err.response.body);
+    });
+
+  await User.createOne(msg.chat);
 });
 
-bot.on('web_app_data', function (msg) {
+bot.on('web_app_data', async (msg) => {
   const { products, price, comment } = JSON.parse(msg.web_app_data.data);
-
-  User.findOneAndUpdate(
-    {
-      chat_id: msg.chat.id
-    },
-    {
-      $set: {
-        chat_id: msg.chat.id,
-        first_name: msg.chat.first_name,
-        last_name: msg.chat.last_name,
-        username: msg.chat.username
-      }
-    },
-    {
-      new: true,
-      upsert: true
-    },
-    (err, doc) => {
-      if (err) {
-        consola.error('Something wrong when updating data!');
-      }
-    }
-  );
 
   if (products.length > 0) {
     let html = '🔖 <b>Ваш список продуктів:</b>\n\n';
@@ -171,12 +129,32 @@ bot.on('web_app_data', function (msg) {
       consola.error(err.response.body);
     });
   }
+
+  await User.createOne(msg.chat);
 });
 
 app.post(`/bot${TELEGRAM_TOKEN}`, (req, res) => {
-  console.log(req.body);
   bot.processUpdate(req.body);
   res.sendStatus(200);
+});
+
+app.get('/catalog', async (req, res, next) => {
+  try {
+    const items = await Catalog.allСatalog();
+    res.status(200).json(items);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/catalog/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const items = await Catalog.oneСatalog(id);
+    res.status(200).json(items);
+  } catch (err) {
+    next(err);
+  }
 });
 
 app.use((req, res, next) => {

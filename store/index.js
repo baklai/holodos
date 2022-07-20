@@ -1,7 +1,7 @@
-import holodos from '~/static/holodos.json';
+// import holodos from '~/static/holodos.json';
 
 export const state = () => ({
-  holodos: holodos,
+  holodos: [],
   counter: null,
   error: null
 });
