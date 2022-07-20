@@ -20,6 +20,7 @@
             :src="item.img"
             :alt="item.title"
             loading="lazy"
+            class="image_placeholder"
             placeholder="../img/placeholder.png"
           />
         </picture>
@@ -115,3 +116,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.image_placeholder {
+  background: url('img/placeholder.png') no-repeat;
+  width: 200px;
+  height: 200px;
+}
+</style>
