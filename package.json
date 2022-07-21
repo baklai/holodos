@@ -26,7 +26,8 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
-    "start": "nuxt start"
+    "start": "nuxt start",
+    "botstart": "nodemon ./server/index.js"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
@@ -39,6 +40,7 @@
     "nuxt": "^2.15.8"
   },
   "devDependencies": {
+    "nodemon": "^2.0.19",
     "prettier": "^2.4.1",
     "sass-loader": "^10.1.1",
     "webpack": "^4.46.0"

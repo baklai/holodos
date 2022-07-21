@@ -12,6 +12,16 @@ const TelegramBot = require('node-telegram-bot-api');
 const User = require('./services/user.service');
 const Catalog = require('./services/catalog.service');
 
+// const dotenv = require('dotenv');
+// const path = require('path');
+
+// dotenv.config({
+//   path:
+//     process.env.NODE_ENV === 'production'
+//       ? path.join(__dirname, '..', '.env.prod')
+//       : path.join(__dirname, '..', '.env.dev')
+// });
+
 const { TELEGRAM_TOKEN, MONGO_URL, PROXY_SERVER, APP_URL } = process.env;
 
 mongoose
