@@ -19,7 +19,9 @@ export default {
     const catalog = await $axios.$get('catalog');
     return { catalog };
   },
+
   mounted() {
+    window.Telegram.WebApp.MainButton.hide();
     window.Telegram.WebApp.BackButton.onClick(() => {
       this.$router.push('/');
     });

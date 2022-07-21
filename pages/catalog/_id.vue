@@ -64,45 +64,34 @@ export default {
       counter: null
     };
   },
-  created() {
+  mounted() {
     window.Telegram.WebApp.BackButton.onClick(() => {
-      if (this.counter > 0) this.pushHolodos();
       this.$router.push('/catalog');
     });
-
+    window.Telegram.WebApp.BackButton.show();
     window.Telegram.WebApp.MainButton.setParams({
-      text: 'Відкрити список',
+      text: 'Додати до списку',
       color: '#ffc107',
       textColor: '#fff'
     });
-
-    window.Telegram.WebApp.MainButton.onClick(() => {
-      if (this.counter > 0) this.pushHolodos();
-      this.$router.push('/order-list');
-    });
-
-    window.Telegram.WebApp.BackButton.show();
   },
 
   watch: {
     counter(value) {
       if (value > 0) {
         window.Telegram.WebApp.MainButton.show();
+        this.$store.commit('setCatalog', {
+          category: this.catalog.category,
+          products: this.catalog.products.filter((item) => item.counter > 0)
+        });
       } else {
         window.Telegram.WebApp.MainButton.hide();
+        this.$store.commit('setCatalog', null);
       }
     }
   },
 
   methods: {
-    pushHolodos() {
-      const products = this.catalog.products.filter((item) => item.counter > 0);
-      this.$store.commit('holodos', {
-        category: this.catalog.category,
-        products: products
-      });
-    },
-
     addCounter(item) {
       ++this.counter;
       ++item.counter;

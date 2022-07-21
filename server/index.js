@@ -73,7 +73,6 @@ bot
 bot.onText(/\/start/, async (msg) => {
   const { id } = msg.chat;
   const html = `<b>Вітання <i>${msg.from.first_name}</i></b>!\n\n<i>Я допоможу зробити процес походу в магазин простіше, швидше, і найголовніше, ефективніше.</i>\n\nВідкрий холодос, щоб почати 👇`;
-
   bot
     .sendMessage(id, html, {
       parse_mode: 'HTML',
@@ -98,37 +97,33 @@ bot.onText(/\/start/, async (msg) => {
 });
 
 bot.on('web_app_data', async (msg) => {
-  const { products, price, comment } = JSON.parse(msg.web_app_data.data);
-
-  if (products.length > 0) {
-    let html = '🔖 <b>Ваш список продуктів:</b>\n\n';
-    products.forEach((el, index) => {
-      html += `<b>${index + 1}</b>. ${el.title} (${el.counter}x) - <i>${
-        el.price
-      } ${el.priceTitle}</i>\n`;
+  const { holodos, price, comment } = JSON.parse(msg.web_app_data.data);
+  let html = '';
+  if (holodos.length > 0) {
+    html = '🔖 <b>Ваш список продуктів:</b>\n';
+    holodos.forEach((item) => {
+      html += `\n<b>${item.category}</b>\n`;
+      item.products.forEach((el, index) => {
+        html += `   <b>${index + 1}</b>. ${el.title} (${el.counter}x) - <i>${
+          el.price
+        } ${el.priceTitle}</i>\n`;
+      });
     });
-
     price ? (html += `\n<b>ВСЬОГО:</b> ₴${price}`) : (html += '');
-
     comment
       ? (html += `\n<b>Ваш коментар:</b> <i>${comment}</i>`)
       : (html += '');
-
-    bot
-      .sendMessage(msg.chat.id, html, {
-        parse_mode: 'HTML'
-      })
-      .catch((err) => {
-        consola.error(err.code);
-        consola.error(err.response.body);
-      });
   } else {
-    let html = '🗣 <b>Ваш список продуктів порожній!</b>';
-    bot.sendMessage(msg.chat.id, html, { parse_mode: 'HTML' }).catch((err) => {
+    html = '🗣 <b>Ваш список продуктів порожній!</b>';
+  }
+  bot
+    .sendMessage(msg.chat.id, html, {
+      parse_mode: 'HTML'
+    })
+    .catch((err) => {
       consola.error(err.code);
       consola.error(err.response.body);
     });
-  }
 
   await User.createOne(msg.chat);
 });

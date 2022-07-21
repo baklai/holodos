@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  scrollToTop: true,
   mounted() {
     window.Telegram.WebApp.expand();
     function setThemeClass() {
@@ -13,6 +14,15 @@ export default {
     }
     Telegram.WebApp.onEvent('themeChanged', setThemeClass);
     setThemeClass();
+
+    window.Telegram.WebApp.MainButton.onClick(() => {
+      if (window.Telegram.WebApp.MainButton.text === 'Додати до списку') {
+        this.$store.commit('pushHolodos', this.$store.getters.catalog);
+        this.$router.push('/order-list');
+      } else {
+        window.Telegram.WebApp.MainButton.hide();
+      }
+    });
   }
 };
 </script>

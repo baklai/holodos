@@ -25,7 +25,7 @@
         <h2 class="holodos-order-header">Ваш список</h2>
         <nuxt-link
           class="button holodos-order-edit"
-          to="/products"
+          to="/catalog"
           title="Редагувати список"
           style="cursor: pointer; font-size: 16px"
         >
@@ -34,12 +34,15 @@
       </div>
 
       <div class="holodos-order-items">
-        <div v-for="category in holodos" :key="`order-${category.category}`">
+        <div
+          v-for="(category, i) in holodos"
+          :key="`order-${i}-${category.category}`"
+        >
           <template v-for="(item, index) in category.products">
             <div
               v-if="item.counter > 0"
               class="holodos-order-item selected"
-              :key="`order-${item.category}-${index}`"
+              :key="`order-${i}-${item.category}-${index}`"
             >
               <div class="holodos-order-item-photo">
                 <picture class="holodos-item-lottie">
@@ -106,52 +109,41 @@ export default {
     });
 
     window.Telegram.WebApp.MainButton.onClick(() => {
-      const products = [];
-      this.holodos.forEach((el) => {
-        const result = el.products.filter((item) => item.counter > 0);
-        if (result.length > 0) {
-          result.forEach((val) => {
-            products.push({
-              title: val.title,
-              counter: val.counter,
-              price: val.price,
-              priceTitle: val.priceTitle
-            });
-          });
-        }
-      });
-      const resList = {
-        products: products,
-        comment: this.comment,
-        price: this.price
-      };
-      window.Telegram.WebApp.sendData(JSON.stringify(resList));
+      if (window.Telegram.WebApp.MainButton.text === 'Надіслати список') {
+        window.Telegram.WebApp.sendData(
+          JSON.stringify({
+            holodos: this.$store.getters.data,
+            price: this.price,
+            comment: this.getComment()
+          })
+        );
+      }
+    });
+
+    window.Telegram.WebApp.BackButton.onClick(() => {
+      this.$router.push('/catalog');
     });
 
     window.Telegram.WebApp.BackButton.show();
   },
 
   computed: {
-    price() {
-      let price = 0;
-      this.$store.getters.holodos.forEach((el) => {
-        const result = el.products.filter((item) => item.counter > 0);
-        if (result.length > 0) {
-          result.forEach((val) => {
-            price += val.counter * val.price;
-          });
-        }
-      });
-      return price.toFixed(2);
-    },
-
     holodos() {
       return this.$store.getters.holodos;
+    },
+
+    price() {
+      return this.$store.getters.price;
     }
   },
+
   methods: {
     getRndInteger(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+
+    getComment() {
+      return this.comment;
     }
   }
 };

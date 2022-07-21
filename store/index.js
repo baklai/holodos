@@ -1,5 +1,6 @@
 export const state = () => ({
-  holodos: []
+  holodos: [],
+  catalog: null
 });
 
 export const getters = {
@@ -7,24 +8,49 @@ export const getters = {
     return state.holodos;
   },
 
-  itemsOrder: (state) => {
-    let dd = [];
-    state.holodos.forEach((el) => {
-      const products = el.products.filter((item) => item.counter > 0);
-      if (products.length > 0) {
-        dd.push({
-          category: el.category,
-          products: products
+  data: (state) => {
+    const holodos = [];
+    state.holodos.forEach((item) => {
+      let products = [];
+      item.products.forEach((val) => {
+        products.push({
+          title: val.title,
+          price: val.price,
+          priceTitle: val.priceTitle,
+          counter: val.counter
         });
-      }
+      });
+
+      holodos.push({
+        category: item.category,
+        products: products
+      });
     });
-    return dd;
+    return holodos;
+  },
+
+  catalog: (state) => {
+    return state.catalog;
+  },
+
+  price: (state) => {
+    let price = 0;
+    state.holodos.forEach((item) => {
+      item.products.forEach((val) => {
+        price += val.counter * val.price;
+      });
+    });
+    return price.toFixed(2);
   }
 };
 
 export const mutations = {
-  holodos(state, item) {
+  pushHolodos(state, item) {
     state.holodos.push(item);
+  },
+
+  setCatalog(state, item) {
+    state.catalog = item;
   }
 };
 
