@@ -1,32 +1,19 @@
 export const state = () => ({
-  holodos: [],
-  catalog: null
+  products: []
 });
 
 export const getters = {
-  holodos: (state) => {
-    return state.holodos;
-  },
-
-  data: (state) => {
-    const holodos = [];
-    state.holodos.forEach((item) => {
-      let products = [];
-      item.products.forEach((val) => {
-        products.push({
-          title: val.title,
-          price: val.pricePer,
-          priceTitle: val.priceTitle,
-          orderedQuantity: val.orderedQuantity
-        });
-      });
-
-      holodos.push({
-        category: item.title,
-        products: products
+  order: (state) => {
+    const order = [];
+    state.products.forEach((item) => {
+      order.push({
+        title: item.title,
+        pricePer: item.pricePer,
+        priceTitle: item.priceTitle,
+        count: item.count
       });
     });
-    return holodos;
+    return order;
   },
 
   catalog: (state) => {
@@ -35,10 +22,8 @@ export const getters = {
 
   price: (state) => {
     let price = 0;
-    state.holodos.forEach((item) => {
-      item.products.forEach((val) => {
-        price += val.orderedQuantity * val.pricePer;
-      });
+    state.products.forEach((item) => {
+      price += item.count * item.pricePer;
     });
     return price.toFixed(2);
   }
@@ -51,6 +36,15 @@ export const mutations = {
 
   setCategory(state, item) {
     state.catalog = item;
+  },
+
+  updateItem(state, item) {
+    if (item.count === 0) {
+      ///delete item from products
+    } else {
+      // find item in array and replace value
+    }
+    state.products.includes(state.products.find((el) => el._id === item._id));
   }
 };
 

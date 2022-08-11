@@ -38,7 +38,7 @@ const productSchema = new Schema(
   }
 );
 
-productSchema.virtual('orderedQuantity').get(function () {
+productSchema.virtual('count').get(function () {
   return 0;
 });
 
