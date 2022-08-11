@@ -3,44 +3,44 @@
     <Modal ref="modal" />
     <div
       class="holodos-item"
-      :class="item.counter === 0 ? '' : 'selected'"
-      v-for="(item, index) in catalog.products"
+      :class="item.orderedQuantity === 0 ? '' : 'selected'"
+      v-for="(item, index) in products"
       :key="`product-${index}`"
     >
       <div
         class="holodos-item-counter"
-        :style="item.counter === 0 ? '' : 'animation-name: badge-incr'"
+        :style="item.orderedQuantity === 0 ? '' : 'animation-name: badge-incr'"
       >
-        {{ item.counter }}
+        {{ item.orderedQuantity }}
       </div>
 
       <div class="holodos-item-photo" @click="onModal(item)">
         <picture class="holodos-item-lottie">
-          <img :src="item.img" loading="lazy" />
+          <img :src="item.img | toBase64Img" />
         </picture>
       </div>
       <div class="holodos-item-label">
         <span class="holodos-item-price">
-          {{ item.price }} {{ item.priceTitle }}
+          {{ item.pricePer }} {{ item.priceTitle }}
         </span>
       </div>
       <div class="holodos-item-buttons">
         <button
           class="holodos-item-decr-button decr-btn button-item ripple-handler"
-          @click="delCounter(item)"
+          @click="delOrderedQuantity(item)"
         >
           <span class="ripple-mask"><span class="ripple"></span></span>
         </button>
         <button
           class="holodos-item-incr-button button-item ripple-handler"
-          @click="addCounter(item)"
+          @click="addOrderedQuantity(item)"
         >
           <span class="button-item-label"> ТАК </span>
           <span class="ripple-mask">
             <span
               class="ripple"
               :style="
-                item.counter === 0
+                item.orderedQuantity === 0
                   ? ''
                   : 'transform: translate3d(4.34375px, -4px, 0px) scale3d(1, 1, 1); opacity: 0; transition-duration: var(--ripple-end-duration, 0.2s);'
               "
@@ -56,20 +56,21 @@
 <script>
 export default {
   async asyncData({ $axios, route }) {
-    const catalog = await $axios.$get(`catalog/${route.params.id}`);
-    return { catalog };
+    const products = await $axios.$get(`category/${route.params.id}`);
+    return { products };
   },
   data() {
     return {
-      counter: null
+      orderedQuantity: null
     };
   },
   mounted() {
-    window.Telegram.WebApp.BackButton.onClick(() => {
-      this.$router.push('/catalog');
+    Telegram.WebApp.BackButton.show();
+    Telegram.WebApp.BackButton.onClick(() => {
+      this.$router.push('/category');
     });
-    window.Telegram.WebApp.BackButton.show();
-    window.Telegram.WebApp.MainButton.setParams({
+
+    Telegram.WebApp.MainButton.setParams({
       text: 'Додати до списку',
       color: '#ffc107',
       textColor: '#fff'
@@ -77,29 +78,35 @@ export default {
   },
 
   watch: {
-    counter(value) {
+    orderedQuantity(value) {
       if (value > 0) {
-        window.Telegram.WebApp.MainButton.show();
-        this.$store.commit('setCatalog', {
-          category: this.catalog.category,
-          products: this.catalog.products.filter((item) => item.counter > 0)
+        Telegram.WebApp.MainButton.show();
+        this.$store.commit('setCategory', {
+          category: 'this.category.category',
+          products: this.products.filter((item) => item.orderedQuantity > 0)
         });
       } else {
-        window.Telegram.WebApp.MainButton.hide();
-        this.$store.commit('setCatalog', null);
+        Telegram.WebApp.MainButton.hide();
+        this.$store.commit('setCategory', null);
       }
     }
   },
 
+  filters: {
+    toBase64Img(img) {
+      return `data:image/webp;base64,${Buffer.from(img).toString('base64')}`;
+    }
+  },
+
   methods: {
-    addCounter(item) {
-      ++this.counter;
-      ++item.counter;
+    addOrderedQuantity(item) {
+      ++this.orderedQuantity;
+      ++item.orderedQuantity;
     },
 
-    delCounter(item) {
-      --this.counter;
-      --item.counter;
+    delOrderedQuantity(item) {
+      --this.orderedQuantity;
+      --item.orderedQuantity;
     },
 
     onModal(item) {
@@ -108,12 +115,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-img {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100px;
-  background-image: url('/img/placeholder.png');
-}
-</style>

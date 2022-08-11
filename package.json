@@ -24,20 +24,20 @@
   ],
   "license": "MIT",
   "scripts": {
+    "bot": "nodemon holodos.js",
     "dev": "nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
-    "botstart": "nodemon ./server/index.js"
+    "start": "nuxt start"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
-    "consola": "^2.15.3",
     "core-js": "^3.18.2",
     "dotenv": "^10.0.0",
     "express": "^4.18.1",
     "mongoose": "^6.4.5",
     "node-telegram-bot-api": "^0.58.0",
-    "nuxt": "^2.15.8"
+    "nuxt": "^2.15.8",
+    "sharp": "^0.30.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.19",

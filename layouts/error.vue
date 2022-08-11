@@ -3,18 +3,14 @@
     <div class="holodos-start-item">
       <img
         :src="
-          error.statusCode === 404 ? '/img/404-error.png' : '/img/500-error.png'
+          error.statusCode === 404
+            ? '/img/404-error.webp'
+            : '/img/500-error.webp'
         "
         alt="Помилка"
         width="280"
       />
-      <h1>
-        {{
-          error.statusCode === 404
-            ? 'Ой! Цю сторінку неможливо знайти.'
-            : 'Ой! Внутрішня помилка сервера.'
-        }}
-      </h1>
+      <h1>Упс! Щось пішло не так.</h1>
     </div>
   </section>
 </template>
@@ -29,11 +25,11 @@ export default {
     }
   },
   mounted() {
-    window.Telegram.WebApp.BackButton.onClick(() => {
+    Telegram.WebApp.BackButton.onClick(() => {
       this.$router.push('/');
     });
-    window.Telegram.WebApp.BackButton.show();
-    window.Telegram.WebApp.MainButton.hide();
+    Telegram.WebApp.BackButton.show();
+    Telegram.WebApp.MainButton.hide();
   }
 };
 </script>

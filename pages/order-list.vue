@@ -40,13 +40,13 @@
         >
           <template v-for="(item, index) in category.products">
             <div
-              v-if="item.counter > 0"
+              v-if="item.orderedQuantity > 0"
               class="holodos-order-item selected"
               :key="`order-${i}-${item.category}-${index}`"
             >
               <div class="holodos-order-item-photo">
                 <picture class="holodos-item-lottie">
-                  <img :src="item.img" :alt="item.title" />
+                  <img :src="item.img | toBase64Img" :alt="item.title" />
                 </picture>
               </div>
               <div class="holodos-order-item-label">
@@ -55,7 +55,7 @@
                 >
                   {{ item.title }}
                   <span class="holodos-order-item-counter">
-                    {{ item.counter }}x
+                    {{ item.orderedQuantity }}x
                   </span>
                 </div>
                 <div class="holodos-order-item-description">
@@ -63,7 +63,7 @@
                 </div>
               </div>
               <div class="holodos-order-item-price" style="font-size: small">
-                {{ item.price }} {{ item.priceTitle }}
+                {{ item.pricePer }} {{ item.priceTitle }}
               </div>
             </div>
           </template>
@@ -102,15 +102,17 @@ export default {
     };
   },
   mounted() {
-    window.Telegram.WebApp.MainButton.setParams({
+    this.$store.getters.tg.WebApp.MainButton.setParams({
       text: 'Надіслати список',
       color: '#008000',
       textColor: '#fff'
     });
 
-    window.Telegram.WebApp.MainButton.onClick(() => {
-      if (window.Telegram.WebApp.MainButton.text === 'Надіслати список') {
-        window.Telegram.WebApp.sendData(
+    this.$store.getters.tg.WebApp.MainButton.onClick(() => {
+      if (
+        this.$store.getters.tg.WebApp.MainButton.text === 'Надіслати список'
+      ) {
+        this.$store.getters.tg.WebApp.sendData(
           JSON.stringify({
             holodos: this.$store.getters.data,
             price: this.price,
@@ -120,11 +122,17 @@ export default {
       }
     });
 
-    window.Telegram.WebApp.BackButton.onClick(() => {
+    this.$store.getters.tg.WebApp.BackButton.onClick(() => {
       this.$router.push('/catalog');
     });
 
-    window.Telegram.WebApp.BackButton.show();
+    this.$store.getters.tg.WebApp.BackButton.show();
+  },
+
+  filters: {
+    toBase64Img(img) {
+      return `data:image/webp;base64,${Buffer.from(img).toString('base64')}`;
+    }
   },
 
   computed: {

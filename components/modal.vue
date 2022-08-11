@@ -2,15 +2,10 @@
   <div class="holodos-modal" v-if="modal" @click="modal = false">
     <div class="holodos-modal-content">
       <div class="holodos-modal-card">
-        <img
-          :src="item.img"
-          :alt="item.title"
-          loading="lazy"
-          placeholder="/img/placeholder.png"
-        />
+        <img :src="item.img | toBase64Img" :alt="item.title" loading="lazy" />
         <div class="holodos-modal-container">
           <h3>{{ item.title }}</h3>
-          <p>{{ item.price }} {{ item.priceTitle }}</p>
+          <p>{{ item.pricePer }} {{ item.priceTitle }}</p>
         </div>
       </div>
     </div>
@@ -24,6 +19,11 @@ export default {
       modal: false,
       item: null
     };
+  },
+  filters: {
+    toBase64Img(img) {
+      return `data:image/webp;base64,${Buffer.from(img).toString('base64')}`;
+    }
   },
   methods: {
     onModal(item) {
@@ -53,9 +53,11 @@ export default {
   animation-duration: 0.6s;
   margin: auto;
   padding: 10px;
-  border: 1px solid #888;
+  /* color: #ffffff; */
+  /* border: 1px solid #888; */
   max-width: 280px;
   border-radius: 15px;
+  /* background-color: #f8a917; */
 }
 
 .holodos-modal-card {

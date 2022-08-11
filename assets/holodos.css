@@ -59,9 +59,9 @@ body {
   padding: 0;
   width: 1px;
   min-width: 100%;
-  --default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol';
+  --default-font: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+    segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial,
+    sans-serif;
   --block-bg-color: var(--tg-theme-bg-color);
   --bg-color: var(--tg-theme-secondary-bg-color, #ebedf0);
   --animation: 0.15s ease;

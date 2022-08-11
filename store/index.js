@@ -15,14 +15,14 @@ export const getters = {
       item.products.forEach((val) => {
         products.push({
           title: val.title,
-          price: val.price,
+          price: val.pricePer,
           priceTitle: val.priceTitle,
-          counter: val.counter
+          orderedQuantity: val.orderedQuantity
         });
       });
 
       holodos.push({
-        category: item.category,
+        category: item.title,
         products: products
       });
     });
@@ -37,7 +37,7 @@ export const getters = {
     let price = 0;
     state.holodos.forEach((item) => {
       item.products.forEach((val) => {
-        price += val.counter * val.price;
+        price += val.orderedQuantity * val.pricePer;
       });
     });
     return price.toFixed(2);
@@ -49,7 +49,7 @@ export const mutations = {
     state.holodos.push(item);
   },
 
-  setCatalog(state, item) {
+  setCategory(state, item) {
     state.catalog = item;
   }
 };

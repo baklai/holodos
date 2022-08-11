@@ -60,7 +60,7 @@ export default {
         hid: 'description',
         name: 'description',
         content:
-          'Холодос – це бот-додаток, що робить процес походу в магазин простіше, швидше, і що найголовніше, ефективніше.'
+          'Холодос - це бот-додаток, що робить процес походу до магазину простіше, швидше, і найголовніше, ефективніше.'
       },
       { name: 'robots', content: 'noindex, nofollow' },
       { name: 'google', content: 'notranslate' }

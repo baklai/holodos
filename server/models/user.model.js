@@ -2,26 +2,25 @@ const { model, Schema } = require('mongoose');
 
 const userSchema = new Schema(
   {
-    chat_id: {
+    userID: {
       type: String,
-      trim: true,
-      unique: true,
-      required: 'Chat ID must is required'
+      unique: 'ID користувача має бути унікальним',
+      required: "ID користувача має бути обов'язково"
     },
-    first_name: {
+    firstName: {
       type: String,
       trim: true,
-      default: ''
+      default: null
     },
-    last_name: {
+    lastName: {
       type: String,
       trim: true,
-      default: ''
+      default: null
     },
-    username: {
+    userName: {
       type: String,
       trim: true,
-      default: ''
+      default: null
     }
   },
   {

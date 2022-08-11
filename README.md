@@ -1,10 +1,10 @@
 # holodos
 
-Холодос - це бот-додаток, що робить процес походу в магазин
+Холодос - це бот-додаток, що робить процес походу до магазину
 простіше, швидше, і найголовніше, ефективніше. Завдяки боту Ви зможете
 швидко створювати та керувати списками покупок, робити їх доступними
 знайомим. Всі зміни зберігаються в чаті, і у Вас у будь-який час є до них
-доступ як із телефону, так і через веб-сайт.
+доступ як із телефону, із додатку, так і через веб-сайт.
 
 <img width="1280" src="/static/social-preview.png">
 
@@ -19,16 +19,22 @@ npm i
 ## Project .env
 
 ```
-APP_URL        : Web app site address
-MONGO_URL      : Mongo DB url
-TELEGRAM_TOKEN : Bot token in telegram
-PROXY_SERVER   : Proxy server if needed
+TOKEN   : Telegram bot token
+PROXY   : Proxy server if needed
+MONGO   : URL MongoDB server
+WEB_APP : Web application address
 ```
 
 ### Development
 
 ```
 npm run dev
+```
+
+### Build
+
+```
+npm run build
 ```
 
 ### Production

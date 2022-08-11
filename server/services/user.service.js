@@ -1,20 +1,20 @@
 const User = require('../models/user.model');
 
 const findAll = async () => {
-  return User.find({});
+  return await User.find({});
 };
 
-const createOne = async (data) => {
-  return User.findOneAndUpdate(
+const createOne = async (item) => {
+  return await User.findOneAndUpdate(
     {
-      chat_id: data.id
+      userID: item.id
     },
     {
       $set: {
-        chat_id: data.id,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        username: data.username
+        userID: item.id,
+        firstName: item.first_name,
+        lastName: item.last_name,
+        userName: item.username
       }
     },
     { new: true, upsert: true }
