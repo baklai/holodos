@@ -33,7 +33,6 @@ commands = {
     description: 'Операційні команди',
     commands: [
       { command: 'cancel', description: 'скасувати операцію' },
-      // { command: 'update', description: 'оновити перелік товарів' },
       { command: 'statistic', description: 'показати статистику' }
     ]
   }
