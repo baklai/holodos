@@ -251,8 +251,6 @@ class API extends Action {
     }
   }
 
-  // ОСТАНОВИЛСЯ ТУТ
-
   async getProducts(msg) {
     const { id } = msg.chat;
     let message = '💢 <b>Упс!</b> Щось пішло не так!';
@@ -277,7 +275,6 @@ class API extends Action {
     }
   }
 
-  // вернуться как появятся товары
   async ['products-in-category'](query) {
     const { message_id } = query.message || {};
     const { id } = query.message?.chat || {};
