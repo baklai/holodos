@@ -126,7 +126,7 @@ bot.on('message', async (msg) => {
         parse_mode: 'HTML'
       });
     }
-  } else if (!isBot) {
+  } else if (!isBot && !msg.web_app_data) {
     bot.sendMessage(
       id,
       '✌️ Дуже цікаво, але я поки що не вмію вести розмову!',
@@ -158,18 +158,18 @@ bot.on('callback_query', async (query) => {
 
 bot.on('web_app_data', async (msg) => {
   const { id } = msg.chat;
-  const { holodos, price, comment } = JSON.parse(msg.web_app_data.data);
+  const { order, price, comment } = JSON.parse(msg.web_app_data.data);
   let message = '';
-  if (holodos.length > 0) {
+  if (order) {
     message = '🔖 <b>Ваш список товарів:</b>\n';
-    holodos.forEach((item) => {
-      message += `\n<b>${item.category}</b>\n`;
-      item.products.forEach((el, index) => {
-        message += `   <b>${index + 1}</b>. ${el.title} (${
-          el.orderedQuantity
-        }x) - <i>${el.price} ${el.priceTitle}</i>\n`;
+    for (const key in order) {
+      message += `\n<b>${key}</b>\n`;
+      order[key].forEach((item, index) => {
+        message += `   <b>${index + 1}</b>. ${item.title} (<b>${
+          item.count
+        }x</b>) - <i>${item.pricePer} ${item.priceTitle}</i>\n`;
       });
-    });
+    }
     price ? (message += `\n<b>ВСЬОГО:</b> ₴${price}`) : (message += '');
     comment
       ? (message += `\n<b>Ваш коментар:</b> <i>${comment}</i>`)

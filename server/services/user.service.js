@@ -1,7 +1,7 @@
 const User = require('../models/user.model');
 
 const findAll = async () => {
-  return await User.find({});
+  return await User.find({}, 'userID firstName lastName userName');
 };
 
 const createOne = async (item) => {

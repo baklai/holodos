@@ -2,7 +2,7 @@ const Category = require('../models/category.model');
 const Product = require('../models/product.model');
 
 const findAll = async () => {
-  return await Category.find({});
+  return await Category.find({}, 'title');
 };
 
 const findOne = async (id) => {

@@ -2,11 +2,7 @@
   <section class="holodos-page holodos-order-overview">
     <div class="holodos-block" style="margin-bottom: 14px">
       <div class="holodos-order-header-wrap">
-        <img
-          src="img/logo-app.png"
-          alt=""
-          style="width: 60px; margin-right: 20px"
-        />
+        <img src="img/logo-app.webp" style="width: 60px; margin-right: 20px" />
         <div class="holodos-order-item-label">
           <div class="holodos-order-item-title">
             СПИСОК #{{ getRndInteger(1000000, 9999999) }}
@@ -25,45 +21,42 @@
         <h2 class="holodos-order-header">Ваш список</h2>
         <nuxt-link
           class="button holodos-order-edit"
-          to="/catalog"
+          to="/category"
           title="Редагувати список"
-          style="cursor: pointer; font-size: 16px"
+          style="cursor: pointer; font-size: 16px; color: var(--main-color)"
         >
           ...
         </nuxt-link>
       </div>
 
       <div class="holodos-order-items">
-        <div
-          v-for="(category, i) in holodos"
-          :key="`order-${i}-${category.category}`"
-        >
-          <template v-for="(item, index) in category.products">
+        <div v-for="(item, name) in products" :key="`order-${name}`">
+          <template v-for="(product, index) in item">
             <div
-              v-if="item.orderedQuantity > 0"
+              v-if="product.count > 0"
               class="holodos-order-item selected"
-              :key="`order-${i}-${item.category}-${index}`"
+              :key="`order-${product.category}-${index}`"
             >
               <div class="holodos-order-item-photo">
                 <picture class="holodos-item-lottie">
-                  <img :src="item.img | toBase64Img" :alt="item.title" />
+                  <img :src="product.img | toBase64Img" :alt="product.title" />
                 </picture>
               </div>
               <div class="holodos-order-item-label">
                 <div
                   class="holodos-order-item-title holodos-order-item-title-small"
                 >
-                  {{ item.title }}
+                  {{ product.title }}
                   <span class="holodos-order-item-counter">
-                    {{ item.orderedQuantity }}x
+                    {{ product.count }}x
                   </span>
                 </div>
                 <div class="holodos-order-item-description">
-                  {{ category.category }}
+                  {{ name }}
                 </div>
               </div>
               <div class="holodos-order-item-price" style="font-size: small">
-                {{ item.pricePer }} {{ item.priceTitle }}
+                {{ product.pricePer }} {{ product.priceTitle }}
               </div>
             </div>
           </template>
@@ -96,25 +89,27 @@
 
 <script>
 export default {
+  async asyncData({ store }) {
+    const products = store.getters.products;
+    return { products };
+  },
   data() {
     return {
       comment: null
     };
   },
   mounted() {
-    this.$store.getters.tg.WebApp.MainButton.setParams({
+    Telegram.WebApp.MainButton.setParams({
       text: 'Надіслати список',
       color: '#008000',
       textColor: '#fff'
     });
 
-    this.$store.getters.tg.WebApp.MainButton.onClick(() => {
-      if (
-        this.$store.getters.tg.WebApp.MainButton.text === 'Надіслати список'
-      ) {
-        this.$store.getters.tg.WebApp.sendData(
+    Telegram.WebApp.MainButton.onClick(() => {
+      if (Telegram.WebApp.MainButton.text === 'Надіслати список') {
+        Telegram.WebApp.sendData(
           JSON.stringify({
-            holodos: this.$store.getters.data,
+            order: this.$store.getters.order,
             price: this.price,
             comment: this.getComment()
           })
@@ -122,11 +117,11 @@ export default {
       }
     });
 
-    this.$store.getters.tg.WebApp.BackButton.onClick(() => {
-      this.$router.push('/catalog');
+    Telegram.WebApp.BackButton.onClick(() => {
+      this.$router.push('/category');
     });
 
-    this.$store.getters.tg.WebApp.BackButton.show();
+    Telegram.WebApp.BackButton.show();
   },
 
   filters: {
@@ -136,10 +131,6 @@ export default {
   },
 
   computed: {
-    holodos() {
-      return this.$store.getters.holodos;
-    },
-
     price() {
       return this.$store.getters.price;
     }

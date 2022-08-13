@@ -4,7 +4,7 @@
       class="button holodos-start-btn"
       v-for="category in categories"
       :key="category.title"
-      :to="`/category/${category._id}`"
+      :to="`/category/${category.id}`"
     >
       {{ category.title }}
     </nuxt-link>

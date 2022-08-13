@@ -5,6 +5,8 @@ const sharp = require('sharp');
 
 const { MONGO, TOKEN } = process.env;
 
+mongoose.plugin(require('./plugins/mongoose'));
+
 mongoose
   .connect(MONGO, {
     useNewUrlParser: true,
@@ -46,7 +48,7 @@ app.post('/category', async (req, res, next) => {
         title: item.title,
         pricePer: item.pricePer,
         priceTitle: item.priceTitle,
-        category: category._id
+        category: category.id
       };
       await Product.createOne({ ...product });
     });

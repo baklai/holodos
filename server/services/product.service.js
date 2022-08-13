@@ -1,7 +1,10 @@
 const Product = require('../models/product.model');
 
 const findAll = async (categoryID) => {
-  return await Product.find({ category: categoryID });
+  return await Product.find(
+    { category: categoryID },
+    'img title pricePer priceTitle'
+  ).populate('category', 'title');
 };
 
 const findOne = async (id) => {

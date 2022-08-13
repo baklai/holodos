@@ -14,14 +14,6 @@ export default {
     }
     Telegram.WebApp.onEvent('themeChanged', setThemeClass);
     setThemeClass();
-    Telegram.WebApp.MainButton.onClick(() => {
-      if (Telegram.WebApp.MainButton.text === 'Добавить в список') {
-        this.$store.commit('pushHolodos', this.$store.getters.catalog);
-        this.$router.push('/order-list');
-      } else {
-        Telegram.WebApp.MainButton.hide();
-      }
-    });
   }
 };
 </script>

@@ -115,7 +115,7 @@ class API extends Action {
         message = `👌 Добре, давайте змінимо <b><i>категорію товарів</i></b>.\n\n<i>⁉️ Яку категорію товарів хочемо змінити?</i>\n\n👉 Будь ласка, виберіть зі списку <b><i>категорію товарів</i></b> або натисніть /cancel, щоб скасувати поточну операцію:`;
         reply_markup = {
           inline_keyboard: category.map((item) => [
-            { text: item.title, callback_data: item._id }
+            { text: item.title, callback_data: item.id }
           ])
         };
       } else {
@@ -136,7 +136,7 @@ class API extends Action {
     let message = '💢 <b>Упс!</b> Щось пішло не так!';
     try {
       const category = await Category.findOne(query.data);
-      action.obj._id = category._id;
+      action.obj.id = category.id;
       action.obj.title = category.title;
       message = `👌 Добре, вибрано категорію товарів "<b><i>${category.title}</i></b>".\n\n⁉️ Яку нову назву для категорії товарів ми хочемо поставити?\n\nВведіть нову назву для категорії товарів "<b><i>${category.title}</i></b>" або натисніть /cancel, щоб скасувати поточну операцію:`;
       this.setActionType(id, 'input-edit-category-title');
@@ -159,7 +159,7 @@ class API extends Action {
       const action = this.getAction(id);
       message = `👌 Добре, категорія товарів "<i>${action.obj.category}</i>" успішно оновлена на "<b>${msg.text}</b>".`;
       action.obj.title = msg.text;
-      await Category.updateOne(action.obj._id, {
+      await Category.updateOne(action.obj.id, {
         ...action.obj
       });
     } catch (err) {
@@ -181,7 +181,7 @@ class API extends Action {
         message = `👌 Добре, давайте видалимо <b><i>категорію товарів</i></b>.\n\n<i>⁉️ Яку категорію товарів хочемо видалити?</i>\n\n👉 Будь ласка, виберіть зі списку <b><i>категорію товарів</i></b> або натисніть /cancel, щоб скасувати поточну операцію:`;
         reply_markup = {
           inline_keyboard: category.map((item) => [
-            { text: item.title, callback_data: item._id }
+            { text: item.title, callback_data: item.id }
           ])
         };
       } else {
@@ -203,7 +203,7 @@ class API extends Action {
     try {
       const category = await Category.findOne(query.data);
       message = `👌 Добре, вибрано категорію товарів "<b><i>${category.title}</i></b>".\n\n<i>Ви дійсно хочете видалити її?</i>\n\n‼️ Зверніть увагу, що при видаленні категорії товарів будуть видалені всі товари цієї категорії!`;
-      action.obj._id = category._id;
+      action.obj.id = category.id;
       action.obj.title = category.title;
       this.setActionType(id, 'query-delete-category');
       reply_markup = {
@@ -234,7 +234,7 @@ class API extends Action {
     let message = '💢 <b>Упс!</b> Щось пішло не так!';
     try {
       if (query.data === 'delete') {
-        await Category.removeOne(action.obj._id);
+        await Category.removeOne(action.obj.id);
         message = `👌 Добре, категорія товарів "<i>${action.obj.title}</i>" була успішно <b>видалена</b>.`;
       } else if (query.data === 'cancel') {
         message = `👌 Добре, команда була скасована.\n\n<i>Що я ще можу зробити для вас? Надішліть /help для отримання списку команд.</i>`;
@@ -264,7 +264,7 @@ class API extends Action {
         message = `👌 Добре, давайте подивимося <b><i>список товарів</i></b>.\n\n<i>⁉️ З якої категорії товарів ми хочемо переглянути список товарів?</i>\n\n👉 Будь ласка, виберіть зі списку <b><i>категорію товарів</i></b> або натисніть /cancel, щоб скасувати поточну операцію:`;
         reply_markup = {
           inline_keyboard: category.map((item) => [
-            { text: item.title, callback_data: item._id }
+            { text: item.title, callback_data: item.id }
           ])
         };
       } else {
@@ -317,7 +317,7 @@ class API extends Action {
         message = `👌 Добре, давайте додамо <b><i>новий товар</i></b>.\n\n⁉️ <i>До якої категорії товарів ми хочемо додати новий товар?</i>\n\n👉 Будь ласка, виберіть зі списку <b>категорію товарів</b> або натисніть /cancel, щоб скасувати поточну операцію:`;
         reply_markup = {
           inline_keyboard: category.map((item) => [
-            { text: item.title, callback_data: item._id }
+            { text: item.title, callback_data: item.id }
           ])
         };
       } else {
@@ -337,7 +337,7 @@ class API extends Action {
     let message = '💢 <b>Упс!</b> Щось пішло не так!';
     try {
       const category = await Category.findOne(query.data);
-      action.obj.category = category._id;
+      action.obj.category = category.id;
       this.setActionType(id, 'input-new-product-title');
       message = `👌 Добре, вибрано категорію товарів "<b><i>${category.title}</i></b>".\n\n⁉️ Який новий товар хочемо додати?\n\nВведіть назву товару для категорії товарів "<b><i>${category.title}</i></b>" або натисніть /cancel, щоб скасувати поточну операцію:`;
     } catch (err) {
