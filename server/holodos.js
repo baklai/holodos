@@ -34,7 +34,7 @@ const bot = new TelegramBot(
 const api = new ActionsBot(bot);
 
 if (process.env.NODE_ENV === 'production') {
-  bot.setWebHook(`${WEB_APP}/bot/v1/bot${TELEGRAM_TOKEN}`);
+  bot.setWebHook(`${WEB_APP}/bot/v1/bot${TOKEN}`);
 } else {
   bot.on('polling_error', (err) => {
     console.error(err);
