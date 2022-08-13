@@ -23,8 +23,8 @@ commands = {
   product: {
     description: 'Товари у категоріях',
     commands: [
-      { command: 'products', description: 'показати товари в категорії' }
-      // { command: 'newproduct', description: 'додати товар до категорії' }
+      { command: 'products', description: 'показати товари в категорії' },
+      { command: 'newproduct', description: 'додати товар до категорії' }
       // { command: 'editproduct', description: 'змінити товар у категорії' },
       // { command: 'deleteproduct', description: 'видалити товар із категорії' }
     ]
