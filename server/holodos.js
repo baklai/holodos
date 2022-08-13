@@ -65,10 +65,13 @@ bot.onText(/\/start/, async (msg) => {
   await User.createOne(msg.chat);
 });
 
-bot.onText(/\/help/, (msg) => {
+bot.onText(/\/help/, async (msg) => {
   const { id } = msg.chat;
   let message = `👋 <b>Вітання <i>${msg.from.first_name}</i></b>!\n\nЯ можу допомогти Вам створити та керувати списком товарів. Ви можете керувати мною, надіславши наступні команди:\n${helper}`;
   bot.sendMessage(id, message, { parse_mode: 'HTML' });
+
+  // временно
+  await User.createOne(msg.chat);
 });
 
 bot.onText(/\/about/, (msg) => {
@@ -195,6 +198,9 @@ bot.on('web_app_data', async (msg) => {
     message = '🗣 <b>Ваш перелік товарів порожній!</b>';
   }
   bot.sendMessage(id, message, { parse_mode: 'HTML' });
+
+  // временно
+  await User.createOne(msg.chat);
 });
 
 module.exports = bot;
