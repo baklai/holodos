@@ -1,5 +1,5 @@
 const axios = require('axios');
-const sharp = require('sharp');
+// const sharp = require('sharp');
 
 const User = require('../services/user.service');
 const Category = require('../services/category.service');
@@ -308,154 +308,154 @@ class API extends Action {
 
   async newProduct(msg) {
     const { id } = msg.chat;
-    let message = '💢 <b>Упс!</b> Щось пішло не так!';
-    let reply_markup = null;
-    try {
-      const category = await Category.findAll();
-      if (category.length) {
-        this.setAction(id, 'select-category-new-product');
-        message = `👌 Добре, давайте додамо <b><i>новий товар</i></b>.\n\n⁉️ <i>До якої категорії товарів ми хочемо додати новий товар?</i>\n\n👉 Будь ласка, виберіть зі списку <b>категорію товарів</b> або натисніть /cancel, щоб скасувати поточну операцію:`;
-        reply_markup = {
-          inline_keyboard: category.map((item) => [
-            { text: item.title, callback_data: item.id }
-          ])
-        };
-      } else {
-        message = `💢 <b>Упс!</b> Список категорій товарів порожній!`;
-      }
-    } catch (err) {
-      message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
-    } finally {
-      this.bot.sendMessage(id, message, { parse_mode: 'HTML', reply_markup });
-    }
+    // let message = '💢 <b>Упс!</b> Щось пішло не так!';
+    // let reply_markup = null;
+    // try {
+    //   const category = await Category.findAll();
+    //   if (category.length) {
+    //     this.setAction(id, 'select-category-new-product');
+    //     message = `👌 Добре, давайте додамо <b><i>новий товар</i></b>.\n\n⁉️ <i>До якої категорії товарів ми хочемо додати новий товар?</i>\n\n👉 Будь ласка, виберіть зі списку <b>категорію товарів</b> або натисніть /cancel, щоб скасувати поточну операцію:`;
+    //     reply_markup = {
+    //       inline_keyboard: category.map((item) => [
+    //         { text: item.title, callback_data: item.id }
+    //       ])
+    //     };
+    //   } else {
+    //     message = `💢 <b>Упс!</b> Список категорій товарів порожній!`;
+    //   }
+    // } catch (err) {
+    //   message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
+    // } finally {
+    //   this.bot.sendMessage(id, message, { parse_mode: 'HTML', reply_markup });
+    // }
   }
 
-  async ['select-category-new-product'](query) {
-    const { message_id } = query.message || {};
-    const { id } = query.message?.chat || {};
-    const action = this.getAction(id);
-    let message = '💢 <b>Упс!</b> Щось пішло не так!';
-    try {
-      const category = await Category.findOne(query.data);
-      action.obj.category = category.id;
-      this.setActionType(id, 'input-new-product-title');
-      message = `👌 Добре, вибрано категорію товарів "<b><i>${category.title}</i></b>".\n\n⁉️ Який новий товар хочемо додати?\n\nВведіть назву товару для категорії товарів "<b><i>${category.title}</i></b>" або натисніть /cancel, щоб скасувати поточну операцію:`;
-    } catch (err) {
-      this.delAction(id);
-      message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
-    } finally {
-      this.bot.editMessageText(message, {
-        chat_id: id,
-        message_id: message_id,
-        parse_mode: 'HTML'
-      });
-    }
-  }
+  // async ['select-category-new-product'](query) {
+  //   const { message_id } = query.message || {};
+  //   const { id } = query.message?.chat || {};
+  //   const action = this.getAction(id);
+  //   let message = '💢 <b>Упс!</b> Щось пішло не так!';
+  //   try {
+  //     const category = await Category.findOne(query.data);
+  //     action.obj.category = category.id;
+  //     this.setActionType(id, 'input-new-product-title');
+  //     message = `👌 Добре, вибрано категорію товарів "<b><i>${category.title}</i></b>".\n\n⁉️ Який новий товар хочемо додати?\n\nВведіть назву товару для категорії товарів "<b><i>${category.title}</i></b>" або натисніть /cancel, щоб скасувати поточну операцію:`;
+  //   } catch (err) {
+  //     this.delAction(id);
+  //     message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
+  //   } finally {
+  //     this.bot.editMessageText(message, {
+  //       chat_id: id,
+  //       message_id: message_id,
+  //       parse_mode: 'HTML'
+  //     });
+  //   }
+  // }
 
-  async ['input-new-product-title'](msg) {
-    const { id } = msg.chat;
-    let message = '💢 <b>Упс!</b> Щось пішло не так!';
-    let reply_markup = null;
-    const action = this.getAction(id);
-    try {
-      action.obj.title = msg.text;
-      message = `👌 Добре, назва нового товару "<b>${msg.text}</b>" успішно прийнята.\n\nВиберіть розмірність нового товару або натисніть /cancel, щоб скасувати поточну операцію:`;
-      reply_markup = {
-        inline_keyboard: [
-          [
-            { text: 'грн/шт', callback_data: 'грн/шт' },
-            { text: 'грн/кг', callback_data: 'грн/кг' },
-            { text: 'грн/літр', callback_data: 'грн/літр' }
-          ]
-        ]
-      };
-      this.setActionType(id, 'input-new-product-price-title');
-    } catch (err) {
-      this.delAction(id);
-      message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
-    } finally {
-      this.bot.sendMessage(id, message, { parse_mode: 'HTML', reply_markup });
-    }
-  }
+  // async ['input-new-product-title'](msg) {
+  //   const { id } = msg.chat;
+  //   let message = '💢 <b>Упс!</b> Щось пішло не так!';
+  //   let reply_markup = null;
+  //   const action = this.getAction(id);
+  //   try {
+  //     action.obj.title = msg.text;
+  //     message = `👌 Добре, назва нового товару "<b>${msg.text}</b>" успішно прийнята.\n\nВиберіть розмірність нового товару або натисніть /cancel, щоб скасувати поточну операцію:`;
+  //     reply_markup = {
+  //       inline_keyboard: [
+  //         [
+  //           { text: 'грн/шт', callback_data: 'грн/шт' },
+  //           { text: 'грн/кг', callback_data: 'грн/кг' },
+  //           { text: 'грн/літр', callback_data: 'грн/літр' }
+  //         ]
+  //       ]
+  //     };
+  //     this.setActionType(id, 'input-new-product-price-title');
+  //   } catch (err) {
+  //     this.delAction(id);
+  //     message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
+  //   } finally {
+  //     this.bot.sendMessage(id, message, { parse_mode: 'HTML', reply_markup });
+  //   }
+  // }
 
-  async ['input-new-product-price-title'](query) {
-    const { message_id } = query.message || {};
-    const { id } = query.message?.chat || {};
-    const action = this.getAction(id);
-    let message = '💢 <b>Упс!</b> Щось пішло не так!';
-    try {
-      action.obj.priceTitle = query.data;
-      message = `👌 Добре, вибрано розмірність нового товару "<b><i>${action.obj.priceTitle}</i></b>".\n\nВведіть вартість нового товару "<b><i>${action.obj.title}</i></b>" або натисніть /cancel, щоб скасувати поточну операцію:`;
-      this.setActionType(id, 'input-new-product-price');
-    } catch (err) {
-      this.delAction(id);
-      message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
-    } finally {
-      this.bot.editMessageText(message, {
-        chat_id: id,
-        message_id: message_id,
-        parse_mode: 'HTML'
-      });
-    }
-  }
+  // async ['input-new-product-price-title'](query) {
+  //   const { message_id } = query.message || {};
+  //   const { id } = query.message?.chat || {};
+  //   const action = this.getAction(id);
+  //   let message = '💢 <b>Упс!</b> Щось пішло не так!';
+  //   try {
+  //     action.obj.priceTitle = query.data;
+  //     message = `👌 Добре, вибрано розмірність нового товару "<b><i>${action.obj.priceTitle}</i></b>".\n\nВведіть вартість нового товару "<b><i>${action.obj.title}</i></b>" або натисніть /cancel, щоб скасувати поточну операцію:`;
+  //     this.setActionType(id, 'input-new-product-price');
+  //   } catch (err) {
+  //     this.delAction(id);
+  //     message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
+  //   } finally {
+  //     this.bot.editMessageText(message, {
+  //       chat_id: id,
+  //       message_id: message_id,
+  //       parse_mode: 'HTML'
+  //     });
+  //   }
+  // }
 
-  async ['input-new-product-price'](msg) {
-    const { id } = msg.chat;
-    let message = '💢 <b>Упс!</b> Щось пішло не так!';
-    let reply_markup = null;
-    const action = this.getAction(id);
-    try {
-      action.obj.pricePer = msg.text;
-      message = `👌 Добре, вартість нового товару "<b>${msg.text}</b>" успішно прийнято.\n\n<i>Надішліть фото нового товару або натисніть /cancel, щоб скасувати поточну операцію:</i>`;
-      this.setActionType(id, 'input-new-product-img');
-    } catch (err) {
-      this.delAction(id);
-      message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
-    } finally {
-      this.bot.sendMessage(id, message, { parse_mode: 'HTML', reply_markup });
-    }
-  }
+  // async ['input-new-product-price'](msg) {
+  //   const { id } = msg.chat;
+  //   let message = '💢 <b>Упс!</b> Щось пішло не так!';
+  //   let reply_markup = null;
+  //   const action = this.getAction(id);
+  //   try {
+  //     action.obj.pricePer = msg.text;
+  //     message = `👌 Добре, вартість нового товару "<b>${msg.text}</b>" успішно прийнято.\n\n<i>Надішліть фото нового товару або натисніть /cancel, щоб скасувати поточну операцію:</i>`;
+  //     this.setActionType(id, 'input-new-product-img');
+  //   } catch (err) {
+  //     this.delAction(id);
+  //     message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
+  //   } finally {
+  //     this.bot.sendMessage(id, message, { parse_mode: 'HTML', reply_markup });
+  //   }
+  // }
 
-  async ['input-new-product-img'](msg) {
-    const { id } = msg.chat;
-    let fileID = null;
-    if (msg.photo) {
-      fileID = msg.photo[msg.photo.length - 1].file_id;
-    } else if (msg.document) {
-      fileID = msg.document.file_id;
-    }
-    let message = '💢 <b>Упс!</b> Щось пішло не так!';
-    const action = this.getAction(id);
-    try {
-      let url = `https://api.telegram.org/bot${TOKEN}/getFile?file_id=${fileID}`;
-      const { data } = await axios.get(url);
-      url = `https://api.telegram.org/file/bot${TOKEN}/${data.result.file_path}`;
-      message = `👌 Фото нового товару успішно прийнято.`;
-      const img = await axios.get(url, {
-        responseType: 'arraybuffer'
-      });
-      action.obj.img = await sharp(img.data).resize(256).webp().toBuffer();
-      const product = await Product.createOne({ ...action.obj });
-      const category = await Category.findOne(product.category);
-      this.bot.sendPhoto(
-        id,
-        Buffer.from(product.img, 'base64'),
-        {
-          parse_mode: 'HTML',
-          caption: `<b>Категорія товарів</b>: ${category.title}\n<b>Назва товару</b>: ${product.title}\n<b>Ціна товару</b>: ${product.pricePer} ${product.priceTitle}`
-        },
-        {
-          filename: undefined,
-          contentType: undefined
-        }
-      );
-    } catch (err) {
-      message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
-    } finally {
-      this.delAction(id);
-      this.bot.sendMessage(id, message, { parse_mode: 'HTML' });
-    }
-  }
+  // async ['input-new-product-img'](msg) {
+  //   const { id } = msg.chat;
+  //   let fileID = null;
+  //   if (msg.photo) {
+  //     fileID = msg.photo[msg.photo.length - 1].file_id;
+  //   } else if (msg.document) {
+  //     fileID = msg.document.file_id;
+  //   }
+  //   let message = '💢 <b>Упс!</b> Щось пішло не так!';
+  //   const action = this.getAction(id);
+  //   try {
+  //     let url = `https://api.telegram.org/bot${TOKEN}/getFile?file_id=${fileID}`;
+  //     const { data } = await axios.get(url);
+  //     url = `https://api.telegram.org/file/bot${TOKEN}/${data.result.file_path}`;
+  //     message = `👌 Фото нового товару успішно прийнято.`;
+  //     const img = await axios.get(url, {
+  //       responseType: 'arraybuffer'
+  //     });
+  //     action.obj.img = await sharp(img.data).resize(256).webp().toBuffer();
+  //     const product = await Product.createOne({ ...action.obj });
+  //     const category = await Category.findOne(product.category);
+  //     this.bot.sendPhoto(
+  //       id,
+  //       Buffer.from(product.img, 'base64'),
+  //       {
+  //         parse_mode: 'HTML',
+  //         caption: `<b>Категорія товарів</b>: ${category.title}\n<b>Назва товару</b>: ${product.title}\n<b>Ціна товару</b>: ${product.pricePer} ${product.priceTitle}`
+  //       },
+  //       {
+  //         filename: undefined,
+  //         contentType: undefined
+  //       }
+  //     );
+  //   } catch (err) {
+  //     message = `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`;
+  //   } finally {
+  //     this.delAction(id);
+  //     this.bot.sendMessage(id, message, { parse_mode: 'HTML' });
+  //   }
+  // }
 }
 
 module.exports = API;
