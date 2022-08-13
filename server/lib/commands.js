@@ -34,7 +34,7 @@ commands = {
     commands: [
       { command: 'cancel', description: 'скасувати операцію' },
       // { command: 'update', description: 'оновити перелік товарів' },
-      { command: 'statistics', description: 'показати статистику' }
+      { command: 'statistic', description: 'показати статистику' }
     ]
   }
 };

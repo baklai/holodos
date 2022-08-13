@@ -12,6 +12,7 @@ const { TOKEN, PROXY, WEB_APP } = process.env;
 
 const ActionsBot = require('./lib/actions');
 const User = require('./services/user.service');
+const Stat = require('./services/statistic.service');
 
 const bot = new TelegramBot(
   TOKEN,
@@ -79,6 +80,22 @@ bot.onText(/\/about/, (msg) => {
   🔸 <i>Всі зміни зберігаються в чаті, і у Вас у будь-який час є до них доступ як із телефону, із додатку, так і через веб-сайт.</i>\n
   ☝️ Ви можете керувати ботом, надіславши команди зі списку /help`;
   bot.sendMessage(id, message, { parse_mode: 'HTML' });
+});
+
+bot.onText(/\/statistic/, async (msg) => {
+  const { id } = msg.chat;
+  const stat = await Stat.statAll();
+  let message = `👋 <b>Вітання <i>${msg.from.first_name}</i></b>!\n\n📊 <i>Статистика додатку:\n\n 🔹 Кількість користувачів: ${stat.users}\n 🔹 Кількість категорій товарів: ${stat.categories}\n 🔹 Кількість товарів у категоріях: ${stat.products}</i>\n\n👉 Ви можете керувати ботом, надіславши команди зі списку /help`;
+  bot.sendMessage(id, message, { parse_mode: 'HTML' });
+});
+
+bot.onText(/\/msg (.+)/, async (msg, match) => {
+  const resp = match[1];
+  const users = await User.findAll();
+  users.forEach((user) => {
+    let message = `👋 <b>Вітання <i>${user.firstName}</i></b>!\n\n<i>${resp}</i>\n\n👉 Ти можеш керувати ботом, надіславши команди зі списку /help`;
+    bot.sendMessage(user.userID, message, { parse_mode: 'HTML' });
+  });
 });
 
 bot.onText(/\/cancel/, (msg) => {

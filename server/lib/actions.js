@@ -157,7 +157,7 @@ class API extends Action {
     let message = '💢 <b>Упс!</b> Щось пішло не так!';
     try {
       const action = this.getAction(id);
-      message = `👌 Добре, категорія товарів "<i>${action.obj.category}</i>" успішно оновлена на "<b>${msg.text}</b>".`;
+      message = `👌 Добре, категорія товарів "<i>${action.obj.title}</i>" успішно оновлена на "<b>${msg.text}</b>".`;
       action.obj.title = msg.text;
       await Category.updateOne(action.obj.id, {
         ...action.obj
