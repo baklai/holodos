@@ -68,7 +68,12 @@ bot.onText(/\/start/, async (msg) => {
 bot.onText(/\/help/, async (msg) => {
   const { id } = msg.chat;
   let message = `👋 <b>Вітання <i>${msg.from.first_name}</i></b>!\n\nЯ можу допомогти Вам створити та керувати списком товарів. Ви можете керувати мною, надіславши наступні команди:\n${helper}`;
-  bot.sendMessage(id, message, { parse_mode: 'HTML' });
+  let reply_markup = {
+    keyboard: [[{ text: 'Відкрити холодос', web_app: { url: WEB_APP } }]],
+    resize_keyboard: true
+  };
+
+  bot.sendMessage(id, message, { parse_mode: 'HTML', reply_markup });
 
   // временно
   await User.createOne(msg.chat);
