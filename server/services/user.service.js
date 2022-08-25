@@ -7,14 +7,14 @@ const findAll = async () => {
 const createOne = async (item) => {
   return await User.findOneAndUpdate(
     {
-      userID: item.id
+      userID: item.userID
     },
     {
       $set: {
-        userID: item.id,
-        firstName: item.first_name,
-        lastName: item.last_name,
-        userName: item.username
+        userID: item.userID,
+        firstName: item.firstName,
+        lastName: item.lastName,
+        userName: item.userName
       }
     },
     { new: true, upsert: true }
