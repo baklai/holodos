@@ -6,6 +6,7 @@ const sharp = require('sharp');
 const { MONGO, TOKEN } = process.env;
 
 mongoose.plugin(require('./plugins/mongoose'));
+mongoose.plugin(require('mongoose-paginate'));
 
 mongoose
   .connect(MONGO, {

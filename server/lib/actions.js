@@ -17,6 +17,14 @@ const t = (locale = 'en', phrase, varible) => {
   return i18n.__({ phrase: phrase, locale: locale }, varible);
 };
 
+const paginate = (prev, of, next) => {
+  return [
+    { text: '<<', callback_data: 'prev' },
+    { text: '1 из 5', callback_data: 'of' },
+    { text: '>>', callback_data: 'next' }
+  ];
+};
+
 const { helper } = require('./commands');
 
 const { TOKEN, WEB_APP } = process.env;
@@ -36,7 +44,7 @@ class Action {
   }
   setAction(id, type) {
     if (this.getAction(id)) this.deleteAction(id);
-    this.actions.push({ id, type, obj: {} });
+    this.actions.push({ id, type, obj: {}, paginate: { limit: 5, page: 1 } });
   }
   setActionType(id, type) {
     const action = this.getAction(id);
@@ -54,12 +62,6 @@ class Action {
 }
 
 class Middleware extends Action {
-  constructor(bot) {
-    super(bot);
-  }
-}
-
-class API extends Action {
   constructor(bot) {
     super(bot);
   }
@@ -82,6 +84,22 @@ class API extends Action {
 
   ctx(msg, next) {
     console.log('msg|query\n', msg);
+
+    // switch (ctx.data) {
+    //   case 'prev':
+    //     page -= 1;
+    //     break;
+    //   case 'of':
+    //     page = 1;
+    //     break;
+
+    //   case 'next':
+    //     page += 1;
+    //     break;
+    //   default:
+    //     page = 1;
+    // }
+
     const ctx = {
       chatID: msg.chat?.id || msg.message?.chat?.id || undefined,
       messageID: msg.message_id || msg.message?.message_id || undefined,
@@ -108,6 +126,12 @@ class API extends Action {
     if (typeof this[next] === 'function') {
       return this[next](ctx);
     }
+  }
+}
+
+class Commands extends Middleware {
+  constructor(bot) {
+    super(bot);
   }
 
   async ['start'](ctx) {
@@ -228,23 +252,52 @@ class API extends Action {
     message += t(ctx.lang, 'main:help');
     this.bot.sendMessage(ctx.chatID, message, { parse_mode: 'HTML' });
   }
+}
+
+class Categories extends Commands {
+  constructor(bot) {
+    super(bot);
+  }
 
   async ['category:read'](ctx) {
     let message = t(ctx.lang, 'category:oops');
+    let reply_markup = null;
+    let page = 1;
     try {
-      const category = await Category.findAll();
-      if (category.length) {
+      const category = await Category.findAllPaginate();
+
+      console.log(category);
+
+      if (category.docs.length) {
+        this.setAction(ctx.chatID, 'category:read');
+
         message = `${t(ctx.lang, 'category:read')}\n\n`;
-        category.forEach((item, index) => {
+        category.docs.forEach((item, index) => {
           message += `<b>${index + 1}.</b> <i>${item.title}</i>\n`;
         });
         message += `\n${t(ctx.lang, 'main:help')}`;
+
+        reply_markup = {
+          inline_keyboard: [paginate('prev', 'of', 'next')]
+        };
       }
     } catch (err) {
       message = t(ctx.lang, 'main:error %s', err.message);
     } finally {
-      this.deleteAction(ctx.chatID);
-      this.bot.sendMessage(ctx.chatID, message, { parse_mode: 'HTML' });
+      // this.deleteAction(ctx.chatID);
+      if (ctx.data) {
+        this.bot.editMessageText(message, {
+          chat_id: ctx.chatID,
+          message_id: ctx.messageID,
+          reply_markup,
+          parse_mode: 'HTML'
+        });
+      } else {
+        this.bot.sendMessage(ctx.chatID, message, {
+          parse_mode: 'HTML',
+          reply_markup
+        });
+      }
     }
   }
 
@@ -425,7 +478,12 @@ class API extends Action {
       });
     }
   }
+}
 
+class Products extends Categories {
+  constructor(bot) {
+    super(bot);
+  }
   async ['product:read'](ctx) {
     let message = t(ctx.lang, 'main:oops');
     let reply_markup = null;
@@ -925,6 +983,12 @@ class API extends Action {
   //     });
   //   }
   // }
+}
+
+class API extends Products {
+  constructor(bot) {
+    super(bot);
+  }
 }
 
 module.exports = API;

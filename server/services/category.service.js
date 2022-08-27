@@ -5,6 +5,10 @@ const findAll = async () => {
   return await Category.find({}, 'title');
 };
 
+const findAllPaginate = async () => {
+  return await Category.paginate({}, { select: 'title', page: 1, limit: 5 });
+};
+
 const findOne = async (id) => {
   return await Category.findById(id);
 };
@@ -25,4 +29,11 @@ const removeOne = async (id) => {
   return isDeleted;
 };
 
-module.exports = { findAll, findOne, createOne, updateOne, removeOne };
+module.exports = {
+  findAll,
+  findAllPaginate,
+  findOne,
+  createOne,
+  updateOne,
+  removeOne
+};
