@@ -82,6 +82,10 @@ class Middleware extends Action {
       : false;
   }
 
+  isPaginate(msg) {
+    return msg.data === 'prev' || msg.data === 'next' || msg.data === 'current';
+  }
+
   ctx(msg, next) {
     console.log('msg|query\n', msg);
 
@@ -118,6 +122,7 @@ class Middleware extends Action {
       action: this.getAction(
         msg.chat?.id || msg.message?.chat?.id || undefined
       ),
+      isPaginate: this.isPaginate(msg),
       isCommand: this.isCommand(msg)
     };
 
@@ -285,7 +290,7 @@ class Categories extends Commands {
       message = t(ctx.lang, 'main:error %s', err.message);
     } finally {
       // this.deleteAction(ctx.chatID);
-      if (ctx.data) {
+      if (ctx.isPaginate) {
         this.bot.editMessageText(message, {
           chat_id: ctx.chatID,
           message_id: ctx.messageID,
