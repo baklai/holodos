@@ -1,4 +1,4 @@
-# holodos
+# HOLODOS
 
 Holodos is a bot that makes the process of going to the store
 easier, faster, and most importantly, more efficiently. Thanks to the bot, you can
