@@ -16,7 +16,7 @@ access both from the phone, from the application, and through the website.
 npm i
 ```
 
-## Project .env
+## Project .env.dev || .env.prod
 
 ```
 TOKEN   : Telegram bot token
