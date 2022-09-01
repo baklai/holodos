@@ -16,8 +16,8 @@
     "url": "https://github.com/baklai/holodos/issues"
   },
   "keywords": [
-    "node.js",
     "telegram",
+    "node.js",
     "vue.js",
     "nuxt",
     "bot"

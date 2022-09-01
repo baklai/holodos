@@ -10,7 +10,7 @@ const TelegramBot = require('node-telegram-bot-api');
 
 const { TOKEN, PROXY, WEB_APP } = process.env;
 
-const APIBot = require('./lib/actions');
+const APIBot = require('./api');
 
 const bot = new TelegramBot(
   TOKEN,
@@ -29,7 +29,7 @@ const bot = new TelegramBot(
       }
 );
 
-const api = new APIBot(bot);
+const api = new APIBot(bot, TOKEN, WEB_APP);
 
 if (process.env.NODE_ENV === 'production') {
   bot.setWebHook(`${WEB_APP}/bot/v1/bot${TOKEN}`);
@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const { commands } = require('./lib/commands');
+const { commands } = require('./config/commands');
 
 bot
   .setMyCommands(commands)
@@ -52,60 +52,8 @@ bot
     process.exit(1);
   });
 
-bot.onText(/\/start/, async (msg) => {
-  api.ctx(msg, 'start');
-});
-
-bot.onText(/\/help/, async (msg) => {
-  api.ctx(msg, 'help');
-});
-
-bot.onText(/\/about/, (msg) => {
-  api.ctx(msg, 'about');
-});
-
-bot.onText(/\/statistic/, async (msg) => {
-  api.ctx(msg, 'statistic');
-});
-
-bot.onText(/\/notification/, async (msg) => {
-  api.ctx(msg, 'notification');
-});
-
-bot.onText(/\/cancel/, (msg) => {
-  api.ctx(msg, 'action:cancel');
-});
-
-bot.onText(/\/categories/, (msg) => {
-  api.ctx(msg, 'category:read');
-});
-
-bot.onText(/\/newcategory/, (msg) => {
-  api.ctx(msg, 'category:create');
-});
-
-bot.onText(/\/editcategory/, (msg) => {
-  api.ctx(msg, 'category:update');
-});
-
-bot.onText(/\/deletecategory/, (msg) => {
-  api.ctx(msg, 'category:delete');
-});
-
-bot.onText(/\/products/, (msg) => {
-  api.ctx(msg, 'product:read');
-});
-
-bot.onText(/\/newproduct/, (msg) => {
-  api.ctx(msg, 'product:create');
-});
-
-bot.onText(/\/editproduct/, (msg) => {
-  api.ctx(msg, 'product:update');
-});
-
-bot.onText(/\/deleteproduct/, (msg) => {
-  api.ctx(msg, 'product:delete');
+bot.onText(/\/(.)/, async (msg) => {
+  api.ctx(msg, msg.text);
 });
 
 bot.on('message', async (msg) => {
@@ -135,9 +83,10 @@ bot.on('message', async (msg) => {
 bot.on('callback_query', async (query) => {
   const { id } = query.message.chat;
   const action = api.getAction(id);
+  const { type } = JSON.parse(query.data || false);
   if (action) {
     try {
-      api.ctx(query, action.type);
+      api.ctx(query, type);
     } catch (err) {
       api.deleteAction(id);
       bot.sendMessage(id, '💢 <b>Упс!</b> Щось пішло не так!', {

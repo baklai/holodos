@@ -1,5 +1,18 @@
 const Product = require('../models/product.model');
 
+const paginate = async (categoryID, page = 1) => {
+  return await Product.paginate(
+    { category: categoryID },
+    {
+      select: 'img title pricePer priceTitle category',
+      populate: 'category',
+      page: page,
+      leanWithId: true,
+      limit: 5
+    }
+  );
+};
+
 const findAll = async (categoryID) => {
   return await Product.find(
     { category: categoryID },
@@ -24,6 +37,7 @@ const removeOne = async (id) => {
 };
 
 module.exports = {
+  paginate,
   findAll,
   findOne,
   createOne,

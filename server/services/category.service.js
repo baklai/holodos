@@ -1,12 +1,12 @@
 const Category = require('../models/category.model');
 const Product = require('../models/product.model');
 
-const findAll = async () => {
-  return await Category.find({}, 'title');
+const paginate = async (page = 1) => {
+  return await Category.paginate({}, { select: 'title', page: page, limit: 5 });
 };
 
-const findAllPaginate = async () => {
-  return await Category.paginate({}, { select: 'title', page: 1, limit: 5 });
+const findAll = async () => {
+  return await Category.find({}, 'title');
 };
 
 const findOne = async (id) => {
@@ -30,8 +30,8 @@ const removeOne = async (id) => {
 };
 
 module.exports = {
+  paginate,
   findAll,
-  findAllPaginate,
   findOne,
   createOne,
   updateOne,

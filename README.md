@@ -1,10 +1,10 @@
 # holodos
 
-Холодос - це бот-додаток, що робить процес походу до магазину
-простіше, швидше, і найголовніше, ефективніше. Завдяки боту Ви зможете
-швидко створювати та керувати списками покупок, робити їх доступними
-знайомим. Всі зміни зберігаються в чаті, і у Вас у будь-який час є до них
-доступ як із телефону, із додатку, так і через веб-сайт.
+Holodos is a bot that makes the process of going to the store
+easier, faster, and most importantly, more efficiently. Thanks to the bot, you can
+quickly create and manage shopping lists, make them accessible
+acquaintances All changes are saved in the chat, and you can access them at any time
+access both from the phone, from the application, and through the website.
 
 <img width="1280" src="/static/social-preview.png">
 

@@ -8,7 +8,8 @@ commands = {
     description: 'Основні команди',
     commands: [
       { command: 'help', description: 'довідка по роботі з ботом' },
-      { command: 'about', description: 'про бот і його можливості' }
+      { command: 'about', description: 'про бот і його можливості' },
+      { command: 'statistic', description: 'статистика бота' }
     ]
   },
   category: {
@@ -31,21 +32,20 @@ commands = {
   },
   operation: {
     description: 'Операційні команди',
+    commands: [{ command: 'cancel', description: 'скасувати операцію' }]
+  },
+  administration: {
+    description: 'Системні команди',
     commands: [
-      { command: 'cancel', description: 'скасувати операцію' },
-      { command: 'statistic', description: 'показати статистику' },
+      { command: 'admin', description: 'права адміністратора' },
+      { command: 'update', description: 'оновити список товарів' },
       { command: 'notification', description: 'відправити повідомлення' }
     ]
   }
 };
 
 module.exports = {
-  commands: [
-    ...commands.main.commands,
-    // ...commands.category.commands,
-    // ...commands.product.commands,
-    ...commands.operation.commands
-  ],
+  commands: [...commands.main.commands, ...commands.operation.commands],
   helper: `
 ${commands.main.commands
   .map((item) => `/${item.command} - ${item.description}`)
@@ -63,6 +63,11 @@ ${commands.product.commands
 
 <b><i>${commands.operation.description}</i></b>
 ${commands.operation.commands
+  .map((item) => `/${item.command} - ${item.description}`)
+  .join('\n')}
+
+<b><i>${commands.administration.description}</i></b>
+${commands.administration.commands
   .map((item) => `/${item.command} - ${item.description}`)
   .join('\n')}
     `
