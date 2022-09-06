@@ -3,20 +3,24 @@ module.exports = class Action {
     this.bot = bot;
     this.actions = [];
   }
+
   getAction(id) {
     return this.actions.find((item) => item.id === id);
   }
-  setAction(id, type) {
+
+  setAction(id, cb) {
     if (this.getAction(id)) this.deleteAction(id);
-    this.actions.push({ id, type, obj: {}, paginate: { page: 1, pages: 1 } });
+    this.actions.push({ id, cb, obj: {}, paginate: { page: 1, pages: 1 } });
     return this.getAction(id);
   }
-  setActionType(id, type) {
+
+  setActionType(id, cb) {
     const action = this.getAction(id);
     if (action) {
-      action.type = type;
+      action.cb = cb;
     }
   }
+
   deleteAction(id) {
     const index = this.actions.findIndex((item) => {
       return item.id === id;

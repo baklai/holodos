@@ -16,7 +16,7 @@ module.exports = {
       parse_mode: 'HTML',
       disable_web_page_preview: true,
       reply_markup: {
-        keyboard: this.BOT_BUTTON,
+        keyboard: ctx.btnMenu,
         resize_keyboard: true
       }
     });
@@ -35,10 +35,11 @@ module.exports = {
       parse_mode: 'HTML',
       disable_web_page_preview: true,
       reply_markup: {
-        keyboard: this.BOT_BUTTON,
+        keyboard: ctx.btnMenu,
         resize_keyboard: true
       }
     });
+    await User.createOne(ctx.user);
   },
 
   async ['/about'](ctx) {
@@ -56,10 +57,11 @@ module.exports = {
       parse_mode: 'HTML',
       disable_web_page_preview: true,
       reply_markup: {
-        keyboard: this.BOT_BUTTON,
+        keyboard: ctx.btnMenu,
         resize_keyboard: true
       }
     });
+    await User.createOne(ctx.user);
   },
 
   async ['/statistic'](ctx) {
@@ -76,10 +78,42 @@ module.exports = {
       parse_mode: 'HTML',
       disable_web_page_preview: true,
       reply_markup: {
-        keyboard: this.BOT_BUTTON,
+        keyboard: ctx.btnMenu,
         resize_keyboard: true
       }
     });
+  },
+
+  async ['/donate'](ctx) {
+    let message = this.t(ctx.lang, 'bot:oops');
+    let reply_markup = null;
+    try {
+      message =
+        `${this.t(ctx.lang, 'bot:hi %s', ctx.user.firstName)}\n\n` +
+        `${this.t(ctx.lang, 'donate:text')}\n\n` +
+        `${this.t(ctx.lang, 'bot:help')}\n\n` +
+        `${this.t(ctx.lang, 'bot:created %s', new Date().getFullYear())}`;
+      reply_markup = {
+        inline_keyboard: [
+          [
+            {
+              text: '💸 DONATE FOR BOT',
+              url: this.PAYEE
+            }
+          ]
+        ]
+      };
+    } catch (err) {
+      reply_markup = null;
+      message = this.t(ctx.lang, 'bot:error %s', err.message);
+    } finally {
+      this.deleteAction(ctx.chatID);
+      this.bot.sendMessage(ctx.chatID, message, {
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+        reply_markup: reply_markup
+      });
+    }
   },
 
   async ['/cancel'](ctx) {

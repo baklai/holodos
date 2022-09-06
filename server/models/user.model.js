@@ -20,6 +20,10 @@ const userSchema = new Schema({
     type: String,
     trim: true,
     default: null
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false
   }
 });
 

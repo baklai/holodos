@@ -1,14 +1,10 @@
-/**
- * Telegram Bot
- * List of the bot's commands
- */
-
 commands = {
   main: {
     description: 'Основні команди',
     commands: [
       { command: 'help', description: 'довідка по роботі з ботом' },
       { command: 'about', description: 'про бот і його можливості' },
+      { command: 'donate', description: 'допомога на розвиток бота' },
       { command: 'statistic', description: 'статистика бота' }
     ]
   },
@@ -26,19 +22,22 @@ commands = {
     commands: [
       { command: 'products', description: 'показати товари в категорії' },
       { command: 'newproduct', description: 'додати товар до категорії' },
-      { command: 'editproduct', description: 'змінити товар у категорії' },
+      // { command: 'editproduct', description: 'змінити товар у категорії' },
       { command: 'deleteproduct', description: 'видалити товар із категорії' }
     ]
   },
   operation: {
     description: 'Операційні команди',
-    commands: [{ command: 'cancel', description: 'скасувати операцію' }]
+    commands: [
+      { command: 'cancel', description: 'скасувати операцію' },
+      { command: 'update', description: 'оновити список товарів' }
+    ]
   },
   administration: {
     description: 'Системні команди',
     commands: [
       { command: 'admin', description: 'права адміністратора' },
-      { command: 'update', description: 'оновити список товарів' },
+
       { command: 'notification', description: 'відправити повідомлення' }
     ]
   }

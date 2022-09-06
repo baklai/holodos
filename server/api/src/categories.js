@@ -85,7 +85,7 @@ const editCategory = {
               text: item.title,
               callback_data: JSON.stringify({
                 id: item.id,
-                type: 'c:u:s'
+                cb: 'c:u:s'
               })
             }
           ])
@@ -178,7 +178,7 @@ const deleteCategory = {
               text: item.title,
               callback_data: JSON.stringify({
                 id: item.id,
-                type: 'c:d:s'
+                cb: 'c:d:s'
               })
             }
           ])
@@ -226,14 +226,14 @@ const deleteCategory = {
             {
               text: 'Так 💯 видалити!',
               callback_data: JSON.stringify({
-                type: 'c:d:confirm',
+                cb: 'c:d:confirm',
                 key: 'delete'
               })
             },
             {
               text: 'Ні, не видаляти!',
               callback_data: JSON.stringify({
-                type: 'c:d:confirm',
+                cb: 'c:d:confirm',
                 key: 'cancel'
               })
             }
@@ -259,7 +259,7 @@ const deleteCategory = {
       switch (ctx.data.key) {
         case 'delete':
           await Category.removeOne(ctx.action.obj.id);
-          message = t(
+          message = this.t(
             ctx.lang,
             'category:delete:confirm:delete %s',
             ctx.action.obj.title

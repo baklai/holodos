@@ -22,6 +22,8 @@ npm i
 TOKEN   : Telegram bot token
 PROXY   : Proxy server if needed
 MONGO   : URL MongoDB server
+SECRET  : Secret key for user administration
+PAYEE   : URL for donate
 WEB_APP : Web application address
 ```
 

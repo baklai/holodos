@@ -20,7 +20,7 @@ const products = {
               text: item.title,
               callback_data: JSON.stringify({
                 id: item.id,
-                type: 'p:r:s-c'
+                cb: 'p:r:s-c'
               })
             }
           ])
@@ -74,7 +74,7 @@ const products = {
         products.docs.forEach((item, index) => {
           message += `<b>${
             index + 1 + (ctx.action.paginate.page - 1) * this.LIMIT
-          }.</b> <i>${item.title}</i>\n`;
+          }.</b> <i>${item.title} - ${item.pricePer} ${item.priceTitle}</i>\n`;
         });
         message +=
           `\n${this.t(ctx.lang, 'bot:help')}` +
@@ -119,7 +119,7 @@ const newProduct = {
               text: item.title,
               callback_data: JSON.stringify({
                 id: item.id,
-                type: 'p:c:s-c'
+                cb: 'p:c:s-c'
               })
             }
           ])
@@ -158,7 +158,7 @@ const newProduct = {
     try {
       const category = await Category.findOne(ctx.data.id);
       ctx.action.obj.category = category.id;
-      this.setActionType(ctx.chatID, 'product:create:input-title');
+      this.setActionType(ctx.chatID, 'product:create:title');
       message =
         this.t(ctx.lang, 'product:create:select-category %s', category.title) +
         this.t(ctx.lang, 'bot:cancel');
@@ -175,13 +175,13 @@ const newProduct = {
     }
   },
 
-  async ['product:create:input-title'](ctx) {
+  async ['product:create:title'](ctx) {
     let message = this.t(ctx.lang, 'bot:oops');
     let reply_markup = null;
     try {
       ctx.action.obj.title = ctx.text;
       message =
-        this.t(ctx.lang, 'product:create:input-title %s', ctx.text) +
+        this.t(ctx.lang, 'product:create:title %s', ctx.text) +
         `${this.t(ctx.lang, 'bot:cancel')}:`;
       reply_markup = {
         inline_keyboard: [
@@ -189,21 +189,21 @@ const newProduct = {
             {
               text: 'грн/шт',
               callback_data: JSON.stringify({
-                type: 'p:c:i-p-t',
+                cb: 'p:c:i-p-t',
                 key: 'грн/шт'
               })
             },
             {
               text: 'грн/кг',
               callback_data: JSON.stringify({
-                type: 'p:c:i-p-t',
+                cb: 'p:c:i-p-t',
                 key: 'грн/кг'
               })
             },
             {
               text: 'грн/літр',
               callback_data: JSON.stringify({
-                type: 'p:c:i-p-t',
+                cb: 'p:c:i-p-t',
                 key: 'грн/літр'
               })
             }
@@ -227,12 +227,12 @@ const newProduct = {
     try {
       ctx.action.obj.priceTitle = ctx.data.key;
       message =
-        t(
+        this.t(
           ctx.lang,
-          'product:create:input-price-title %s',
+          'product:create:price-title %s',
           ctx.action.obj.priceTitle
         ) + this.t(ctx.lang, 'bot:cancel');
-      this.setActionType(ctx.chatID, 'product:create:input-price-per');
+      this.setActionType(ctx.chatID, 'product:create:price-per');
     } catch (err) {
       this.deleteAction(ctx.chatID);
       message = this.t(ctx.lang, 'bot:error %s', err.message);
@@ -245,15 +245,15 @@ const newProduct = {
     }
   },
 
-  async ['product:create:input-price-per'](ctx) {
+  async ['product:create:price-per'](ctx) {
     let message = this.t(ctx.lang, 'bot:oops');
     let reply_markup = null;
     try {
-      ctx.action.obj.pricePer = ctx.text;
+      ctx.action.obj.pricePer = Number(ctx.text);
       message =
-        this.t(ctx.lang, 'product:create:input-price-per %s', ctx.text) +
+        this.t(ctx.lang, 'product:create:price-per %s', ctx.text) +
         this.t(ctx.lang, 'bot:cancel');
-      this.setActionType(ctx.chatID, 'product:create:input-img');
+      this.setActionType(ctx.chatID, 'product:create:img');
     } catch (err) {
       this.deleteAction(ctx.chatID);
       message = this.t(ctx.lang, 'bot:error %s', err.message);
@@ -265,7 +265,7 @@ const newProduct = {
     }
   },
 
-  async ['product:create:input-img'](ctx) {
+  async ['product:create:img'](ctx) {
     let fileID = null;
     if (ctx.photo) {
       fileID = ctx.photo[ctx.photo.length - 1].file_id;
@@ -274,10 +274,9 @@ const newProduct = {
     }
     let message = this.t(ctx.lang, 'bot:oops');
     try {
-      let url = `https://api.telegram.org/bot${TOKEN}/getFile?file_id=${fileID}`;
+      let url = `https://api.telegram.org/bot${this.TOKEN}/getFile?file_id=${fileID}`;
       const { data } = await axios.get(url);
-      url = `https://api.telegram.org/file/bot${TOKEN}/${data.result.file_path}`;
-      message = this.t(ctx.lang, 'product:create:input-img');
+      url = `https://api.telegram.org/file/bot${this.TOKEN}/${data.result.file_path}`;
       const img = await axios.get(url, {
         responseType: 'arraybuffer'
       });
@@ -290,13 +289,15 @@ const newProduct = {
         {
           parse_mode: 'HTML',
           caption:
+            `${this.t(ctx.lang, 'product:create:ok')}\n\n` +
             `${this.t(ctx.lang, 'product:category %s', category.title)}\n` +
             `${this.t(ctx.lang, 'product:title %s', product.title)}\n` +
-            `${t(
+            `${this.t(
               ctx.lang,
               'product:price %s',
-              `${product.pricePer} ${product.priceTitle}`
-            )}`
+              `${product.pricePer} ${product.priceTitle}\n\n`
+            )}` +
+            this.t(ctx.lang, 'bot:help')
         },
         {
           filename: undefined,
@@ -304,11 +305,10 @@ const newProduct = {
         }
       );
     } catch (err) {
-      this.deleteAction(ctx.chatID);
       message = this.t(ctx.lang, 'bot:error %s', err.message);
+      this.bot.sendMessage(ctx.chatID, message, { parse_mode: 'HTML' });
     } finally {
       this.deleteAction(ctx.chatID);
-      this.bot.sendMessage(ctx.chatID, message, { parse_mode: 'HTML' });
     }
   }
 };
@@ -329,7 +329,7 @@ const editProduct = {
               text: item.title,
               callback_data: JSON.stringify({
                 id: item.id,
-                type: 'p:u:s-c'
+                cb: 'p:u:s-c'
               })
             }
           ])
@@ -366,7 +366,7 @@ const editProduct = {
   async ['p:u:s-c'](ctx) {
     let message = this.t(ctx.lang, 'category:oops');
     let reply_markup = null;
-    this.setActionType(ctx.chatID, 'p:d:s-c');
+    this.setActionType(ctx.chatID, 'p:u:s-c');
     try {
       ctx.action.obj.category = ctx.action.obj.category || ctx.data.id;
       const category = await Category.findOne(ctx.action.obj.category);
@@ -375,7 +375,7 @@ const editProduct = {
         ctx.action.paginate.page
       );
       if (products.docs.length) {
-        message = t(
+        message = this.t(
           ctx.lang,
           'product:update:select-category %s',
           category.title
@@ -386,7 +386,7 @@ const editProduct = {
               text: item.title,
               callback_data: JSON.stringify({
                 id: item.id,
-                type: 'p:u:s-p'
+                cb: 'p:u:s-p'
               })
             }
           ])
@@ -419,16 +419,171 @@ const editProduct = {
     try {
       const category = await Category.findOne(ctx.action.obj.category);
       const product = await Product.findOne(ctx.data.id);
-      this.setActionType(ctx.chatID, 'input-new-product-title');
-      message = `👌 Добре, вибрано категорію товарів "<b><i>${product.title}</i></b>".\n\n⁉️ Який новий товар хочемо додати?\n\nВведіть назву товару для категорії товарів "<b><i>${category.title}</i></b>" або натисніть /cancel, щоб скасувати поточну операцію:`;
+      ctx.action.obj.id = product.id;
+      this.bot.sendPhoto(
+        ctx.chatID,
+        Buffer.from(product.img, 'base64'),
+        {
+          parse_mode: 'HTML',
+          caption:
+            `${this.t(ctx.lang, 'product:category %s', category.title)}\n` +
+            `${this.t(ctx.lang, 'product:title %s', product.title)}\n` +
+            `${this.t(
+              ctx.lang,
+              'product:price %s',
+              `${product.pricePer} ${product.priceTitle}\n\n`
+            )}` +
+            `${this.t(
+              ctx.lang,
+              'product:update:select-product %s',
+              product.title
+            )}` +
+            `${this.t(ctx.lang, 'bot:cancel')}\n\n`,
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: this.t(ctx.lang, 'product:btn:category'),
+                  callback_data: JSON.stringify({
+                    cb: 'p:u:cb',
+                    key: 'category'
+                  })
+                }
+              ],
+              [
+                {
+                  text: this.t(ctx.lang, 'product:btn:img'),
+                  callback_data: JSON.stringify({ cb: 'p:u:cb', key: 'img' })
+                }
+              ],
+              [
+                {
+                  text: this.t(ctx.lang, 'product:btn:title'),
+                  callback_data: JSON.stringify({ cb: 'p:u:cb', key: 'title' })
+                }
+              ],
+              [
+                {
+                  text: this.t(ctx.lang, 'product:btn:price-title'),
+                  callback_data: JSON.stringify({
+                    cb: 'p:u:cb',
+                    key: 'price-title'
+                  })
+                }
+              ],
+              [
+                {
+                  text: this.t(ctx.lang, 'product:btn:price-per'),
+                  callback_data: JSON.stringify({
+                    cb: 'p:u:cb',
+                    key: 'price-per'
+                  })
+                }
+              ]
+            ]
+          }
+        },
+        {
+          filename: undefined,
+          contentType: undefined
+        }
+      );
     } catch (err) {
       this.deleteAction(ctx.chatID);
       message = this.t(ctx.lang, 'bot:error %s', err.message);
-    } finally {
-      this.bot.editMessageText(message, {
-        chat_id: ctx.chatID,
-        message_id: ctx.messageID,
+      this.bot.sendMessage(ctx.chatID, message, {
         parse_mode: 'HTML'
+      });
+    }
+  },
+
+  async ['p:u:cb'](ctx) {
+    let message = this.t(ctx.lang, 'bot:oops');
+    let reply_markup = null;
+    try {
+      switch (ctx.data.key) {
+        case 'category':
+          const categories = await Category.paginate(ctx.action.paginate.page);
+          message =
+            this.t(ctx.lang, 'product:update:category') +
+            this.t(ctx.lang, 'bot:cancel');
+          reply_markup = {
+            inline_keyboard: categories.docs.map((item) => [
+              {
+                text: item.title,
+                callback_data: JSON.stringify({
+                  id: item.id,
+                  cb: 'p:u:s-c'
+                })
+              }
+            ])
+          };
+          reply_markup.inline_keyboard.push(
+            this.initPaginate(ctx, categories.page, categories.pages)
+          );
+          break;
+        case 'title':
+          this.setActionType(ctx.chatID, 'product:update:title');
+          message =
+            this.t(ctx.lang, 'product:update:title') +
+            this.t(ctx.lang, 'bot:cancel');
+          break;
+        case 'img':
+          this.setActionType(ctx.chatID, 'product:update:img');
+          message =
+            this.t(ctx.lang, 'product:update:img') +
+            this.t(ctx.lang, 'bot:cancel');
+          break;
+        case 'price-title':
+          this.setActionType(ctx.chatID, 'product:update:price-title');
+          message =
+            this.t(ctx.lang, 'product:update:price-title') +
+            this.t(ctx.lang, 'bot:cancel');
+          reply_markup = {
+            inline_keyboard: [
+              [
+                {
+                  text: 'грн/шт',
+                  callback_data: JSON.stringify({
+                    cb: 'p:u:p-t',
+                    key: 'грн/шт'
+                  })
+                },
+                {
+                  text: 'грн/кг',
+                  callback_data: JSON.stringify({
+                    cb: 'p:u:p-t',
+                    key: 'грн/кг'
+                  })
+                },
+                {
+                  text: 'грн/літр',
+                  callback_data: JSON.stringify({
+                    cb: 'p:u:p-t',
+                    key: 'грн/літр'
+                  })
+                }
+              ]
+            ]
+          };
+          break;
+        case 'price-per':
+          this.setActionType(ctx.chatID, 'product:update:price-per');
+          message =
+            this.t(ctx.lang, 'product:update:price-per') +
+            this.t(ctx.lang, 'bot:cancel');
+          break;
+      }
+    } catch (err) {
+      this.deleteAction(ctx.chatID);
+      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      this.bot.sendMessage(ctx.chatID, message, {
+        parse_mode: 'HTML'
+      });
+    } finally {
+      this.bot.sendMessage(ctx.chatID, message, {
+        parse_mode: 'HTML',
+        reply_markup: reply_markup
       });
     }
   }
@@ -450,7 +605,7 @@ const deleteProduct = {
               text: item.title,
               callback_data: JSON.stringify({
                 id: item.id,
-                type: 'p:d:s-c'
+                cb: 'p:d:s-c'
               })
             }
           ])
@@ -496,7 +651,7 @@ const deleteProduct = {
         ctx.action.paginate.page
       );
       if (products.docs.length) {
-        message = t(
+        message = this.t(
           ctx.lang,
           'product:delete:select-category %s',
           category.title
@@ -507,14 +662,12 @@ const deleteProduct = {
               text: item.title,
               callback_data: JSON.stringify({
                 id: item.id,
-                type: 'p:d:s-p'
+                cb: 'p:d:s-p'
               })
             }
           ])
         };
-        message +=
-          `\n${this.t(ctx.lang, 'bot:help')}` +
-          `${this.t(ctx.lang, 'bot:cancel')}`;
+        message += `${this.t(ctx.lang, 'bot:cancel')}`;
         reply_markup.inline_keyboard.push(
           this.initPaginate(ctx, products.page, products.pages)
         );
@@ -543,18 +696,19 @@ const deleteProduct = {
     try {
       const product = await Product.findOne(ctx.data.id);
       const category = await Category.findOne(product.category);
+      ctx.action.obj = product;
       reply_markup = {
         inline_keyboard: [
           [
             {
               text: 'Так, 💯 видалити!',
-              callback_data: JSON.stringify({ type: 'p:d:confirm', key: 'yes' })
+              callback_data: JSON.stringify({ cb: 'p:d:confirm', key: 'yes' })
             }
           ],
           [
             {
               text: '🚫 Ні, не видаляти!',
-              callback_data: JSON.stringify({ type: 'p:d:confirm', key: 'no' })
+              callback_data: JSON.stringify({ cb: 'p:d:confirm', key: 'no' })
             }
           ]
         ]
@@ -568,7 +722,7 @@ const deleteProduct = {
           caption:
             `${this.t(ctx.lang, 'product:category %s', category.title)}\n` +
             `${this.t(ctx.lang, 'product:title %s', product.title)}\n` +
-            `${t(
+            `${this.t(
               ctx.lang,
               'product:price %s',
               `${product.pricePer} ${product.priceTitle}`
@@ -582,50 +736,40 @@ const deleteProduct = {
     } catch (err) {
       this.deleteAction(ctx.chatID);
       message = this.t(ctx.lang, 'bot:error %s', err.message);
-      this.bot.editMessageText(message, {
-        chat_id: ctx.chatID,
-        message_id: ctx.messageID,
-        reply_markup: null,
-        parse_mode: 'HTML'
+      this.bot.sendMessage(ctx.chatID, message, {
+        parse_mode: 'HTML',
+        reply_markup: reply_markup
       });
     }
   },
 
   async ['p:d:confirm'](ctx) {
-    console.log(ctx);
     let message = this.t(ctx.lang, 'bot:oops');
-    let reply_markup = null;
     try {
       switch (ctx.data.key) {
         case 'yes':
-          const dd = await Product.removeOne(ctx.action.obj.id);
-
-          console.log(dd);
-
-          message = `👌 Добре, категорія товарів "<i>${ctx.action.obj.title}</i>" була успішно <b>видалена</b>.`;
+          await Product.removeOne(ctx.action.obj.id);
+          message =
+            `${this.t(
+              ctx.lang,
+              'product:delete:confirm:delete %s',
+              ctx.action.obj.title
+            )}\n\n` + this.t(ctx.lang, 'bot:help');
           break;
         case 'no':
-          message = `👌 Добре, команда була скасована.\n\n<i>Що я ще можу зробити для вас? Надішліть /help для отримання списку команд.</i>`;
+          message =
+            `${this.t(ctx.lang, 'product:delete:confirm:cancel')}\n\n` +
+            this.t(ctx.lang, 'bot:help');
           break;
       }
     } catch (err) {
-      reply_markup = null;
       message = this.t(ctx.lang, 'bot:error %s', err.message);
     } finally {
-      //  this.deleteAction(ctx.chatID);
-      // this.bot.sendMessage(message, {
-      //   chat_id: ctx.chatID,
-      //   reply_markup: reply_markup,
-      //   parse_mode: 'HTML'
-      // });
-
+      this.deleteAction(ctx.chatID);
       this.bot.deleteMessage(ctx.chatID, ctx.messageID);
-
-      // this.bot.sendMessage(ctx.chatID, message, {
-      //   parse_mode: 'HTML',
-
-      //   reply_markup: null
-      // });
+      this.bot.sendMessage(ctx.chatID, message, {
+        parse_mode: 'HTML'
+      });
     }
   }
 };

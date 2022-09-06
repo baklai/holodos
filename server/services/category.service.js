@@ -1,12 +1,15 @@
 const Category = require('../models/category.model');
 const Product = require('../models/product.model');
 
-const paginate = async (page = 1) => {
-  return await Category.paginate({}, { select: 'title', page: page, limit: 5 });
+const paginate = async (page = 1, key = 'holodos') => {
+  return await Category.paginate(
+    { key: key },
+    { select: 'title', page: page, limit: 5 }
+  );
 };
 
-const findAll = async () => {
-  return await Category.find({}, 'title');
+const findAll = async (key = 'holodos') => {
+  return await Category.find({ key: key }, 'title');
 };
 
 const findOne = async (id) => {

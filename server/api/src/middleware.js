@@ -3,19 +3,10 @@ const Action = require('./action');
 const i18n = require('../../config/i18n.config');
 
 module.exports = class Middleware extends Action {
-  constructor(bot, TOKEN, WEB_APP) {
+  constructor(bot) {
     super(bot);
 
-    this.TOKEN = TOKEN;
-
-    this.WEB_APP = WEB_APP;
-
     this.LIMIT = 5;
-
-    this.BOT_BUTTON = [
-      [{ text: 'Відкрити холодос', web_app: { url: this.WEB_APP } }],
-      [{ text: '❓ Help' }, { text: '💸 Donate' }]
-    ];
   }
 
   t(locale = 'en', phrase, varible) {
@@ -39,7 +30,7 @@ module.exports = class Middleware extends Action {
   }
 
   isPaginate(data) {
-    return data?.type === 'paginate';
+    return data?.cb === 'paginate';
   }
 
   initPaginate(ctx, page, pages) {
@@ -48,20 +39,40 @@ module.exports = class Middleware extends Action {
     return [
       {
         text: '<<',
-        callback_data: JSON.stringify({ type: 'paginate', key: 'prev' })
+        callback_data: JSON.stringify({ cb: 'paginate', key: 'start' })
       },
       {
-        text: `${page} ... ${pages}`,
-        callback_data: JSON.stringify({ type: 'paginate', key: 'current' })
+        text: '<',
+        callback_data: JSON.stringify({ cb: 'paginate', key: 'prev' })
+      },
+      {
+        text: `${page}/${pages}`,
+        callback_data: JSON.stringify({ cb: 'paginate', key: 'current' })
+      },
+      {
+        text: '>',
+        callback_data: JSON.stringify({ cb: 'paginate', key: 'next' })
       },
       {
         text: '>>',
-        callback_data: JSON.stringify({ type: 'paginate', key: 'next' })
+        callback_data: JSON.stringify({ cb: 'paginate', key: 'end' })
       }
     ];
   }
 
-  ctx(msg, next) {
+  btnMenu(msg) {
+    return [
+      [
+        {
+          text: this.t(this.isLang(msg), 'bot:menubtn'),
+          web_app: { url: this.WEB_APP }
+        }
+      ],
+      [{ text: '❓ Help' }, { text: '💸 Donate' }]
+    ];
+  }
+
+  ctx(msg, cb) {
     const ctx = {
       chatID: msg.chat?.id || msg.message?.chat?.id || undefined,
       messageID: msg.message_id || msg.message?.message_id || undefined,
@@ -78,19 +89,17 @@ module.exports = class Middleware extends Action {
       lang: this.isLang(msg),
       action:
         this.getAction(msg.chat?.id || msg.message?.chat?.id || undefined) ||
-        this.setAction(
-          msg.chat?.id || msg.message?.chat?.id || undefined,
-          next
-        ),
+        this.setAction(msg.chat?.id || msg.message?.chat?.id || undefined, cb),
       isCommand: this.isCommand(msg),
-      isPaginate: this.isPaginate(JSON.parse(msg.data || false))
+      isPaginate: this.isPaginate(JSON.parse(msg.data || false)),
+      btnMenu: this.btnMenu(msg)
     };
-    if (typeof this[next] === 'function') {
+    if (typeof this[cb] === 'function') {
       if (ctx.data) {
-        this.setActionType(ctx.data.type);
-        return this[ctx.data.type](ctx);
+        this.setActionType(ctx.data.cb);
+        return this[ctx.data.cb](ctx);
       } else {
-        return this[next](ctx);
+        return this[cb](ctx);
       }
     }
   }

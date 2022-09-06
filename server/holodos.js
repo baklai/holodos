@@ -8,7 +8,7 @@ process.env.NTBA_FIX_350 = 1;
 
 const TelegramBot = require('node-telegram-bot-api');
 
-const { TOKEN, PROXY, WEB_APP } = process.env;
+const { TOKEN, PROXY, WEB_APP, SECRET, PAYEE } = process.env;
 
 const APIBot = require('./api');
 
@@ -29,7 +29,7 @@ const bot = new TelegramBot(
       }
 );
 
-const api = new APIBot(bot, TOKEN, WEB_APP);
+const api = new APIBot(bot, TOKEN, SECRET, WEB_APP, PAYEE);
 
 if (process.env.NODE_ENV === 'production') {
   bot.setWebHook(`${WEB_APP}/bot/v1/bot${TOKEN}`);
@@ -60,9 +60,13 @@ bot.on('message', async (msg) => {
   const { id } = msg.chat;
   const isCommand = api.isCommand(msg);
   const action = api.getAction(id);
-  if (action && !isCommand) {
+  if (msg.text === '❓ Help') {
+    api.ctx(msg, '/help');
+  } else if (msg.text === '💸 Donate') {
+    api.ctx(msg, '/donate');
+  } else if (action && !isCommand) {
     try {
-      api.ctx(msg, action.type);
+      api.ctx(msg, action.cb);
     } catch (err) {
       api.deleteAction(id);
       bot.sendMessage(id, '💢 <b>Упс!</b> Щось пішло не так!', {
@@ -83,10 +87,10 @@ bot.on('message', async (msg) => {
 bot.on('callback_query', async (query) => {
   const { id } = query.message.chat;
   const action = api.getAction(id);
-  const { type } = JSON.parse(query.data || false);
+  const { cb } = JSON.parse(query.data || false);
   if (action) {
     try {
-      api.ctx(query, type);
+      api.ctx(query, cb);
     } catch (err) {
       api.deleteAction(id);
       bot.sendMessage(id, '💢 <b>Упс!</b> Щось пішло не так!', {

@@ -4,21 +4,20 @@ const findAll = async () => {
   return await User.find({}, 'userID firstName lastName userName');
 };
 
+const findOne = async (id) => {
+  return await User.findOne({ userID: id });
+};
+
 const createOne = async (item) => {
   return await User.findOneAndUpdate(
     {
       userID: item.userID
     },
     {
-      $set: {
-        userID: item.userID,
-        firstName: item.firstName,
-        lastName: item.lastName,
-        userName: item.userName
-      }
+      $set: { ...item }
     },
     { new: true, upsert: true }
   );
 };
 
-module.exports = { findAll, createOne };
+module.exports = { findAll, findOne, createOne };

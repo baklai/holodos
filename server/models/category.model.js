@@ -5,6 +5,11 @@ const categorySchema = new Schema({
     type: String,
     trim: true,
     required: "Назва категорії товарів має бути обов'язковою"
+  },
+  key: {
+    type: String,
+    trim: true,
+    default: 'holodos'
   }
 });
 
