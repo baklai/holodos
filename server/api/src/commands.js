@@ -71,7 +71,7 @@ module.exports = {
       `${this.t(ctx.lang, 'stat:title')}\n\n` +
       `${this.t(ctx.lang, 'stat:users %s', stat.users)}\n` +
       `${this.t(ctx.lang, 'stat:categories %s', stat.categories)}\n` +
-      `${this.t(ctx.lang, 'stat:products %s', stat.users)}\n\n` +
+      `${this.t(ctx.lang, 'stat:products %s', stat.products)}\n\n` +
       `${this.t(ctx.lang, 'bot:help')}`;
     this.deleteAction(ctx.chatID);
     this.bot.sendMessage(ctx.chatID, message, {
