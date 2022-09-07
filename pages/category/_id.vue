@@ -62,7 +62,7 @@ export default {
   mounted() {
     Telegram.WebApp.BackButton.show();
     Telegram.WebApp.BackButton.onClick(() => {
-      this.$router.push('/category');
+      this.$router.push('/catalog');
     });
 
     Telegram.WebApp.MainButton.setParams({

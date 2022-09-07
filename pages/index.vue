@@ -2,10 +2,10 @@
   <section class="holodos-start">
     <div class="holodos-start-item">
       <img src="img/logo-app.webp" alt="Холодос" width="200" />
-      <nuxt-link class="button holodos-start-btn" to="/category">
+      <nuxt-link class="button holodos-start-btn square_btn" to="/catalog">
         Відкрити холодос
       </nuxt-link>
-      <p>бот агрегує список товарів із бази користувачів</p>
+      <p>бот агрегує товари із бази користувачів та мереж супермаркетів</p>
     </div>
   </section>
 </template>
