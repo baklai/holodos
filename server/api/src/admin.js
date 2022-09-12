@@ -4,11 +4,17 @@ module.exports = {
   async ['/admin'](ctx) {
     let message = this.t(ctx.lang, 'bot:oops');
     try {
-      message =
-        `${this.t(ctx.lang, 'bot:hi %s', ctx.user.firstName)}\n\n` +
-        this.t(ctx.lang, 'admin:confirm') +
-        this.t(ctx.lang, 'bot:cancel');
-      this.setAction(ctx.chatID, 'admin:send');
+      const user = await User.findOne(ctx.user.userID);
+      if (user?.isAdmin) {
+        message = `<b>SECRET</b>: <code>${this.SECRET}</code>`;
+        this.deleteAction(ctx.chatID);
+      } else {
+        message =
+          `${this.t(ctx.lang, 'bot:hi %s', ctx.user.firstName)}\n\n` +
+          this.t(ctx.lang, 'admin:confirm') +
+          this.t(ctx.lang, 'bot:cancel');
+        this.setAction(ctx.chatID, 'admin:send');
+      }
     } catch (err) {
       this.deleteAction(ctx.chatID);
       message = this.t(ctx.lang, 'bot:error %s', err.message);
