@@ -3,7 +3,7 @@
     <div class="holodos-start-item">
       <nuxt-link
         class="button holodos-start-btn"
-        to="/category?key=holodos"
+        to="/category?catalog=holodos"
         style="align-items: center; display: inline-flex"
       >
         <img src="/img/logo-app.webp" alt="Холодос" height="32" />
@@ -11,13 +11,13 @@
       </nuxt-link>
       <nuxt-link
         class="button holodos-start-btn square_btn"
-        to="/category?key=atb"
+        to="/category?catalog=atb-market"
       >
         <img src="/svg/atb-logo.svg" alt="АТБ-Маркет" height="32" />
       </nuxt-link>
       <nuxt-link
         class="button holodos-start-btn square_btn"
-        to="/category?key=silpo"
+        to="/category?catalog=silpo-market"
       >
         <img src="/svg/silpo-logo.svg" alt="Сільпо-Маркет" height="28" />
       </nuxt-link>

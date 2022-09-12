@@ -4,8 +4,7 @@ commands = {
     commands: [
       { command: 'help', description: 'довідка по роботі з ботом' },
       { command: 'about', description: 'про бот і його можливості' },
-      { command: 'donate', description: 'допомога на розвиток бота' },
-      { command: 'statistic', description: 'статистика бота' }
+      { command: 'donate', description: 'допомога на розвиток бота' }
     ]
   },
   category: {
@@ -22,7 +21,7 @@ commands = {
     commands: [
       { command: 'products', description: 'показати товари в категорії' },
       { command: 'newproduct', description: 'додати товар до категорії' },
-      // { command: 'editproduct', description: 'змінити товар у категорії' },
+      { command: 'editproduct', description: 'змінити товар у категорії' },
       { command: 'deleteproduct', description: 'видалити товар із категорії' }
     ]
   },
@@ -30,14 +29,14 @@ commands = {
     description: 'Операційні команди',
     commands: [
       { command: 'cancel', description: 'скасувати операцію' },
-      { command: 'update', description: 'оновити список товарів' }
+      { command: 'statistic', description: 'статистика бота' }
     ]
   },
   administration: {
     description: 'Системні команди',
     commands: [
       { command: 'admin', description: 'права адміністратора' },
-
+      { command: 'update', description: 'оновити список товарів' },
       { command: 'notification', description: 'відправити повідомлення' }
     ]
   }
@@ -45,29 +44,32 @@ commands = {
 
 module.exports = {
   commands: [...commands.main.commands, ...commands.operation.commands],
-  helper: `
-${commands.main.commands
-  .map((item) => `/${item.command} - ${item.description}`)
-  .join('\n')}
+  helper: { ...commands }
+  // helper: (isAdmin) => {
+  //   // `
+  //   // ${commands.main.commands
+  //   //   .map((item) => `/${item.command} - ${item.description}`)
+  //   //   .join('\n')}
 
-<b><i>${commands.category.description}</i></b>
-${commands.category.commands
-  .map((item) => `/${item.command} - ${item.description}`)
-  .join('\n')}
+  //   // <b><i>${commands.category.description}</i></b>
+  //   // ${commands.category.commands
+  //   //   .map((item) => `/${item.command} - ${item.description}`)
+  //   //   .join('\n')}
 
-<b><i>${commands.product.description}</i></b>
-${commands.product.commands
-  .map((item) => `/${item.command} - ${item.description}`)
-  .join('\n')}
+  //   // <b><i>${commands.product.description}</i></b>
+  //   // ${commands.product.commands
+  //   //   .map((item) => `/${item.command} - ${item.description}`)
+  //   //   .join('\n')}
 
-<b><i>${commands.operation.description}</i></b>
-${commands.operation.commands
-  .map((item) => `/${item.command} - ${item.description}`)
-  .join('\n')}
+  //   // <b><i>${commands.operation.description}</i></b>
+  //   // ${commands.operation.commands
+  //   //   .map((item) => `/${item.command} - ${item.description}`)
+  //   //   .join('\n')}`
 
-<b><i>${commands.administration.description}</i></b>
-${commands.administration.commands
-  .map((item) => `/${item.command} - ${item.description}`)
-  .join('\n')}
-    `
+  //   // `<b><i>${commands.administration.description}</i></b>
+  //   // ${commands.administration.commands
+  //   //   .map((item) => `/${item.command} - ${item.description}`)
+  //   //   .join('\n')}
+  //   //     `
+  // }
 };

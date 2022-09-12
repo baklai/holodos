@@ -41,6 +41,7 @@
     "mongoose-paginate": "^5.0.3",
     "node-telegram-bot-api": "^0.58.0",
     "nuxt": "^2.15.8",
+    "puppeteer": "^17.1.2",
     "sharp": "^0.30.7"
   },
   "devDependencies": {

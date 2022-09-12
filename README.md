@@ -6,8 +6,6 @@ quickly create and manage shopping lists, make them accessible
 acquaintances All changes are saved in the chat, and you can access them at any time
 access both from the phone, from the application, and through the website.
 
-<img width="1280" src="/static/social-preview.png">
-
 ### Open Telegram bot : [Holodos bot](https://t.me/MyHolodosBot)
 
 ## Project setup

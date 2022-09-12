@@ -25,11 +25,46 @@ module.exports = {
   },
 
   async ['/help'](ctx) {
-    const message =
+    let message =
       `${this.t(ctx.lang, 'bot:hi %s', ctx.user.firstName)}\n\n` +
-      `${this.t(ctx.lang, 'help:title')}\n` +
-      `${helper}\n\n` +
-      `${this.t(ctx.lang, 'bot:created %s', new Date().getFullYear())}`;
+      `${this.t(ctx.lang, 'help:title')}\n\n`;
+    message += `${helper.main.commands
+      .map((item) => `/${item.command} - ${this.t(ctx.lang, item.description)}`)
+      .join('\n')}`;
+    message += `\n\n<b><i>${this.t(
+      ctx.lang,
+      helper.category.description
+    )}</i></b>\n${helper.category.commands
+      .map((item) => `/${item.command} - ${this.t(ctx.lang, item.description)}`)
+      .join('\n')}`;
+    message += `\n\n<b><i>${this.t(
+      ctx.lang,
+      helper.product.description
+    )}</i></b>\n${helper.product.commands
+      .map((item) => `/${item.command} - ${this.t(ctx.lang, item.description)}`)
+      .join('\n')}`;
+    message += `\n\n<b><i>${this.t(
+      ctx.lang,
+      helper.operation.description
+    )}</i></b>\n${helper.operation.commands
+      .map((item) => `/${item.command} - ${this.t(ctx.lang, item.description)}`)
+      .join('\n')}`;
+    const user = await User.findOne(ctx.user.userID);
+    if (user.isAdmin) {
+      message += `\n\n<b><i>${this.t(
+        ctx.lang,
+        helper.administration.description
+      )}</i></b>\n${helper.administration.commands
+        .map(
+          (item) => `/${item.command} - ${this.t(ctx.lang, item.description)}`
+        )
+        .join('\n')}`;
+    }
+    message += `\n\n${this.t(
+      ctx.lang,
+      'bot:created %s',
+      new Date().getFullYear()
+    )}`;
     this.deleteAction(ctx.chatID);
     this.bot.sendMessage(ctx.chatID, message, {
       parse_mode: 'HTML',

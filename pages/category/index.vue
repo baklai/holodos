@@ -5,8 +5,12 @@
       v-for="category in categories"
       :key="category.title"
       :to="`/category/${category.id}`"
+      style="align-items: center; display: inline-flex"
     >
-      {{ category.title }}
+      <img :src="category.icon | toBase64Img" width="28" height="28" />
+      <span style="margin-left: 10px; margin: 0 auto">{{
+        category.title
+      }}</span>
     </nuxt-link>
   </section>
 </template>
@@ -14,7 +18,9 @@
 <script>
 export default {
   async asyncData({ $axios, route }) {
-    const categories = await $axios.$get(`category?key=${route.query.key}`);
+    const categories = await $axios.$get('category', {
+      params: { catalog: route.query.catalog }
+    });
     return { categories };
   },
 
@@ -24,6 +30,12 @@ export default {
       this.$router.push('/catalog');
     });
     Telegram.WebApp.BackButton.show();
+  },
+
+  filters: {
+    toBase64Img(img) {
+      return `data:image/svg+xml;base64,${Buffer.from(img)}`;
+    }
   }
 };
 </script>
