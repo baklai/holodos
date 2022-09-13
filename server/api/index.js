@@ -1,4 +1,6 @@
 const Middleware = require('./src/middleware');
+
+const quit = require('./src/quit');
 const admin = require('./src/admin');
 const update = require('./src/update');
 const commands = require('./src/commands');
@@ -20,6 +22,7 @@ class API extends Middleware {
 
 Object.assign(
   API.prototype,
+  quit,
   admin,
   update,
   commands,

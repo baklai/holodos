@@ -19,17 +19,18 @@ commands = {
   product: {
     description: 'Товари у категоріях',
     commands: [
-      { command: 'products', description: 'показати товари в категорії' },
+      { command: 'products', description: 'показати категорії товарів' },
       { command: 'newproduct', description: 'додати товар до категорії' },
-      { command: 'editproduct', description: 'змінити товар у категорії' },
+      // { command: 'editproduct', description: 'змінити товар у категорії' },
       { command: 'deleteproduct', description: 'видалити товар із категорії' }
     ]
   },
   operation: {
     description: 'Операційні команди',
     commands: [
+      { command: 'statistic', description: 'статистика бота' },
       { command: 'cancel', description: 'скасувати операцію' },
-      { command: 'statistic', description: 'статистика бота' }
+      { command: 'quit', description: 'відписатися від бота' }
     ]
   },
   administration: {
@@ -45,31 +46,4 @@ commands = {
 module.exports = {
   commands: [...commands.main.commands, ...commands.operation.commands],
   helper: { ...commands }
-  // helper: (isAdmin) => {
-  //   // `
-  //   // ${commands.main.commands
-  //   //   .map((item) => `/${item.command} - ${item.description}`)
-  //   //   .join('\n')}
-
-  //   // <b><i>${commands.category.description}</i></b>
-  //   // ${commands.category.commands
-  //   //   .map((item) => `/${item.command} - ${item.description}`)
-  //   //   .join('\n')}
-
-  //   // <b><i>${commands.product.description}</i></b>
-  //   // ${commands.product.commands
-  //   //   .map((item) => `/${item.command} - ${item.description}`)
-  //   //   .join('\n')}
-
-  //   // <b><i>${commands.operation.description}</i></b>
-  //   // ${commands.operation.commands
-  //   //   .map((item) => `/${item.command} - ${item.description}`)
-  //   //   .join('\n')}`
-
-  //   // `<b><i>${commands.administration.description}</i></b>
-  //   // ${commands.administration.commands
-  //   //   .map((item) => `/${item.command} - ${item.description}`)
-  //   //   .join('\n')}
-  //   //     `
-  // }
 };

@@ -1,6 +1,6 @@
 const Action = require('./action');
 
-const i18n = require('../../config/i18n.config');
+const phrases = require('../config/phrases.json');
 
 module.exports = class Middleware extends Action {
   constructor(bot) {
@@ -9,12 +9,12 @@ module.exports = class Middleware extends Action {
     this.LIMIT = 5;
   }
 
-  t(locale = 'en', phrase, varible) {
-    return i18n.__({ phrase: phrase, locale: locale }, varible);
-  }
-
-  isLang(msg) {
-    return msg.from?.language_code || 'uk';
+  p(phrase, varible) {
+    return phrases[phrase]
+      ? varible
+        ? phrases[phrase].replace(/%s/g, varible)
+        : phrases[phrase]
+      : '';
   }
 
   isAdmin(msg) {
@@ -64,7 +64,7 @@ module.exports = class Middleware extends Action {
     return [
       [
         {
-          text: this.t(this.isLang(msg), 'bot:menubtn'),
+          text: this.p('bot:menubtn'),
           web_app: { url: this.WEB_APP }
         }
       ],
@@ -86,7 +86,6 @@ module.exports = class Middleware extends Action {
       data: JSON.parse(msg.data || false) || undefined,
       photo: msg.photo || undefined,
       document: msg.document || undefined,
-      lang: this.isLang(msg),
       action:
         this.getAction(msg.chat?.id || msg.message?.chat?.id || undefined) ||
         this.setAction(msg.chat?.id || msg.message?.chat?.id || undefined, cb),

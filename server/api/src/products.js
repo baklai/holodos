@@ -6,14 +6,12 @@ const Product = require('../../services/product.service');
 
 const products = {
   async ['/products'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     let reply_markup = null;
     try {
       const categories = await Category.paginate(ctx.action.paginate.page);
       if (categories.docs.length) {
-        message =
-          `${this.t(ctx.lang, 'product:read')}` +
-          `${this.t(ctx.lang, 'bot:cancel')}`;
+        message = `${this.p('product:read')}` + `${this.p('bot:cancel')}`;
         reply_markup = {
           inline_keyboard: categories.docs.map((item) => [
             {
@@ -31,12 +29,12 @@ const products = {
       } else {
         reply_markup = null;
         this.deleteAction(ctx.chatID);
-        message = this.t(ctx.lang, 'category:oops');
+        message = this.p('category:oops');
       }
     } catch (err) {
       reply_markup = null;
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       if (ctx.isPaginate) {
         this.bot.editMessageText(message, {
@@ -55,7 +53,7 @@ const products = {
   },
 
   async ['p:r:s-c'](ctx) {
-    let message = this.t(ctx.lang, 'category:oops');
+    let message = this.p('category:oops');
     let reply_markup = null;
     try {
       this.setActionType(ctx.chatID, 'p:r:s-c');
@@ -66,19 +64,13 @@ const products = {
         ctx.action.paginate.page
       );
       if (products.docs.length) {
-        message = this.t(
-          ctx.lang,
-          'product:read:select-category %s',
-          category.title
-        );
+        message = this.p('product:read:select-category %s', category.title);
         products.docs.forEach((item, index) => {
           message += `<b>${
             index + 1 + (ctx.action.paginate.page - 1) * this.LIMIT
           }.</b> <i>${item.title} - ${item.pricePer} ${item.priceTitle}</i>\n`;
         });
-        message +=
-          `\n${this.t(ctx.lang, 'bot:help')}` +
-          `${this.t(ctx.lang, 'bot:cancel')}`;
+        message += `\n${this.p('bot:help')}` + `${this.p('bot:cancel')}`;
         reply_markup = {
           inline_keyboard: [
             this.initPaginate(ctx, products.page, products.pages)
@@ -87,12 +79,12 @@ const products = {
       } else {
         reply_markup = null;
         this.deleteAction(ctx.chatID);
-        message = this.t(ctx.lang, 'product:oops');
+        message = this.p('product:oops');
       }
     } catch (err) {
       reply_markup = null;
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       this.bot.editMessageText(message, {
         chat_id: ctx.chatID,
@@ -106,13 +98,12 @@ const products = {
 
 const newProduct = {
   async ['/newproduct'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     let reply_markup = null;
     try {
       const categories = await Category.paginate(ctx.action.paginate.page);
       if (categories.docs.length) {
-        message =
-          this.t(ctx.lang, 'product:create') + this.t(ctx.lang, 'bot:cancel');
+        message = this.p('product:create') + this.p('bot:cancel');
         reply_markup = {
           inline_keyboard: categories.docs.map((item) => [
             {
@@ -130,12 +121,12 @@ const newProduct = {
       } else {
         reply_markup = null;
         this.deleteAction(ctx.chatID);
-        message = this.t(ctx.lang, 'category:oops');
+        message = this.p('category:oops');
       }
     } catch (err) {
       reply_markup = null;
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       if (ctx.isPaginate) {
         this.bot.editMessageText(message, {
@@ -154,17 +145,17 @@ const newProduct = {
   },
 
   async ['p:c:s-c'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     try {
       const category = await Category.findOne(ctx.data.id);
       ctx.action.obj.category = category.id;
       this.setActionType(ctx.chatID, 'product:create:title');
       message =
-        this.t(ctx.lang, 'product:create:select-category %s', category.title) +
-        this.t(ctx.lang, 'bot:cancel');
+        this.p('product:create:select-category %s', category.title) +
+        this.p('bot:cancel');
     } catch (err) {
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       this.bot.editMessageText(message, {
         chat_id: ctx.chatID,
@@ -176,13 +167,13 @@ const newProduct = {
   },
 
   async ['product:create:title'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     let reply_markup = null;
     try {
       ctx.action.obj.title = ctx.text;
       message =
-        this.t(ctx.lang, 'product:create:title %s', ctx.text) +
-        `${this.t(ctx.lang, 'bot:cancel')}:`;
+        this.p('product:create:title %s', ctx.text) +
+        `${this.p('bot:cancel')}:`;
       reply_markup = {
         inline_keyboard: [
           [
@@ -213,7 +204,7 @@ const newProduct = {
     } catch (err) {
       reply_markup = null;
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       this.bot.sendMessage(ctx.chatID, message, {
         parse_mode: 'HTML',
@@ -223,19 +214,16 @@ const newProduct = {
   },
 
   async ['p:c:i-p-t'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     try {
       ctx.action.obj.priceTitle = ctx.data.key;
       message =
-        this.t(
-          ctx.lang,
-          'product:create:price-title %s',
-          ctx.action.obj.priceTitle
-        ) + this.t(ctx.lang, 'bot:cancel');
+        this.p('product:create:price-title %s', ctx.action.obj.priceTitle) +
+        this.p('bot:cancel');
       this.setActionType(ctx.chatID, 'product:create:price-per');
     } catch (err) {
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       this.bot.editMessageText(message, {
         chat_id: ctx.chatID,
@@ -246,17 +234,16 @@ const newProduct = {
   },
 
   async ['product:create:price-per'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     let reply_markup = null;
     try {
       ctx.action.obj.pricePer = Number(ctx.text);
       message =
-        this.t(ctx.lang, 'product:create:price-per %s', ctx.text) +
-        this.t(ctx.lang, 'bot:cancel');
+        this.p('product:create:price-per %s', ctx.text) + this.p('bot:cancel');
       this.setActionType(ctx.chatID, 'product:create:img');
     } catch (err) {
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       this.bot.sendMessage(ctx.chatID, message, {
         parse_mode: 'HTML',
@@ -272,7 +259,7 @@ const newProduct = {
     } else if (ctx.document) {
       fileID = ctx.document.file_id;
     }
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     try {
       let url = `https://api.telegram.org/bot${this.TOKEN}/getFile?file_id=${fileID}`;
       const { data } = await axios.get(url);
@@ -289,15 +276,14 @@ const newProduct = {
         {
           parse_mode: 'HTML',
           caption:
-            `${this.t(ctx.lang, 'product:create:ok')}\n\n` +
-            `${this.t(ctx.lang, 'product:category %s', category.title)}\n` +
-            `${this.t(ctx.lang, 'product:title %s', product.title)}\n` +
-            `${this.t(
-              ctx.lang,
+            `${this.p('product:create:ok')}\n\n` +
+            `${this.p('product:category %s', category.title)}\n` +
+            `${this.p('product:title %s', product.title)}\n` +
+            `${this.p(
               'product:price %s',
               `${product.pricePer} ${product.priceTitle}\n\n`
             )}` +
-            this.t(ctx.lang, 'bot:help')
+            this.p('bot:help')
         },
         {
           filename: undefined,
@@ -305,7 +291,7 @@ const newProduct = {
         }
       );
     } catch (err) {
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
       this.bot.sendMessage(ctx.chatID, message, { parse_mode: 'HTML' });
     } finally {
       this.deleteAction(ctx.chatID);
@@ -315,14 +301,12 @@ const newProduct = {
 
 const editProduct = {
   async ['/editproduct'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     let reply_markup = null;
     try {
       const categories = await Category.paginate(ctx.action.paginate.page);
       if (categories.docs.length) {
-        message =
-          this.t(ctx.lang, 'product:update', ctx.text) +
-          this.t(ctx.lang, 'bot:cancel');
+        message = this.p('product:update', ctx.text) + this.p('bot:cancel');
         reply_markup = {
           inline_keyboard: categories.docs.map((item) => [
             {
@@ -340,12 +324,12 @@ const editProduct = {
       } else {
         reply_markup = null;
         this.deleteAction(ctx.chatID);
-        message = this.t(ctx.lang, 'category:oops');
+        message = this.p('category:oops');
       }
     } catch (err) {
       reply_markup = null;
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       if (ctx.isPaginate) {
         this.bot.editMessageText(message, {
@@ -364,7 +348,7 @@ const editProduct = {
   },
 
   async ['p:u:s-c'](ctx) {
-    let message = this.t(ctx.lang, 'category:oops');
+    let message = this.p('category:oops');
     let reply_markup = null;
     this.setActionType(ctx.chatID, 'p:u:s-c');
     try {
@@ -375,11 +359,7 @@ const editProduct = {
         ctx.action.paginate.page
       );
       if (products.docs.length) {
-        message = this.t(
-          ctx.lang,
-          'product:update:select-category %s',
-          category.title
-        );
+        message = this.p('product:update:select-category %s', category.title);
         reply_markup = {
           inline_keyboard: products.docs.map((item) => [
             {
@@ -391,19 +371,19 @@ const editProduct = {
             }
           ])
         };
-        message += this.t(ctx.lang, 'bot:cancel');
+        message += this.p('bot:cancel');
         reply_markup.inline_keyboard.push(
           this.initPaginate(ctx, products.page, products.pages)
         );
       } else {
         reply_markup = null;
         this.deleteAction(ctx.chatID);
-        message = this.t(ctx.lang, 'product:oops');
+        message = this.p('product:oops');
       }
     } catch (err) {
       reply_markup = null;
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       this.bot.editMessageText(message, {
         chat_id: ctx.chatID,
@@ -415,7 +395,7 @@ const editProduct = {
   },
 
   async ['p:u:s-p'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     try {
       const category = await Category.findOne(ctx.action.obj.category);
       const product = await Product.findOne(ctx.data.id);
@@ -426,24 +406,19 @@ const editProduct = {
         {
           parse_mode: 'HTML',
           caption:
-            `${this.t(ctx.lang, 'product:category %s', category.title)}\n` +
-            `${this.t(ctx.lang, 'product:title %s', product.title)}\n` +
-            `${this.t(
-              ctx.lang,
+            `${this.p('product:category %s', category.title)}\n` +
+            `${this.p('product:title %s', product.title)}\n` +
+            `${this.p(
               'product:price %s',
               `${product.pricePer} ${product.priceTitle}\n\n`
             )}` +
-            `${this.t(
-              ctx.lang,
-              'product:update:select-product %s',
-              product.title
-            )}` +
-            `${this.t(ctx.lang, 'bot:cancel')}\n\n`,
+            `${this.p('product:update:select-product %s', product.title)}` +
+            `${this.p('bot:cancel')}\n\n`,
           reply_markup: {
             inline_keyboard: [
               [
                 {
-                  text: this.t(ctx.lang, 'product:btn:category'),
+                  text: this.p('product:btn:category'),
                   callback_data: JSON.stringify({
                     cb: 'p:u:cb',
                     key: 'category'
@@ -452,19 +427,19 @@ const editProduct = {
               ],
               [
                 {
-                  text: this.t(ctx.lang, 'product:btn:img'),
+                  text: this.p('product:btn:img'),
                   callback_data: JSON.stringify({ cb: 'p:u:cb', key: 'img' })
                 }
               ],
               [
                 {
-                  text: this.t(ctx.lang, 'product:btn:title'),
+                  text: this.p('product:btn:title'),
                   callback_data: JSON.stringify({ cb: 'p:u:cb', key: 'title' })
                 }
               ],
               [
                 {
-                  text: this.t(ctx.lang, 'product:btn:price-title'),
+                  text: this.p('product:btn:price-title'),
                   callback_data: JSON.stringify({
                     cb: 'p:u:cb',
                     key: 'price-title'
@@ -473,7 +448,7 @@ const editProduct = {
               ],
               [
                 {
-                  text: this.t(ctx.lang, 'product:btn:price-per'),
+                  text: this.p('product:btn:price-per'),
                   callback_data: JSON.stringify({
                     cb: 'p:u:cb',
                     key: 'price-per'
@@ -490,7 +465,7 @@ const editProduct = {
       );
     } catch (err) {
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
       this.bot.sendMessage(ctx.chatID, message, {
         parse_mode: 'HTML'
       });
@@ -498,15 +473,13 @@ const editProduct = {
   },
 
   async ['p:u:cb'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     let reply_markup = null;
     try {
       switch (ctx.data.key) {
         case 'category':
           const categories = await Category.paginate(ctx.action.paginate.page);
-          message =
-            this.t(ctx.lang, 'product:update:category') +
-            this.t(ctx.lang, 'bot:cancel');
+          message = this.p('product:update:category') + this.p('bot:cancel');
           reply_markup = {
             inline_keyboard: categories.docs.map((item) => [
               {
@@ -524,21 +497,15 @@ const editProduct = {
           break;
         case 'title':
           this.setActionType(ctx.chatID, 'product:update:title');
-          message =
-            this.t(ctx.lang, 'product:update:title') +
-            this.t(ctx.lang, 'bot:cancel');
+          message = this.p('product:update:title') + this.p('bot:cancel');
           break;
         case 'img':
           this.setActionType(ctx.chatID, 'product:update:img');
-          message =
-            this.t(ctx.lang, 'product:update:img') +
-            this.t(ctx.lang, 'bot:cancel');
+          message = this.p('product:update:img') + this.p('bot:cancel');
           break;
         case 'price-title':
           this.setActionType(ctx.chatID, 'product:update:price-title');
-          message =
-            this.t(ctx.lang, 'product:update:price-title') +
-            this.t(ctx.lang, 'bot:cancel');
+          message = this.p('product:update:price-title') + this.p('bot:cancel');
           reply_markup = {
             inline_keyboard: [
               [
@@ -569,14 +536,12 @@ const editProduct = {
           break;
         case 'price-per':
           this.setActionType(ctx.chatID, 'product:update:price-per');
-          message =
-            this.t(ctx.lang, 'product:update:price-per') +
-            this.t(ctx.lang, 'bot:cancel');
+          message = this.p('product:update:price-per') + this.p('bot:cancel');
           break;
       }
     } catch (err) {
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
       this.bot.sendMessage(ctx.chatID, message, {
         parse_mode: 'HTML'
       });
@@ -591,14 +556,12 @@ const editProduct = {
 
 const deleteProduct = {
   async ['/deleteproduct'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     let reply_markup = null;
     try {
       const categories = await Category.paginate(ctx.action.paginate.page);
       if (categories.docs.length) {
-        message =
-          this.t(ctx.lang, 'product:delete', ctx.text) +
-          this.t(ctx.lang, 'bot:cancel');
+        message = this.p('product:delete', ctx.text) + this.p('bot:cancel');
         reply_markup = {
           inline_keyboard: categories.docs.map((item) => [
             {
@@ -616,12 +579,12 @@ const deleteProduct = {
       } else {
         reply_markup = null;
         this.deleteAction(ctx.chatID);
-        message = this.t(ctx.lang, 'category:oops');
+        message = this.p('category:oops');
       }
     } catch (err) {
       reply_markup = null;
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       if (ctx.isPaginate) {
         this.bot.editMessageText(message, {
@@ -640,7 +603,7 @@ const deleteProduct = {
   },
 
   async ['p:d:s-c'](ctx) {
-    let message = this.t(ctx.lang, 'category:oops');
+    let message = this.p('category:oops');
     let reply_markup = null;
     this.setActionType(ctx.chatID, 'p:d:s-c');
     try {
@@ -651,11 +614,7 @@ const deleteProduct = {
         ctx.action.paginate.page
       );
       if (products.docs.length) {
-        message = this.t(
-          ctx.lang,
-          'product:delete:select-category %s',
-          category.title
-        );
+        message = this.p('product:delete:select-category %s', category.title);
         reply_markup = {
           inline_keyboard: products.docs.map((item) => [
             {
@@ -667,19 +626,19 @@ const deleteProduct = {
             }
           ])
         };
-        message += `${this.t(ctx.lang, 'bot:cancel')}`;
+        message += `${this.p('bot:cancel')}`;
         reply_markup.inline_keyboard.push(
           this.initPaginate(ctx, products.page, products.pages)
         );
       } else {
         reply_markup = null;
         this.deleteAction(ctx.chatID);
-        message = this.t(ctx.lang, 'product:oops');
+        message = this.p('product:oops');
       }
     } catch (err) {
       reply_markup = null;
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       this.bot.editMessageText(message, {
         chat_id: ctx.chatID,
@@ -691,7 +650,7 @@ const deleteProduct = {
   },
 
   async ['p:d:s-p'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     let reply_markup = null;
     try {
       const product = await Product.findOne(ctx.data.id);
@@ -720,10 +679,9 @@ const deleteProduct = {
           reply_markup: reply_markup,
           parse_mode: 'HTML',
           caption:
-            `${this.t(ctx.lang, 'product:category %s', category.title)}\n` +
-            `${this.t(ctx.lang, 'product:title %s', product.title)}\n` +
-            `${this.t(
-              ctx.lang,
+            `${this.p('product:category %s', category.title)}\n` +
+            `${this.p('product:title %s', product.title)}\n` +
+            `${this.p(
               'product:price %s',
               `${product.pricePer} ${product.priceTitle}`
             )}`
@@ -735,7 +693,7 @@ const deleteProduct = {
       );
     } catch (err) {
       this.deleteAction(ctx.chatID);
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
       this.bot.sendMessage(ctx.chatID, message, {
         parse_mode: 'HTML',
         reply_markup: reply_markup
@@ -744,26 +702,25 @@ const deleteProduct = {
   },
 
   async ['p:d:confirm'](ctx) {
-    let message = this.t(ctx.lang, 'bot:oops');
+    let message = this.p('bot:oops');
     try {
       switch (ctx.data.key) {
         case 'yes':
           await Product.removeOne(ctx.action.obj.id);
           message =
-            `${this.t(
-              ctx.lang,
+            `${this.p(
               'product:delete:confirm:delete %s',
               ctx.action.obj.title
-            )}\n\n` + this.t(ctx.lang, 'bot:help');
+            )}\n\n` + this.p('bot:help');
           break;
         case 'no':
           message =
-            `${this.t(ctx.lang, 'product:delete:confirm:cancel')}\n\n` +
-            this.t(ctx.lang, 'bot:help');
+            `${this.p('product:delete:confirm:cancel')}\n\n` +
+            this.p('bot:help');
           break;
       }
     } catch (err) {
-      message = this.t(ctx.lang, 'bot:error %s', err.message);
+      message = this.p('bot:error %s', err.message);
     } finally {
       this.deleteAction(ctx.chatID);
       this.bot.deleteMessage(ctx.chatID, ctx.messageID);

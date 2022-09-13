@@ -20,4 +20,8 @@ const createOne = async (item) => {
   );
 };
 
-module.exports = { findAll, findOne, createOne };
+const removeOne = async (id) => {
+  return await User.deleteOne({ _id: id });
+};
+
+module.exports = { findAll, findOne, createOne, removeOne };

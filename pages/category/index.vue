@@ -8,9 +8,9 @@
       style="align-items: center; display: inline-flex"
     >
       <img :src="category.icon | toBase64Img" width="28" height="28" />
-      <span style="margin-left: 10px; margin: 0 auto">{{
-        category.title
-      }}</span>
+      <span style="margin-left: 10px; margin: 0 auto">
+        {{ category.title }}
+      </span>
     </nuxt-link>
   </section>
 </template>

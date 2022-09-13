@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const { commands } = require('./config/commands');
+const { commands } = require('./api/config/commands');
 
 bot
   .setMyCommands(commands)
