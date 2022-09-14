@@ -20,7 +20,7 @@
         to="/category?catalog=atb-market"
       >
         <img
-          src="/svg/atb-logo.svg"
+          src="~/assets/svg/atb-logo.svg"
           loading="lazy"
           alt="АТБ-Маркет"
           height="32"
@@ -31,7 +31,7 @@
         to="/category?catalog=silpo-market"
       >
         <img
-          src="/svg/silpo-logo.svg"
+          src="~/assets/svg/silpo-logo.svg"
           loading="lazy"
           alt="Сільпо-Маркет"
           height="28"
