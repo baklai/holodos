@@ -54,12 +54,13 @@
 
 <script>
 export default {
-  async asyncData({ $axios, route }) {
-    const products = await $axios.$get(`category/${route.params.id}`);
-    return { products };
+  data() {
+    return {
+      products: []
+    };
   },
 
-  mounted() {
+  async mounted() {
     Telegram.WebApp.BackButton.show();
     Telegram.WebApp.BackButton.onClick(() => {
       this.$router.push('/catalog');
@@ -74,6 +75,8 @@ export default {
     Telegram.WebApp.MainButton.onClick(() => {
       this.$router.push('/order');
     });
+
+    this.products = await this.$axios.$get(`category/${this.$route.params.id}`);
   },
 
   filters: {

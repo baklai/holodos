@@ -17,19 +17,22 @@
 
 <script>
 export default {
-  async asyncData({ $axios, route }) {
-    const categories = await $axios.$get('category', {
-      params: { catalog: route.query.catalog }
-    });
-    return { categories };
+  data() {
+    return {
+      categories: []
+    };
   },
 
-  mounted() {
+  async mounted() {
     Telegram.WebApp.MainButton.hide();
     Telegram.WebApp.BackButton.onClick(() => {
       this.$router.push('/catalog');
     });
     Telegram.WebApp.BackButton.show();
+
+    this.categories = await this.$axios.$get('category', {
+      params: { catalog: this.$route.query.catalog }
+    });
   },
 
   filters: {
