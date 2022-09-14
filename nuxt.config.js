@@ -71,11 +71,7 @@ export default {
 
   components: true,
 
-  loadingIndicator: {
-    name: 'cube-grid',
-    color: '#f8a917',
-    background: '#FFFFFF'
-  },
+  loadingIndicator: '~/components/loading.vue',
 
   loading: '~/components/loading.vue',
 

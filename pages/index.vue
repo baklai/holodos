@@ -1,7 +1,7 @@
 <template>
   <section class="holodos-start">
     <div class="holodos-start-item">
-      <img src="img/logo-app.webp" alt="Холодос" width="200" />
+      <img src="img/logo-app.webp" loading="lazy" alt="Холодос" width="200" />
       <nuxt-link class="button holodos-start-btn square_btn" to="/catalog">
         Відкрити холодос
       </nuxt-link>

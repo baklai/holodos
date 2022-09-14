@@ -6,20 +6,35 @@
         to="/category?catalog=holodos"
         style="align-items: center; display: inline-flex"
       >
-        <img src="/img/logo-app.webp" alt="Холодос" height="32" />
+        <img
+          src="/img/logo-app.webp"
+          loading="lazy"
+          alt="Холодос"
+          height="32"
+        />
         <span style="margin-left: 10px">Мій каталог</span>
       </nuxt-link>
       <nuxt-link
         class="button holodos-start-btn square_btn"
         to="/category?catalog=atb-market"
       >
-        <img src="/svg/atb-logo.svg" alt="АТБ-Маркет" height="32" />
+        <img
+          src="/svg/atb-logo.svg"
+          loading="lazy"
+          alt="АТБ-Маркет"
+          height="32"
+        />
       </nuxt-link>
       <nuxt-link
         class="button holodos-start-btn square_btn"
         to="/category?catalog=silpo-market"
       >
-        <img src="/svg/silpo-logo.svg" alt="Сільпо-Маркет" height="28" />
+        <img
+          src="/svg/silpo-logo.svg"
+          loading="lazy"
+          alt="Сільпо-Маркет"
+          height="28"
+        />
       </nuxt-link>
       <p>бот агрегує товари із бази користувачів та мереж супермаркетів</p>
     </div>
