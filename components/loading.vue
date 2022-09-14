@@ -37,13 +37,17 @@ export default {
 }
 
 .sk-grid {
-  width: var(80px);
-  height: var(80px);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  transform: translate(-50%, -50%);
 }
 .sk-grid-cube {
   width: 33.33%;
   height: 33.33%;
-  background-color: var(#f8a917);
+  background-color: #f8a917;
   float: left;
   animation: sk-grid 1.3s infinite ease-in-out;
 }
