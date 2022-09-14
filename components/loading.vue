@@ -32,13 +32,11 @@ export default {
 </script>
 
 <style scoped>
-/* Config */
 :root {
   --sk-size: 80px;
   --sk-color: #f8a917;
 }
 
-/* Utility class for centering */
 .sk-center {
   margin: auto;
 }
@@ -46,11 +44,6 @@ export default {
 .sk-grid {
   width: var(--sk-size);
   height: var(--sk-size);
-  /* Cube positions
-   * 1 2 3
-   * 4 5 6
-   * 7 8 9
-   */
 }
 .sk-grid-cube {
   width: 33.33%;
