@@ -1,7 +1,6 @@
 <template>
   <section class="holodos-page holodos-items">
     <Modal ref="modal" />
-    <Loading v-show="loading" />
     <div
       class="holodos-item"
       :class="item.count === 0 ? '' : 'selected'"
@@ -57,7 +56,6 @@
 export default {
   data() {
     return {
-      loading: false,
       products: []
     };
   },
@@ -78,9 +76,7 @@ export default {
       this.$router.push('/order');
     });
 
-    this.loading = true;
     this.products = await this.$axios.$get(`category/${this.$route.params.id}`);
-    this.loading = false;
   },
 
   filters: {

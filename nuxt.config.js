@@ -71,9 +71,9 @@ export default {
 
   components: true,
 
-  loadingIndicator: false, // '~/components/loading.vue',
+  loadingIndicator: '~/components/loading.vue',
 
-  loading: false, // '~/components/loading.vue',
+  loading: '~/components/loading.vue',
 
   css: ['~/assets/transition.css', '~/assets/holodos.css'],
 

@@ -1,6 +1,5 @@
 <template>
   <section class="holodos-start-item">
-    <Loading v-show="loading" />
     <nuxt-link
       class="button holodos-start-btn square_btn"
       v-for="category in categories"
@@ -20,7 +19,6 @@
 export default {
   data() {
     return {
-      loading: false,
       categories: []
     };
   },
@@ -32,11 +30,9 @@ export default {
     });
     Telegram.WebApp.BackButton.show();
 
-    this.loading = true;
     this.categories = await this.$axios.$get('category', {
       params: { catalog: this.$route.query.catalog }
     });
-    this.loading = false;
   },
 
   filters: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="sk-grid">
+  <div class="sk-grid" v-if="loading">
     <div class="sk-grid-cube"></div>
     <div class="sk-grid-cube"></div>
     <div class="sk-grid-cube"></div>
@@ -31,24 +31,19 @@ export default {
 };
 </script>
 
-<style scoped>
-:root {
-  --sk-size: 80px;
-  --sk-color: #f8a917;
-}
-
+<style>
 .sk-center {
   margin: auto;
 }
 
 .sk-grid {
-  width: var(--sk-size);
-  height: var(--sk-size);
+  width: var(80px);
+  height: var(80px);
 }
 .sk-grid-cube {
   width: 33.33%;
   height: 33.33%;
-  background-color: var(--sk-color);
+  background-color: var(#f8a917);
   float: left;
   animation: sk-grid 1.3s infinite ease-in-out;
 }
