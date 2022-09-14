@@ -77,7 +77,7 @@ export default {
     background: '#FFFFFF'
   },
 
-  loading: false,
+  loading: '~/components/loading.vue',
 
   css: ['~/assets/transition.css', '~/assets/holodos.css'],
 
