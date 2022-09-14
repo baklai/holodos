@@ -71,7 +71,7 @@ export default {
 
   components: true,
 
-  loadingIndicator: '~/components/loading.vue',
+  loadingIndicator: false, // '~/components/loading.vue',
 
   loading: '~/components/loading.vue',
 

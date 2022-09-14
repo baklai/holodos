@@ -93,11 +93,13 @@ export default {
     const products = store.getters.products;
     return { products };
   },
+
   data() {
     return {
       comment: null
     };
   },
+
   mounted() {
     Telegram.WebApp.MainButton.setParams({
       text: 'Надіслати список',
