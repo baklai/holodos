@@ -1,6 +1,7 @@
 <template>
   <section class="holodos-start">
-    <div class="holodos-start-item">
+    <Loading v-if="loading" />
+    <div class="holodos-start-item" v-else>
       <nuxt-link
         class="button holodos-start-btn"
         to="/category?catalog=holodos"
@@ -43,12 +44,19 @@
 
 <script>
 export default {
+  data() {
+    return {
+      loading: true
+    };
+  },
+
   mounted() {
     Telegram.WebApp.MainButton.hide();
     Telegram.WebApp.BackButton.onClick(() => {
       this.$router.push('/');
     });
     Telegram.WebApp.BackButton.show();
+    this.loading = false;
   }
 };
 </script>

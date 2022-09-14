@@ -1,7 +1,9 @@
 <template>
   <section class="holodos-page holodos-items">
     <Modal ref="modal" />
+    <Loading v-if="loading" />
     <div
+      v-else
       class="holodos-item"
       :class="item.count === 0 ? '' : 'selected'"
       v-for="(item, index) in products"
@@ -54,9 +56,11 @@
 
 <script>
 export default {
-  async asyncData({ $axios, route }) {
-    const products = await $axios.$get(`category/${route.params.id}`);
-    return { products };
+  data() {
+    return {
+      loading: true,
+      products: []
+    };
   },
 
   async mounted() {
@@ -64,16 +68,16 @@ export default {
     Telegram.WebApp.BackButton.onClick(() => {
       this.$router.push('/catalog');
     });
-
     Telegram.WebApp.MainButton.setParams({
       text: 'Відкрити список',
       color: '#ffc107',
       textColor: '#fff'
     });
-
     Telegram.WebApp.MainButton.onClick(() => {
       this.$router.push('/order');
     });
+    this.products = await this.$axios.$get(`category/${this.$route.params.id}`);
+    this.loading = false;
   },
 
   filters: {

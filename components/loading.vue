@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <div class="sk-grid" v-if="loading">
     <div class="sk-grid-cube"></div>
     <div class="sk-grid-cube"></div>
@@ -16,7 +16,7 @@
 export default {
   data() {
     return {
-      loading: false
+      loading: true
     };
   },
 
