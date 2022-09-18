@@ -8,11 +8,14 @@ const Product = require('../../services/product.service');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
+const browserOptions = {
+  headless: true,
+  args: ['--no-sandbox']
+};
+
 const atb = async () => {
   const url = 'https://zakaz.atbmarket.com';
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox']
-  });
+  const browser = await puppeteer.launch(browserOptions);
   try {
     const page = await browser.newPage();
     await page.setViewport({ width: 1300, height: 10000 });
@@ -91,9 +94,7 @@ const atb = async () => {
 
 const silpo = async () => {
   const url = 'https://shop.silpo.ua';
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox']
-  });
+  const browser = await puppeteer.launch(browserOptions);
   try {
     const page = await browser.newPage();
     await page.setViewport({ width: 1300, height: 10000 });
