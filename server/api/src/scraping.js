@@ -9,7 +9,7 @@ const Product = require('../../services/product.service');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 const browserOptions = {
-  headless: true,
+  headless: false,
   args: ['--incognito', '--no-sandbox', '--single-process', '--no-zygote']
 };
 
