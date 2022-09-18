@@ -11,7 +11,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 const atb = async () => {
   const url = 'https://zakaz.atbmarket.com';
   const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: ['--incognito', '--no-sandbox', '--single-process', '--no-zygote']
   });
   try {
     const page = await browser.newPage();
@@ -92,7 +92,7 @@ const atb = async () => {
 const silpo = async () => {
   const url = 'https://shop.silpo.ua';
   const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: ['--incognito', '--no-sandbox', '--single-process', '--no-zygote']
   });
   try {
     const page = await browser.newPage();
