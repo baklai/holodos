@@ -10,7 +10,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 const browserOptions = {
   headless: true,
-  args: ['--no-sandbox']
+  args: ['--incognito', '--no-sandbox', '--single-process', '--no-zygote']
 };
 
 const atb = async () => {
