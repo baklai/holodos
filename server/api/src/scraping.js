@@ -5,8 +5,6 @@ const sharp = require('sharp');
 const Category = require('../../services/category.service');
 const Product = require('../../services/product.service');
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-
 const browserOptions = {
   headless: true,
   args: ['--no-sandbox']
