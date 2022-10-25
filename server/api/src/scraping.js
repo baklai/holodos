@@ -276,5 +276,5 @@ const toDatabase = async (items, catalog) => {
 
 module.exports = async () => {
   await toDatabase(await atb(), 'atb-market');
-  // await toDatabase(await silpo(), 'silpo-market');
+  await toDatabase(await silpo(), 'silpo-market');
 };
