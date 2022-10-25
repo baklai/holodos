@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer');
-const cheerio = require('cheerio');
 const axios = require('axios');
 const sharp = require('sharp');
 
@@ -22,68 +21,120 @@ const atb = async () => {
     await page.goto(url, {
       waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
     });
-    const html = await page.evaluate(() => {
-      return document.documentElement.innerHTML;
-    });
-    const $ = cheerio.load(html);
-    const menu = [];
-    $('ul.category-menu > li.category-menu__item', html).each(function () {
-      const icon =
-        url +
-        $(this)
-          .find('span')
-          .attr('style')
-          .replace(/.*\s?url\([\'\"]?/, '')
-          .replace(/[\'\"]?\).*/, '');
-      const href = url + $(this).find('a').attr('href').trim();
-      menu.push({ icon, href });
-    });
+
+    const { menu } = await page.evaluate((url) => {
+      const menu = [];
+      const items = document.querySelectorAll(
+        'ul.category-menu > li.category-menu__item'
+      );
+      for (const item of items) {
+        const icon =
+          item.querySelector('span.category-menu__icon') !== null
+            ? url +
+              item
+                .querySelector('span.category-menu__icon')
+                .getAttribute('style')
+                .replace(/.*\s?url\([\'\"]?/, '')
+                .replace(/[\'\"]?\).*/, '')
+            : null;
+
+        const href =
+          item.querySelector('a.category-menu__link') !== null
+            ? url +
+              item
+                .querySelector('a.category-menu__link')
+                .getAttribute('href')
+                .trim()
+            : null;
+
+        if (icon && href) {
+          menu.push({ icon, href });
+        }
+      }
+      return { menu };
+    }, url);
+
     const result = [];
+
     for (const el of menu) {
       await page.goto(el.href, {
         waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
       });
-      const html = await page.evaluate(() => {
-        return document.documentElement.innerHTML;
-      });
-      const $ = cheerio.load(html);
-      const products = [];
+
+      try {
+        await page.waitForSelector('div.catalog-list');
+      } catch (err) {
+        continue;
+      }
+
+      await page.waitForTimeout(3000);
+
       const category = {
         icon: el.icon,
-        title: $('h1.page-title').text().trim()
+        title: await page.$eval('h1.page-title', (e) => e.innerText)
       };
-      $('div.catalog-list > article.catalog-item', html).each(function () {
-        const img = $(this)
-          .find('div.catalog-item__photo > a > picture > img')
-          .attr('src');
-        const title = $(this)
-          .find('div.catalog-item__info > div.catalog-item__title > a')
-          .text();
-        const pricePer = $(this)
-          .find(
-            'div.catalog-item__bottom > div.catalog-item__product-price > data'
-          )
-          .attr('value');
-        const priceTitle = $(this)
-          .find(
-            'div.catalog-item__bottom > div.catalog-item__product-price > data > abbr'
-          )
-          .first()
-          .text()
-          .replace(/\s+/g, '')
-          .trim();
-        if (img && title && pricePer && priceTitle) {
-          products.push({
-            img,
-            title,
-            pricePer,
-            priceTitle
-          });
+
+      const { products } = await page.evaluate(() => {
+        const products = [];
+        const items = document.querySelectorAll(
+          'div.catalog-list > article.catalog-item'
+        );
+        for (const item of items) {
+          const img =
+            item.querySelector(
+              'div.catalog-item__photo > a > picture > img'
+            ) !== null
+              ? item
+                  .querySelector('div.catalog-item__photo > a > picture > img')
+                  .getAttribute('src')
+              : null;
+          const title =
+            item.querySelector(
+              'div.catalog-item__info > div.catalog-item__title > a'
+            ) !== null
+              ? item
+                  .querySelector(
+                    'div.catalog-item__info > div.catalog-item__title > a'
+                  )
+                  .innerText.trim()
+              : null;
+          const pricePer =
+            item.querySelector(
+              'div.catalog-item__bottom > div.catalog-item__product-price > data'
+            ) !== null
+              ? item
+                  .querySelector(
+                    'div.catalog-item__bottom > div.catalog-item__product-price > data'
+                  )
+                  .getAttribute('value')
+              : null;
+          const priceTitle =
+            item.querySelector(
+              'div.catalog-item__bottom > div.catalog-item__product-price > data > abbr'
+            ) !== null
+              ? item
+                  .querySelector(
+                    'div.catalog-item__bottom > div.catalog-item__product-price > data > abbr'
+                  )
+                  .innerText.replace(' ', '')
+                  .trim()
+              : null;
+
+          if (img && title && pricePer && priceTitle) {
+            products.push({
+              img,
+              title,
+              pricePer,
+              priceTitle
+            });
+          }
         }
+        return { products };
       });
 
       result.push({ category, products });
     }
+
     return result;
   } catch (err) {
     console.error(err);
@@ -102,61 +153,87 @@ const silpo = async () => {
       waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
     });
     await page.click('div.all-product_btn');
-    const html = await page.evaluate(() => {
-      return document.documentElement.innerHTML;
-    });
-    const $ = cheerio.load(html);
-    const menu = [];
-    $('ul.main-menu-levels > li', html).each(function () {
-      const href = url + $(this).find('a').attr('href').trim();
-      const arr = href.split('-');
-      const icon = `https://content.silpo.ua/ecom/categoryclassifier/iconsforsite/${
-        arr[arr.length - 1]
-      }.svg`;
-      menu.push({ icon, href });
-    });
+
+    const { menu } = await page.evaluate((url) => {
+      const menu = [];
+      const items = document.querySelectorAll('ul.main-menu-levels > li');
+      for (const item of items) {
+        const href = url + item.querySelector('a').getAttribute('href').trim();
+        const arr = href.split('-');
+        const icon = `https://content.silpo.ua/ecom/categoryclassifier/iconsforsite/${
+          arr[arr.length - 1]
+        }.svg`;
+
+        if (icon && href) {
+          menu.push({ icon, href });
+        }
+      }
+      return { menu };
+    }, url);
+
     const result = [];
+
     for (const el of menu) {
       await page.goto(el.href, {
         waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
       });
-      const html = await page.evaluate(() => {
-        return document.documentElement.innerHTML;
-      });
-      const $ = cheerio.load(html);
-      const products = [];
+
+      try {
+        await page.waitForSelector('div.category-page-heading');
+      } catch (err) {
+        continue;
+      }
+
+      await page.waitForTimeout(3000);
+
       const category = {
         icon: el.icon,
-        title: $('div.category-page-heading').text().trim()
+        title: await page.$eval('div.category-page-heading', (e) => e.innerText)
       };
-      $('ul.product-list > div.lazyload-wrapper > li', html).each(function () {
-        const img = $(this)
-          .find('li.product-list-item-wrapper > img')
-          .attr('src');
-        const title = $(this)
-          .find('li.product-list-item-wrapper > img')
-          .attr('alt');
-        const pricePer = $(this).find('div.current-integer').text().trim();
-        const priceTitle =
-          $(this).find('span.price-currency').text().trim() +
-          '/' +
-          $(this).find('div.product-weight').text().trim();
-        if (img && title && pricePer && priceTitle) {
-          products.push({
-            img,
-            title,
-            pricePer,
-            priceTitle
-          });
+
+      const { products } = await page.evaluate(() => {
+        const products = [];
+        const items = document.querySelectorAll(
+          'ul.product-list > div.lazyload-wrapper > li'
+        );
+        for (const item of items) {
+          const img =
+            item.querySelector('li.product-list-item-wrapper img') !== null
+              ? item
+                  .querySelector('li.product-list-item-wrapper img')
+                  .getAttribute('src')
+              : null;
+          const title =
+            item.querySelector('li.product-list-item-wrapper img') !== null
+              ? item
+                  .querySelector('li.product-list-item-wrapper img')
+                  .getAttribute('alt')
+              : null;
+          const pricePer =
+            item.querySelector('div.current-integer') !== null
+              ? item.querySelector('div.current-integer').innerText.trim()
+              : null;
+          const priceTitle =
+            item.querySelector('span.price-currency') !== null &&
+            item.querySelector('div.product-weight') !== null
+              ? item.querySelector('span.price-currency').innerText.trim() +
+                '/' +
+                item.querySelector('div.product-weight').innerText.trim()
+              : null;
+
+          if (img && title && pricePer && priceTitle) {
+            products.push({
+              img,
+              title,
+              pricePer,
+              priceTitle
+            });
+          }
         }
+        return { products };
       });
-      if (
-        category.icon.length > 0 &&
-        category.title.length > 0 &&
-        products.length > 0
-      ) {
-        result.push({ category, products });
-      }
+
+      result.push({ category, products });
     }
     return result;
   } catch (err) {

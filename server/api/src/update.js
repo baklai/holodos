@@ -15,9 +15,13 @@ module.exports = {
             `${this.p('bot:hi %s', user.firstName)}\n\n` +
             `${this.p('update')}\n\n` +
             this.p('bot:help');
-          this.bot.sendMessage(user.userID, message, {
-            parse_mode: 'HTML'
-          });
+          try {
+            this.bot.sendMessage(user.userID, message, {
+              parse_mode: 'HTML'
+            });
+          } catch (err) {
+            User.removeOne(user.userID);
+          }
         });
         message = 'Notification sent to all users';
       } else {
