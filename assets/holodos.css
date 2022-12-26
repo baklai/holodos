@@ -17,11 +17,6 @@ body {
   scrollbar-width: none;
 }
 
-.sk-cube-grid {
-  width: 80px !important;
-  height: 80px !important;
-}
-
 body::-webkit-scrollbar {
   display: none;
 }

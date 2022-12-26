@@ -1,7 +1,18 @@
+const http = require('http');
+const path = require('path');
+const dotenv = require('dotenv');
+const compression = require('compression');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const { MONGO, TOKEN } = process.env;
+dotenv.config({
+  path:
+    process.env.NODE_ENV === 'production'
+      ? path.join(__dirname, '..', '.env.prod')
+      : path.join(__dirname, '..', '.env.dev')
+});
+
+const { MONGO, TOKEN, HOST, PORT } = process.env;
 
 mongoose.set('strictQuery', false);
 
@@ -21,14 +32,19 @@ mongoose
     process.exit(0);
   });
 
-const bot = require('./holodos');
+const bot = require('./lib/holodos');
 const Category = require('./services/category.service');
 const Product = require('./services/product.service');
 
 const app = express();
 
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'client', '200.html'));
+});
 
 app.post(`/bot${TOKEN}`, (req, res) => {
   bot.processUpdate(req.body);
@@ -62,4 +78,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Oops! Internal server error' });
 });
 
-module.exports = app;
+const server = http.createServer(app);
+
+server.listen(PORT, () => {
+  console.log(`Server listening on http://${HOST}:${PORT}`);
+});

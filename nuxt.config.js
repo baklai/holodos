@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 import path from 'path';
-import fs from 'fs';
 
 dotenv.config({
   path:
@@ -13,30 +12,18 @@ export default {
   telemetry: false,
   ssr: false,
 
+  target: 'static',
+
+  generate: {
+    dir: 'client'
+  },
+
   cli: {
     badgeMessages: [
       `Application: ${process.env.npm_package_name.toUpperCase()}`,
       `Version:     ${process.env.npm_package_version}`
     ],
     bannerColor: 'green'
-  },
-
-  publicRuntimeConfig: {},
-
-  server: {
-    port: process.env.NODE_ENV.PORT,
-    host: process.env.NODE_ENV.HOST,
-    https:
-      process.env.NODE_ENV === 'production'
-        ? false
-        : {
-            key: fs.readFileSync(
-              path.resolve(__dirname, 'certs', 'server.key')
-            ),
-            cert: fs.readFileSync(
-              path.resolve(__dirname, 'certs', 'server.crt')
-            )
-          }
   },
 
   router: {
@@ -65,13 +52,20 @@ export default {
       { name: 'robots', content: 'noindex, nofollow' },
       { name: 'google', content: 'notranslate' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'stylesheet', href: '/css/loading.css' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
     script: [{ src: 'https://tg.dev/js/telegram-web-app.js' }]
   },
 
-  components: true,
+  loadingIndicator: {
+    name: 'cube-grid',
+    color: '#F5F5F5',
+    background: '#FFFFFF'
+  },
 
-  loading: false,
+  components: true,
 
   css: ['~/assets/transition.css', '~/assets/holodos.css'],
 
@@ -82,22 +76,7 @@ export default {
     baseURL: '/bot/v1'
   },
 
-  serverMiddleware: [
-    {
-      path: '/bot/v1',
-      handler: '~/server/index.js',
-      prefix: false
-    }
-  ],
-
   build: {
-    publicPath: 'cdn/',
-    babel: {
-      plugins: [
-        ['@babel/plugin-proposal-class-properties', { loose: true }],
-        ['@babel/plugin-proposal-private-methods', { loose: true }],
-        ['@babel/plugin-proposal-private-property-in-object', { loose: true }]
-      ]
-    }
+    publicPath: 'cdn/'
   }
 };

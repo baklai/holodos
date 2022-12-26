@@ -11,7 +11,7 @@ const TelegramBot = require('node-telegram-bot-api');
 
 const { TOKEN, PROXY, WEB_APP, SECRET, PAYEE } = process.env;
 
-const APIBot = require('./api');
+const APIBot = require('../api');
 
 const bot = new TelegramBot(
   TOKEN,
@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const { commands } = require('./api/config/commands');
+const { commands } = require('../api/config/commands');
 
 bot
   .setMyCommands(commands)
