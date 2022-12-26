@@ -1,6 +1,7 @@
 <template>
   <section class="holodos-start">
-    <div class="holodos-start-item">
+    <Loading v-if="loading" />
+    <div class="holodos-start-item" v-else>
       <img src="img/logo-app.webp" loading="lazy" alt="Холодос" width="200" />
       <nuxt-link class="button holodos-start-btn square_btn" to="/catalog">
         Відкрити холодос
@@ -13,7 +14,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      loading: true
+    };
   },
 
   mounted() {
