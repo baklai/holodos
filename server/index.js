@@ -52,7 +52,7 @@ app.post(`/bot${TOKEN}`, (req, res) => {
   res.sendStatus(200);
 });
 
-app.get('/category', async (req, res, next) => {
+app.get('/bot/category', async (req, res, next) => {
   try {
     const items = await Category.findAll(req.query.catalog);
     res.status(200).json(items);
@@ -61,7 +61,7 @@ app.get('/category', async (req, res, next) => {
   }
 });
 
-app.get('/category/:id', async (req, res, next) => {
+app.get('/bot/category/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const items = await Product.findAll(id);

@@ -73,7 +73,7 @@ export default {
 
   axios: {
     credentials: false,
-    baseURL: '/'
+    baseURL: '/bot'
   },
 
   build: {
