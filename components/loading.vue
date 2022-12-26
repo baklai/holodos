@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="sk-grid" v-if="loading">
+  <div class="sk-grid">
     <div class="sk-grid-cube"></div>
     <div class="sk-grid-cube"></div>
     <div class="sk-grid-cube"></div>
@@ -15,17 +15,7 @@
 <script>
 export default {
   data() {
-    return {
-      loading: true
-    };
-  },
-  methods: {
-    start() {
-      this.loading = true;
-    },
-    finish() {
-      this.loading = false;
-    }
+    return {};
   }
 };
 </script>
