@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 
 const { MONGO, TOKEN } = process.env;
 
+mongoose.set('strictQuery', false);
+
 mongoose.plugin(require('./plugins/mongoose'));
 mongoose.plugin(require('mongoose-paginate'));
 
