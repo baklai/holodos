@@ -14,21 +14,23 @@ access both from the phone, from the application, and through the website.
 npm i
 ```
 
-## Project .env.dev || .env.prod
+## Project variables
 
-```
-TOKEN   : Telegram bot token
-PROXY   : Proxy server if needed
-MONGO   : URL MongoDB server
-SECRET  : Secret key for user administration
-PAYEE   : URL for donate
-WEB_APP : Web application address
-```
+| Key                  | Comment                                  |
+| -------------------- | ---------------------------------------- |
+| `PORT`               | API port (optional)                      |
+| `HOST`               | API host (optional)                      |
+| `MONGO_URI`          | Mongo uri                                |
+| `SECRET`             | Secret key for administration (optional) |
+| `TELEGRAM_BOT_TOKEN` | Telegram bot token                       |
+| `PROXY`              | Proxy server (optional)                  |
+| `PAYEE`              | URL for donate                           |
+| `WEB_APP_URI`        | Web application address                  |
 
 ### Development
 
 ```
-npm run dev
+npm run start:dev
 ```
 
 ### Build
