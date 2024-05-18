@@ -57,9 +57,7 @@ export class AppService {
       '\n\n',
       '<i>💪 Я допоможу зробити процес походу до магазину простіше, швидше та найголовніше, ефективніше.</i>',
       '\n\n',
-      '👉 Надішліть <b>/help</b> для перегляду списку команд',
-      '\n\n\n',
-      '🚧 <b>Відкрий холодос, для початку</b> 👇'
+      '👉 Надішліть <b>/help</b> для перегляду списку команд'
     ];
 
     await ctx.replyWithHTML(message.join(''), {
@@ -70,7 +68,7 @@ export class AppService {
           [
             {
               text: 'Відкрити холодос',
-              web_app: { url: this.configService.get<string>('WEB_APP_URI') }
+              web_app: { url: this.configService.get<string>('WEB_APP') }
             }
           ],
           [{ text: '❓ Help' }, { text: '💸 Donate' }]
@@ -115,15 +113,23 @@ export class AppService {
       link_preview_options: { is_disabled: true },
       reply_markup: {
         resize_keyboard: true,
-        keyboard: [
+        inline_keyboard: [
           [
             {
               text: 'Відкрити холодос',
-              web_app: { url: this.configService.get<string>('WEB_APP_URI') }
+              web_app: { url: this.configService.get<string>('WEB_APP') }
             }
-          ],
-          [{ text: '❓ Help' }, { text: '💸 Donate' }]
+          ]
         ]
+        // keyboard: [
+        //   [
+        //     {
+        //       text: 'Відкрити холодос',
+        //       web_app: { url: this.configService.get<string>('WEB_APP') }
+        //     }
+        //   ],
+        //   [{ text: '❓ Help' }, { text: '💸 Donate' }]
+        // ]
       }
     });
   }
@@ -153,7 +159,7 @@ export class AppService {
           [
             {
               text: 'Відкрити холодос',
-              web_app: { url: this.configService.get<string>('WEB_APP_URI') }
+              web_app: { url: this.configService.get<string>('WEB_APP') }
             }
           ],
           [{ text: '❓ Help' }, { text: '💸 Donate' }]
@@ -219,7 +225,7 @@ export class AppService {
           [
             {
               text: 'Відкрити холодос',
-              web_app: { url: this.configService.get<string>('WEB_APP_URI') }
+              web_app: { url: this.configService.get<string>('WEB_APP') }
             }
           ],
           [{ text: '❓ Help' }, { text: '💸 Donate' }]

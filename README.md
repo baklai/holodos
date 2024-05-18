@@ -16,16 +16,16 @@ npm i
 
 ## Project variables
 
-| Key                  | Comment                                  |
-| -------------------- | ---------------------------------------- |
-| `PORT`               | API port (optional)                      |
-| `HOST`               | API host (optional)                      |
-| `MONGO_URI`          | Mongo uri                                |
-| `SECRET`             | Secret key for administration (optional) |
-| `TELEGRAM_BOT_TOKEN` | Telegram bot token                       |
-| `PROXY`              | Proxy server (optional)                  |
-| `PAYEE`              | URL for donate                           |
-| `WEB_APP_URI`        | Web application address                  |
+| Key         | Comment                                  |
+| ----------- | ---------------------------------------- |
+| `PORT`      | API port (optional)                      |
+| `HOST`      | API host (optional)                      |
+| `MONGO_URI` | Mongo uri                                |
+| `SECRET`    | Secret key for administration (optional) |
+| `BOT_TOKEN` | Telegram bot token                       |
+| `PROXY`     | Proxy server (optional)                  |
+| `PAYEE`     | URL for donate                           |
+| `WEB_APP`   | Web application address                  |
 
 ### Development
 

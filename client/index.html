@@ -1,11 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="uk">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
     />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="google" content="notranslate" />
     <title>Холодос • мій список продуктів</title>
@@ -14,12 +16,367 @@
       name="description"
       content="Холодос - це бот-додаток, що робить процес походу до магазину простіше, швидше, і найголовніше, ефективніше."
     />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/css/loading.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <script src="https://tg.dev/js/telegram-web-app.js"></script>
+
+    <script>
+      function setThemeClass() {
+        document.documentElement.className = Telegram.WebApp.colorScheme;
+      }
+      Telegram.WebApp.onEvent('themeChanged', setThemeClass);
+      setThemeClass();
+    </script>
+
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/loading.css" />
+
+    <style>
+      body {
+        background-image: url('img/bg-app.webp');
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: repeat;
+        background-size: contain;
+      }
+    </style>
   </head>
+
   <body>
-    Holodos bot Web App
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+
+    <div id="app" class="main"></div>
+
+    <template id="spin">
+      <div class="sk-grid">
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+      </div>
+    </template>
+
+    <template id="home">
+      <section class="container">
+        <img src="img/logo-app.webp" loading="lazy" alt="Холодос" width="180" />
+        <button>Відкрити холодос</button>
+        <p>бот агрегує товари із мереж супермаркетів</p>
+      </section>
+    </template>
+
+    <template id="market">
+      <section class="container">
+        <style>
+          /* .button {
+            display: inline-block;
+            padding: 0.5em 1em;
+            margin: 10px auto;
+            text-decoration: none;
+            background: var(--main-color);
+            color: #fff;
+            border-radius: 4px;
+            box-shadow: 0px 0px 0px 5px var(--main-color);
+            border: dashed 1px #fff;
+          }
+
+          .button:hover {
+            border: dotted 1px #fff;
+          } */
+        </style>
+
+        <button class="button holodos-start-btn" to="/category?catalog=atb-market">
+          <img src="img/svg/atb-logo.svg" loading="lazy" alt="АТБ-Маркет" height="32" />
+        </button>
+
+        <button class="button holodos-start-btn" to="/category?catalog=silpo-market">
+          <img src="img/svg/silpo-logo.svg" loading="lazy" alt="Сільпо-Маркет" height="28" />
+        </button>
+
+        <p>бот агрегує товари із мереж супермаркетів</p>
+      </section>
+    </template>
+
+    <template id="category">
+      <section data-v-0d14f3ce="" class="holodos-start-item">
+        <button
+          class="button holodos-start-btn square_btn"
+          style="align-items: center; display: inline-flex"
+        >
+          <img
+            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+DQo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDIwIDIwIj4NCiAgICA8ZGVmcz4NCiAgICAgICAgPHN0eWxlPi5jbHMtMXtmaWxsOm5vbmU7fTwvc3R5bGU+DQogICAgPC9kZWZzPg0KICAgIDxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPg0KICAgICAgICA8ZyBpZD0iTGF5ZXJfMS0yIiBkYXRhLW5hbWU9IkxheWVyIDEiPg0KICAgICAgICAgICAgPHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiLz4NCiAgICAgICAgICAgIDxwYXRoIGlkPSJQYXRoXzM4MzgiIGZpbGw9IiNmZmZmZmYiIGRhdGEtbmFtZT0iUGF0aCAzODM4IiBkPSJNNSwxNWwwLDBINWE3Ljg0LDcuODQsMCwwLDEtMi0xLjQ1aDBjLTEuMTYtMS4xNS4yNS0yLjczLDEuNjMtMS44OWE2LjI2LDYuMjYsMCwwLDEtLjg2LTEuMThBMS4xNSwxLjE1LDAsMCwxLDUuMzQsOC44N2E3Ljg5LDcuODksMCwwLDAsNC41OSwxYzIuNzktLjUyLDMuNTUtMi41MSwyLjY3LTUuMTcsMCwwLS4xMy0uMzktLjE1LS40M2wwLDBhMS41NywxLjU3LDAsMCwxLC4wOS0xLjI0QTEuOCwxLjgsMCwwLDEsMTMsMi4zOWExLjY3LDEuNjcsMCwwLDEsLjcxLS4yNywxLjI5LDEuMjksMCwwLDEsMSwuMzksMTAuODIsMTAuODIsMCwwLDEsMS41NCwyLDguOTIsOC45MiwwLDAsMS0zLjE5LDEyLjE5LDguODEsOC44MSwwLDAsMS0yLjIuOTFBOC41Nyw4LjU3LDAsMCwxLDgsMTcuODZhOSw5LDAsMCwxLTIuOC0uNjNsLS4wNiwwYTEuMjgsMS4yOCwwLDAsMS0uNjItMS43LDEuNDMsMS40MywwLDAsMSwuMzEtLjQyTDUsMTVabTMuNzcuMzFoMGwuMTYsMEE3LjU3LDcuNTcsMCwwLDAsMTQuMyw2YTYuNDQsNi40NCwwLDAsMC0uMzctMUE5LDksMCwwLDEsOC44MSwxNS4yNlpNMTEuOSwxMWgwYTEwLjc1LDEwLjc1LDAsMCwxLTEuMTUuODZBOC4xOCw4LjE4LDAsMCwxLDUuNDgsMTNhOC40MSw4LjQxLDAsMCwxLS44NS0uMTUsOC4xOSw4LjE5LDAsMCwxLS44MS0uMjNoMGE3LDcsMCwwLDAsMS43MywxLjIyaDBhNi41Niw2LjU2LDAsMCwwLDEuODkuNjJBNy42Myw3LjYzLDAsMCwwLDExLjksMTFabTItNy41OWgwYTcsNywwLDAsMSwuNDkuNzlBOS41Miw5LjUyLDAsMCwxLDE1LDUuNzcsOC4zMSw4LjMxLDAsMCwxLDkuMTQsMTUuOTJhOCw4LDAsMCwxLTIsLjI2QTcsNywwLDAsMSw1Ljc2LDE2Yy0uMiwwLS4xMy4wNSwwLC4wOWE3LjY5LDcuNjksMCwwLDAsOS40Ny0xMSw4LjQyLDguNDIsMCwwLDAtMS4zLTEuNjdaTTYuNzUsMTEuODVoMGE2LjY1LDYuNjUsMCwwLDAsMi45LS43NkE3Ljg0LDcuODQsMCwwLDEsNC44NywxMGE2LjQ3LDYuNDcsMCwwLDAsMS44OCwxLjg0WiIvPg0KICAgICAgICA8L2c+DQogICAgPC9nPg0KPC9zdmc+"
+            width="28"
+            height="28"
+          />
+          <span style="margin: 0px auto"> Фрукти, овочі та соління </span>
+        </button>
+      </section>
+    </template>
+
+    <template id="product"></template>
+
+    <template id="order">
+      <section class="cafe-page cafe-order-overview" style="display: block">
+        <div class="cafe-block">
+          <div class="cafe-order-header-wrap">
+            <h2 class="cafe-order-header">Your Order</h2>
+            <span class="cafe-order-edit js-order-edit">Edit</span>
+          </div>
+          <div class="cafe-order-items">
+            <div class="cafe-order-item js-order-item selected" data-item-id="1">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Burger.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Burger
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">2</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">Meat™</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$9.98</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="2">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Fries.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Fries
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">3</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">Po-ta-toes</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$4.47</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="3">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Hotdog.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Hotdog
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">3</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">0% dog, 100% hot</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$10.47</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="4">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Tako.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Taco
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">3</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">Mucho más</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$11.97</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="5">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Pizza.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Pizza
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">3</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">That’s amore</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$23.97</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="6">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Donut.tgs?1" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Donut
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">3</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">Hole included</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$4.47</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="7">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Popcorn.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Popcorn
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">1</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">Lights, camera, corn</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$1.99</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="8">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Coke.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Coke
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">1</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">The liquid kind</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$1.49</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="9">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Cake.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Cake
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">1</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">Bread substitute</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$10.99</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="10">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Icecream.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Icecream
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">2</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">Cone of shame</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$11.98</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="11">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Cookie.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Cookie
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">2</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">Milk’s favorite</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$7.98</div>
+            </div>
+            <div class="cafe-order-item js-order-item selected" data-item-id="12">
+              <div class="cafe-order-item-photo">
+                <picture class="cafe-item-lottie js-item-lottie">
+                  <source type="application/x-tgsticker" srcset="/img/cafe/Flan.tgs" />
+
+                  <canvas width="256" height="256"></canvas
+                ></picture>
+              </div>
+              <div class="cafe-order-item-label">
+                <div class="cafe-order-item-title">
+                  Flan
+                  <span class="cafe-order-item-counter"
+                    ><span class="js-order-item-counter">2</span>x</span
+                  >
+                </div>
+                <div class="cafe-order-item-description">Flan-tastic</div>
+              </div>
+              <div class="cafe-order-item-price js-order-item-price">$15.98</div>
+            </div>
+          </div>
+        </div>
+        <div class="cafe-text-field-wrap">
+          <textarea
+            class="cafe-text-field js-order-comment-field cafe-block"
+            rows="1"
+            placeholder="Add comment…"
+            style="overflow: hidden; overflow-wrap: break-word; height: 46px"
+          ></textarea>
+          <div class="cafe-text-field-hint">Any special requests, details, final wishes etc.</div>
+        </div>
+      </section>
+    </template>
+
+    <script>
+      const cardsContainer = document.querySelector('#app');
+      const cardTemplate = document.querySelector('#home').content;
+      const card = cardTemplate.cloneNode(true);
+
+      cardsContainer.appendChild(card);
+    </script>
+
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>

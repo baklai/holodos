@@ -73,7 +73,7 @@ import { Product, ProductSchema } from './schemas/product.schema';
       inject: [ConfigService],
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
+        token: configService.get<string>('BOT_TOKEN'),
         config: {}
       })
     }),

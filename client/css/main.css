@@ -10,36 +10,32 @@
   --tg-viewport-stable-height: 100vh;
 }
 
+* {
+  text-decoration: none;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  -webkit-tap-highlight-color: transparent;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
 html,
 body {
   width: 100%;
+  height: 100%;
   overflow-x: hidden;
   scrollbar-width: none;
 }
 
-body::-webkit-scrollbar {
-  display: none;
-}
-
-* {
-  text-decoration: none;
-  scrollbar-width: thin;
-  scrollbar-color: var(--v-scrollbar-base) transparent;
-}
-
-*::-webkit-scrollbar {
-  width: 0;
-  height: 6px;
-}
-
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: #d6d6d6;
-  border-radius: 1px;
-  border: 1px solid var(--v-scrollbar-base);
+html.dark body {
+  --block-bg-color: var(--tg-theme-bg-color);
+  --bg-color: var(--tg-theme-secondary-bg-color, #0f0f0f);
+  --text-color: #fff;
+  --page-hint-color: #9b9ba1;
+  --hint-color: #64666d;
+  --placeholder-color: #5d6163;
 }
 
 body {
@@ -54,9 +50,8 @@ body {
   padding: 0;
   width: 1px;
   min-width: 100%;
-  --default-font: -apple-system, BlinkMacSystemFont, avenir next, avenir,
-    segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial,
-    sans-serif;
+  --default-font: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue,
+    helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
   --block-bg-color: var(--tg-theme-bg-color);
   --bg-color: var(--tg-theme-secondary-bg-color, #ebedf0);
   --animation: 0.15s ease;
@@ -76,49 +71,48 @@ body {
   cursor: default;
 }
 
-html.dark body {
-  --block-bg-color: var(--tg-theme-bg-color);
-  --bg-color: var(--tg-theme-secondary-bg-color, #0f0f0f);
-  --text-color: #fff;
-  --page-hint-color: #9b9ba1;
-  --hint-color: #64666d;
-  --placeholder-color: #5d6163;
-}
-
-.holodos-start {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0 auto;
-  max-width: 480px;
-  justify-content: space-around;
-  align-content: flex-end;
-}
-
-.holodos-start-item {
-  position: relative;
-  padding: 4px 5px 21px;
-  box-sizing: border-box;
-  text-align: center;
-}
-
-.holodos-start-btn {
-  width: 100%;
-  height: 100%;
+button {
+  cursor: pointer;
   display: inline-block;
+  position: relative;
   font-family: var(--default-font);
   font-weight: 700;
   font-size: 14px;
   line-height: 18px;
   padding: 6px 16px;
+  height: 30px;
   border-radius: 7px;
   box-sizing: border-box;
+  background-position: center;
+  transition: background 0.8s;
   background-color: var(--main-color);
   text-transform: uppercase;
   color: #fff;
   outline: none;
   border: none;
+
+  &:hover {
+    background: #f8a917 radial-gradient(circle, transparent -1%, #f8a917 1%) center/50000%;
+  }
+
+  &:active {
+    background-color: #f8a91750;
+    background-size: 100%;
+    transition: background 0s;
+  }
+}
+
+.main {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 200px;
+  text-align: center;
+  height: auto;
 }
 
 .holodos-page {
@@ -142,7 +136,9 @@ main.closed .holodos-page {
 }
 
 .holodos-items {
-  transition: max-height var(--page-animation), opacity var(--page-animation);
+  transition:
+    max-height var(--page-animation),
+    opacity var(--page-animation);
   background-color: transparent;
 }
 
@@ -221,21 +217,17 @@ main.closed .holodos-page {
 }
 
 .holodos-item-buttons {
-  display: flex;
+  /* display: flex;
   width: 80px;
   justify-content: space-between;
   margin: 10px auto 0;
   position: relative;
-  transition: all var(--animation);
-}
-
-button {
-  cursor: pointer;
+  transition: all var(--animation); */
 }
 
 button,
 .holodos-item-counter {
-  display: inline-block;
+  /* display: inline-block;
   font-family: var(--default-font);
   font-weight: 700;
   font-size: 14px;
@@ -248,7 +240,7 @@ button,
   text-transform: uppercase;
   color: #fff;
   outline: none;
-  border: none;
+  border: none; */
 }
 
 .holodos-item-counter {
@@ -287,7 +279,9 @@ button,
   background-color: #e64d44;
   pointer-events: none;
   transform: scale3d(0.9, 0.9, 1);
-  transition: transform var(--animation), visibility var(--animation);
+  transition:
+    transform var(--animation),
+    visibility var(--animation);
   visibility: hidden;
 }
 
@@ -534,7 +528,8 @@ picture {
   padding-top: 200%;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.07);
-  transition: transform var(--ripple-duration) ease-out,
+  transition:
+    transform var(--ripple-duration) ease-out,
     opacity var(--ripple-duration) ease-out,
     background-color var(--ripple-duration) ease-out;
   opacity: 0;
