@@ -20,7 +20,11 @@ export class TelegramService {
     this.bot.telegram.setMyCommands(commands);
   }
 
-  async setBotCommand(command: string, handleCommand: Function) {
-    this.bot.command(command, ctx => handleCommand(ctx));
+  async setBotCommand(command: string, handler: Function) {
+    this.bot.command(command, ctx => handler(ctx));
+  }
+
+  async setOnMessage(handler: Function) {
+    this.bot.on('message', ctx => handler(ctx));
   }
 }

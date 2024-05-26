@@ -4,14 +4,12 @@ import { Cron } from '@nestjs/schedule';
 import { Model } from 'mongoose';
 import puppeteer from 'puppeteer';
 
-import { Category } from 'src/schemas/category.schema';
 import { Product } from 'src/schemas/product.schema';
 
 @Injectable()
 export class ScrapersService {
   constructor(
     @Inject('BROWSER_OPTIONS') private readonly browserOptions: Record<string, any>,
-    @InjectModel(Category.name) private readonly categoryModel: Model<Category>,
     @InjectModel(Product.name) private readonly productModel: Model<Product>
   ) {}
 
@@ -258,5 +256,9 @@ export class ScrapersService {
     } finally {
       await browser.close();
     }
+  }
+
+  async novusMarket(browserOptions: Record<string, any>) {
+    // url: 'https://novus.ua/';
   }
 }

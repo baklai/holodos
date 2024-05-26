@@ -4,8 +4,6 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Schema } from 'mongoose';
-import * as mongooseAutopopulate from 'mongoose-autopopulate';
-import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { join } from 'path';
 
 import AppConfig from './configs/app.config';
@@ -17,7 +15,6 @@ import { TelegramModule } from './telegram/telegram.module';
 import { ScrapersModule } from './scrapers/scrapers.module';
 
 import { User, UserSchema } from './schemas/user.schema';
-import { Category, CategorySchema } from './schemas/category.schema';
 import { Product, ProductSchema } from './schemas/product.schema';
 
 @Module({
@@ -57,8 +54,6 @@ import { Product, ProductSchema } from './schemas/product.schema';
               }
             });
           });
-          connection.plugin(mongooseAutopopulate);
-          connection.plugin(mongoosePaginate);
 
           return connection;
         }
@@ -66,7 +61,6 @@ import { Product, ProductSchema } from './schemas/product.schema';
     }),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
-      { name: Category.name, schema: CategorySchema },
       { name: Product.name, schema: ProductSchema }
     ]),
     TelegramModule.forRootAsync({

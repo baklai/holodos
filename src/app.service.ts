@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
-import { Model, PaginateModel, PaginateResult } from 'mongoose';
+import { Model } from 'mongoose';
 
 import { User } from './schemas/user.schema';
-import { Category } from './schemas/category.schema';
 import { Product } from './schemas/product.schema';
 
 import { TelegramService } from './telegram/telegram.service';
@@ -13,17 +12,11 @@ import { TContext } from './telegram/telegram.module';
 import { MAIN_COMMANDS, OPERATION_COMMANDS, SYSTEM_COMMANDS } from './common/bot/commands.bot';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PaginateQueryDto } from './dto/paginate-query.dto';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class AppService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
-    @InjectModel(Category.name) private readonly categoryModel: PaginateModel<Category>,
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
     private readonly telegramService: TelegramService,
     private readonly configService: ConfigService
@@ -41,11 +34,116 @@ export class AppService {
       this.handleCommandStatistic(ctx)
     );
 
+    this.telegramService.setOnMessage((ctx: any) => {
+      if (ctx?.update?.message?.web_app_data) {
+        this.handleWebAppData(ctx);
+      }
+    });
+
     this.telegramService.botLaunch();
   }
 
   statusTelegramBot(processUpdate: Record<string, any>): Record<string, any> {
     return processUpdate;
+  }
+
+  private groupByMarketAndCategory(data: Record<string, any>) {
+    const marketGroups = data.reduce((acc: any, item: any) => {
+      if (!acc[item.market]) {
+        acc[item.market] = {};
+      }
+      if (!acc[item.market][item.categoryName]) {
+        acc[item.market][item.categoryName] = [];
+      }
+      acc[item.market][item.categoryName].push(item);
+      return acc;
+    }, {});
+
+    const result = Object.keys(marketGroups).map(market => {
+      const categories = Object.keys(marketGroups[market]).map(category => ({
+        categoryName: category,
+        products: marketGroups[market][category]
+      }));
+      return {
+        market: market,
+        categories: categories
+      };
+    });
+
+    return result;
+  }
+
+  private async handleWebAppData(ctx: any) {
+    const webAppData = ctx.message.web_app_data.data;
+
+    const { order, price, comment } = JSON.parse(webAppData);
+
+    const message = [];
+
+    if (!order.length) {
+      message.push('🗣 <b>Ваш перелік товарів порожній!</b>');
+
+      return await ctx.replyWithHTML(message.join(''), {
+        link_preview_options: { is_disabled: true }
+      });
+    }
+
+    const products = await this.productModel
+      .find({ _id: { $in: order.map(({ id }) => id) } })
+      .select({
+        _id: 1,
+        title: 1,
+        pricePer: 1,
+        priceTitle: 1,
+        market: 1,
+        categoryName: 1
+      })
+      .lean()
+      .exec();
+
+    if (!products.length) {
+      message.push('🗣 <b>Ваш перелік товарів не знайдено!</b>');
+
+      return await ctx.replyWithHTML(message.join(''), {
+        link_preview_options: { is_disabled: true }
+      });
+    }
+
+    const productsCount = products.map((product: Record<string, any>) => {
+      return {
+        title: product.title,
+        pricePer: product.pricePer,
+        priceTitle: product.priceTitle,
+        market: product.market,
+        categoryName: product.categoryName,
+        count: order.find(({ id }) => id == product._id)?.count || 0
+      };
+    });
+
+    const groupProducts = this.groupByMarketAndCategory(productsCount);
+
+    message.push('🔖 <b>Ваш список товарів:</b>\n');
+
+    groupProducts.forEach((markets: Record<string, any>) => {
+      message.push(`\n🏷 <b>МАРКЕТ: ${markets.market.toUpperCase()}</b>\n`);
+      markets.categories.forEach((category: Record<string, any>) => {
+        message.push(`\n<b>${category.categoryName}</b>\n`);
+        category.products.forEach((product: Record<string, any>, index: number) => {
+          message.push(
+            `   <b>${index + 1}</b>. ${product.title} (<b>${
+              product.count
+            }x</b>) - <i>${product.pricePer} ${product.priceTitle}</i>\n`
+          );
+        });
+      });
+    });
+
+    price ? message.push(`\n<b>ВСЬОГО:</b> ₴${price}`) : message.push('');
+    comment ? message.push(`\n\n<b>Ваш коментар:</b> <i>${comment}</i>`) : message.push('');
+
+    await ctx.replyWithHTML(message.join(''), {
+      link_preview_options: { is_disabled: true }
+    });
   }
 
   private async handleCommandStart(ctx: TContext) {
@@ -121,15 +219,6 @@ export class AppService {
             }
           ]
         ]
-        // keyboard: [
-        //   [
-        //     {
-        //       text: 'Відкрити холодос',
-        //       web_app: { url: this.configService.get<string>('WEB_APP') }
-        //     }
-        //   ],
-        //   [{ text: '❓ Help' }, { text: '💸 Donate' }]
-        // ]
       }
     });
   }
@@ -197,9 +286,8 @@ export class AppService {
   }
 
   private async handleCommandStatistic(ctx: TContext) {
-    const [usersCount, categoriesCount, productsCount] = await Promise.all([
+    const [usersCount, productsCount] = await Promise.all([
       this.userModel.countDocuments(),
-      this.categoryModel.countDocuments(),
       this.productModel.countDocuments()
     ]);
 
@@ -210,7 +298,7 @@ export class AppService {
       '\n',
       `<i> 🔹 Кількість користувачів: ${usersCount}</i>`,
       '\n',
-      `<i> 🔹 Кількість категорій товарів: ${categoriesCount}</i>`,
+      // `<i> 🔹 Кількість категорій товарів: ${categoriesCount}</i>`,
       '\n',
       `<i> 🔹 Кількість товарів у категоріях: ${productsCount}</i>`,
       '\n\n',
@@ -234,91 +322,85 @@ export class AppService {
     });
   }
 
-  async findAllUser(): Promise<User[]> {
+  private async findAllUser(): Promise<User[]> {
     return await this.userModel.find({});
   }
 
-  async findOneUser(id: string): Promise<User> {
+  private async findOneUser(id: string): Promise<User> {
     return await this.userModel.findById(id);
   }
 
-  async createOneUser(createUserDto: CreateUserDto): Promise<User> {
+  private async createOneUser(createUserDto: CreateUserDto): Promise<User> {
     return await this.userModel.create(createUserDto);
   }
 
-  async updateOneUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  private async updateOneUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     return await this.userModel.findByIdAndUpdate(id, { $set: { ...updateUserDto } });
   }
 
-  async removeOneUser(id: string) {
+  private async removeOneUser(id: string) {
     return await this.userModel.deleteOne({ _id: id });
   }
 
-  async findAllCategory(query: PaginateQueryDto): Promise<PaginateResult<Category>> {
-    const { offset = 0, limit = 5, sort = {}, filters = {} } = query;
-
-    return await this.categoryModel.paginate(
-      { ...filters },
-      {
-        sort,
-        offset,
-        limit,
-        lean: false,
-        allowDiskUse: true
-      }
-    );
+  private toBase64Img(img: string) {
+    if (!img) return 'data:image/svg+xml;base64';
+    return `data:image/svg+xml;base64,${img}`;
   }
 
-  async findOneCategory(id: string): Promise<Category> {
-    return await this.categoryModel.findById(id);
+  private bufferToBase64Img(img: any) {
+    if (!img) return 'data:image/webp;base64';
+    return `data:image/webp;base64,${img.toString('base64')}`;
   }
 
-  async createOneCategory(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    return await this.categoryModel.create(createCategoryDto);
-  }
+  async findAllCategory(query: Record<string, any>): Promise<Record<string, any>[]> {
+    const { market = '' } = query;
+    try {
+      const categories = await this.productModel.aggregate([
+        { $match: { market: market } },
+        { $group: { _id: { categoryName: '$categoryName', categoryIcon: '$categoryIcon' } } },
+        {
+          $project: { categoryName: '$_id.categoryName', categoryIcon: '$_id.categoryIcon', _id: 0 }
+        }
+      ]);
 
-  async updateOneCategory(id: string, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
-    return await this.categoryModel.findByIdAndUpdate(id, { $set: { ...updateCategoryDto } });
-  }
-
-  async removeOneCategory(id: string) {
-    const isDeleted = await this.categoryModel.deleteOne({ _id: id });
-    if (isDeleted) {
-      await this.productModel.deleteMany({ category: id });
+      return categories.map(category => {
+        return { ...category, categoryIcon: this.toBase64Img(category.categoryIcon) };
+      });
+    } catch (err) {
+      throw new Error(err.message);
     }
-    return isDeleted;
   }
 
-  async findAllProduct(query: PaginateQueryDto): Promise<PaginateResult<Product>> {
-    const { offset = 0, limit = 5, sort = {}, filters = {} } = query;
+  async findAllProduct(query: Record<string, any>): Promise<Record<string, any>[]> {
+    const { market = '', category = '' } = query;
+    try {
+      const products = await this.productModel
+        .find({ market: market, categoryName: category })
+        .select({
+          _id: 1,
+          title: 1,
+          img: 1,
+          pricePer: 1,
+          priceTitle: 1,
+          market: 1,
+          categoryName: 1
+        })
+        .lean()
+        .exec();
 
-    return;
-
-    // return await this.productModel.paginate(
-    //   { ...filters },
-    //   {
-    //     sort,
-    //     offset,
-    //     limit,
-    //     lean: false,
-    //     allowDiskUse: true
-    //   }
-    // );
-  }
-
-  async findOneProduct(id: string): Promise<Product> {
-    return await this.productModel.findById(id);
-  }
-
-  async createOneProduct(createProductDto: CreateProductDto): Promise<Product> {
-    return await this.productModel.create(createProductDto);
-  }
-
-  async updateOneProduct(id: string, updateProductDto: UpdateProductDto): Promise<Product> {
-    return await this.productModel.findByIdAndUpdate(id, { $set: { ...updateProductDto } });
-  }
-
-  async removeOneProduct(id: string) {
-    return await this.productModel.deleteOne({ _id: id });
+      return products.map(product => {
+        return {
+          id: product._id,
+          title: product.title,
+          img: this.bufferToBase64Img(product.img),
+          pricePer: product.pricePer,
+          priceTitle: product.priceTitle,
+          market: product.market,
+          categoryName: product.categoryName
+        };
+      });
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
 }

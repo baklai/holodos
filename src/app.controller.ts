@@ -1,11 +1,8 @@
-import { Body, Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { PaginateResult } from 'mongoose';
 
 import { AppService } from './app.service';
-
-import { Category } from './schemas/category.schema';
-import { PaginateQueryDto } from './dto/paginate-query.dto';
+import { Product } from './schemas/product.schema';
 
 @Controller()
 export class AppController {
@@ -24,13 +21,13 @@ export class AppController {
     }
   }
 
-  @Get('categories')
-  async getCategories(@Query() query: PaginateQueryDto): Promise<PaginateResult<Category>> {
-    return await this.appService.findAllCategory(query);
+  @Get('products')
+  async getProducts(@Query() query: Record<string, any>): Promise<Record<string, any>[]> {
+    return await this.appService.findAllProduct(query);
   }
 
-  //   @Get('categories/:id')
-  //  async getProductsByCategoryId(@Param('id') id: string): Promise<Product[]> {
-  //     return await this.categoriesService.getProductsByCategoryId(id);
-  //   }
+  @Get('categories')
+  async getCategories(@Query() query: Record<string, any>): Promise<Record<string, any>[]> {
+    return await this.appService.findAllCategory(query);
+  }
 }
