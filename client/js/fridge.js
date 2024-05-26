@@ -31,8 +31,6 @@ export class Fridge {
     Telegram.WebApp.BackButton.hide();
     Telegram.WebApp.MainButton.hide();
 
-    Telegram.WebApp.isClosingConfirmationEnabled = true;
-
     Telegram.WebApp.BackButton.onClick(() => {
       const container = this.#container.querySelector('section');
 
@@ -344,7 +342,7 @@ export class Fridge {
       textColor: '#fff'
     });
 
-    const template = document.querySelector('#order-overview');
+    const template = document.querySelector('#order-view');
     const node = template.content.cloneNode(true);
 
     const section = node.querySelector('section');
@@ -361,7 +359,16 @@ export class Fridge {
     const button = node.querySelector('[data-js="order-clear"]');
 
     button.addEventListener('click', event => {
+      Telegram.WebApp.MainButton.hide();
       this.#products = [];
+      this.showSpin();
+      this.showFridge();
+
+      Telegram.WebApp.MainButton.setParams({
+        text: `УСЬОГО ${this.getOrderPrice()}₴`,
+        color: '#f8a917',
+        textColor: '#fff'
+      });
     });
 
     this.#products.forEach(product => {
@@ -469,8 +476,10 @@ export class Fridge {
 
     if (this.#products.length) {
       Telegram.WebApp.MainButton.show();
+      Telegram.WebApp.isClosingConfirmationEnabled = true;
     } else {
       Telegram.WebApp.MainButton.hide();
+      Telegram.WebApp.isClosingConfirmationEnabled = false;
     }
   }
 
