@@ -211,13 +211,14 @@ export class AppService {
       link_preview_options: { is_disabled: true },
       reply_markup: {
         resize_keyboard: true,
-        inline_keyboard: [
+        keyboard: [
           [
             {
               text: 'Відкрити холодос',
               web_app: { url: this.configService.get<string>('WEB_APP') }
             }
-          ]
+          ],
+          [{ text: '❓ Help' }, { text: '💸 Donate' }]
         ]
       }
     });
