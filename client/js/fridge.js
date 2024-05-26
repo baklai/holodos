@@ -61,7 +61,7 @@ export class Fridge {
 
       switch (section) {
         case 'order':
-          this.sendDataToBot();
+          this.sendWebDataToBot();
           break;
         default:
           this.showOrderOverview();
@@ -474,7 +474,7 @@ export class Fridge {
     }
   }
 
-  sendDataToBot() {
+  sendWebDataToBot() {
     if (!this.#products.length) return;
 
     const comment = document.querySelector('[data-js="comment"]');
