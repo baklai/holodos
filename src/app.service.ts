@@ -11,7 +11,11 @@ import { TelegramService } from './telegram/telegram.service';
 import { ScrapersService } from './scrapers/scrapers.service';
 import { TContext } from './telegram/telegram.module';
 
-import { MAIN_COMMANDS, OPERATION_COMMANDS, SYSTEM_COMMANDS } from './common/bot/commands.bot';
+import {
+  MAIN_COMMANDS,
+  OPERATION_COMMANDS,
+  SYSTEM_COMMANDS
+} from './common/constants/commands.constant';
 
 @Injectable()
 export class AppService {
