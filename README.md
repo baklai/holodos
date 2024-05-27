@@ -6,7 +6,7 @@ quickly create and manage shopping lists, make them accessible
 acquaintances All changes are saved in the chat, and you can access them at any time
 access both from the phone, from the application, and through the website.
 
-### Open Telegram bot : [Holodos bot](https://t.me/MyHolodosBot)
+### Telegram bot : [Holodos bot](https://t.me/MyHolodosBot)
 
 ## Project setup
 
@@ -14,21 +14,23 @@ access both from the phone, from the application, and through the website.
 npm i
 ```
 
-## Project .env.dev || .env.prod
+## Project variables
 
-```
-TOKEN   : Telegram bot token
-PROXY   : Proxy server if needed
-MONGO   : URL MongoDB server
-SECRET  : Secret key for user administration
-PAYEE   : URL for donate
-WEB_APP : Web application address
-```
+| Key         | Comment                                  |
+| ----------- | ---------------------------------------- |
+| `PORT`      | API Port (optional)                      |
+| `HOST`      | API Host (optional)                      |
+| `SECRET`    | Secret key for administration (optional) |
+| `MONGO_URI` | Mongo connection string                  |
+| `BOT_TOKEN` | Telegram bot token                       |
+| `WEB_APP`   | Telegram Web application                 |
+| `PROXY`     | Proxy server (optional)                  |
+| `DONATE`    | URL for donate (optional)                |
 
 ### Development
 
 ```
-npm run dev
+npm run start:dev
 ```
 
 ### Build
