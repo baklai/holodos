@@ -469,7 +469,7 @@ export class AppService {
           [
             {
               text: '💸 DONATE FOR BOT',
-              url: this.configService.get<string>('DONATE_URI')
+              url: this.configService.get<string>('DONATE')
             }
           ]
         ]
