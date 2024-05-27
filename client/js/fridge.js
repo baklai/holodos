@@ -337,7 +337,7 @@ export class Fridge {
 
   showOrderOverview() {
     Telegram.WebApp.MainButton.setParams({
-      text: 'Надіслати список',
+      text: 'Отримати список',
       color: '#008000',
       textColor: '#fff'
     });
@@ -359,6 +359,7 @@ export class Fridge {
     const button = node.querySelector('[data-js="order-clear"]');
 
     button.addEventListener('click', event => {
+      Telegram.WebApp.isClosingConfirmationEnabled = false;
       Telegram.WebApp.MainButton.hide();
       this.#products = [];
       this.showSpin();
@@ -384,7 +385,7 @@ export class Fridge {
       const count = node.querySelector('[data-js="count"]');
       count.textContent = `${product.count}x`;
       const market = node.querySelector('[data-js="market"]');
-      market.textContent = `${product.market}/${product.category}`;
+      market.textContent = `${MARKETS.find(({ key }) => product.market === key).label}/${product.category}`;
       const pricePer = node.querySelector('[data-js="price-per"]');
       pricePer.textContent = product.pricePer;
       const priceTitle = node.querySelector('[data-js="price-title"]');

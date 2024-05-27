@@ -1,23 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
+import { Telegraf, Scenes } from 'telegraf';
 import { Model } from 'mongoose';
 
 import { User } from './schemas/user.schema';
 import { Product } from './schemas/product.schema';
 
 import { TelegramService } from './telegram/telegram.service';
+import { ScrapersService } from './scrapers/scrapers.service';
 import { TContext } from './telegram/telegram.module';
 
 import { MAIN_COMMANDS, OPERATION_COMMANDS, SYSTEM_COMMANDS } from './common/bot/commands.bot';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class AppService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
+    private readonly scrapersService: ScrapersService,
     private readonly telegramService: TelegramService,
     private readonly configService: ConfigService
   ) {
@@ -26,25 +27,27 @@ export class AppService {
       ...OPERATION_COMMANDS.commands
     ]);
 
-    this.telegramService.setBotCommand('start', (ctx: TContext) => this.handleCommandStart(ctx));
-    this.telegramService.setBotCommand('help', (ctx: TContext) => this.handleCommandHelp(ctx));
-    this.telegramService.setBotCommand('about', (ctx: TContext) => this.handleCommandAbout(ctx));
-    this.telegramService.setBotCommand('donate', (ctx: TContext) => this.handleCommandDonate(ctx));
+    this.telegramService.setBotCommand('start', (ctx: TContext) => this.handlerCommandStart(ctx));
+    this.telegramService.setBotCommand('help', (ctx: TContext) => this.handlerCommandHelp(ctx));
+    this.telegramService.setBotCommand('about', (ctx: TContext) => this.handlerCommandAbout(ctx));
+    this.telegramService.setBotCommand('quit', (ctx: TContext) => this.handlerCommandQuit(ctx));
+    this.telegramService.setBotCommand('notice', (ctx: any) => this.handlerCommandNotice(ctx));
+    this.telegramService.setBotCommand('admin', (ctx: any) => this.handlerCommandAdmin(ctx));
+    this.telegramService.setBotCommand('update', (ctx: any) => this.handlerCommandUpdate(ctx));
+    this.telegramService.setBotCommand('donate', (ctx: TContext) => this.handlerCommandDonate(ctx));
     this.telegramService.setBotCommand('statistic', (ctx: TContext) =>
-      this.handleCommandStatistic(ctx)
+      this.handlerCommandStatistic(ctx)
     );
 
-    this.telegramService.setOnMessage((ctx: any) => {
-      if (ctx?.update?.message?.web_app_data) {
-        this.handleWebAppData(ctx);
-      }
-    });
+    this.initSceneAdmin('admin');
+
+    this.initSceneNotice('notice');
+
+    this.telegramService.setOnMessage((ctx: any) => this.onMessage(ctx));
+
+    this.telegramService.setOnСallbackQuery((ctx: any) => this.onСallbackQuery(ctx));
 
     this.telegramService.botLaunch();
-  }
-
-  statusTelegramBot(processUpdate: Record<string, any>): Record<string, any> {
-    return processUpdate;
   }
 
   private groupByMarketAndCategory(data: Record<string, any>) {
@@ -73,7 +76,110 @@ export class AppService {
     return result;
   }
 
-  private async handleWebAppData(ctx: any) {
+  private async onMessage(ctx: any) {
+    if (ctx?.update?.message?.text === '❓ Help') {
+      return await this.handlerCommandHelp(ctx);
+    } else if (ctx?.update?.message?.text === '💸 Donate') {
+      return await this.handlerCommandDonate(ctx);
+    } else if (ctx?.update?.message?.web_app_data) {
+      return await this.handlerWebAppData(ctx);
+    } else {
+      return await ctx.replyWithHTML('✌️ Дуже цікаво, але я поки що не вмію вести розмову!', {});
+    }
+  }
+
+  private async onСallbackQuery(ctx: any) {
+    const callbackData = ctx.callbackQuery.data;
+
+    switch (callbackData) {
+      case 'quit:confirm:yes':
+      case 'quit:confirm:cancel':
+        return await this.handlerQuitConfirm(ctx);
+      default:
+        return await ctx.replyWithHTML('💢 <b>Упс!</b> Щось пішло не так!', {});
+    }
+  }
+
+  private async initSceneNotice(name: string) {
+    const scene = new Scenes.BaseScene<any>(name);
+    scene.enter(async ctx => {
+      const user = await this.userModel.findOne({ userID: ctx.userInfo.userID });
+
+      if (!user || !user?.isAdmin) {
+        ctx.reply('💢 <b>Упс!</b> У вас недостатньо повноважень!');
+        return ctx.scene.leave();
+      }
+
+      const message = [
+        '👌 Добре, давайте створемо нове повідомлення!\n\n',
+        '👉 Будь ласка, введіть текст повідомлення'
+      ];
+
+      ctx.reply(message.join(''));
+    });
+
+    scene.on<any>('text', async (ctx: any) => {
+      ctx.session.message = ctx.message.text;
+
+      try {
+        const users = await this.userModel.find({}).select({ userID: 1 });
+        users.forEach(async ({ userID }) => {
+          try {
+            await this.telegramService.sendMessage(userID, ctx.session.message);
+          } catch (err) {
+            console.error(err);
+            if (err?.response?.error_code === 403) {
+              await this.userModel.findOneAndDelete({ userID: userID });
+            }
+          }
+        });
+        ctx.reply('💪 Повідомлення відправлено усім користувачам.');
+      } catch (err) {
+        ctx.reply(`💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`);
+      } finally {
+        ctx.scene.leave();
+      }
+    });
+
+    this.telegramService.registerBotScene(scene);
+  }
+
+  private async initSceneAdmin(name: string) {
+    const scene = new Scenes.BaseScene<any>(name);
+    scene.enter(async ctx => {
+      const message = [
+        '👌 Добре, давайте отримаємо права адміністратора!\n\n',
+        '👉 Будь ласка, введіть секретний ключ'
+      ];
+
+      ctx.reply(message.join(''));
+    });
+
+    scene.on<any>('text', async (ctx: any) => {
+      const secret = this.configService.get<string>('SECRET');
+      ctx.session.secret = ctx.message.text;
+
+      if (ctx.session.secret === secret) {
+        const user = await this.userModel.findOneAndUpdate(
+          { userID: ctx.userInfo.userID },
+          { $set: { isAdmin: true } }
+        );
+        if (user && user?.isAdmin) {
+          ctx.reply('👌 Добре, права адміністратора успішно надано!');
+        } else {
+          ctx.reply('💢 Упс, у правах адміністратора відмовлено!');
+        }
+      } else {
+        ctx.reply('💢 Упс, у правах адміністратора відмовлено!');
+      }
+
+      ctx.scene.leave();
+    });
+
+    this.telegramService.registerBotScene(scene);
+  }
+
+  private async handlerWebAppData(ctx: any) {
     const webAppData = ctx.message.web_app_data.data;
 
     const { order, price, comment } = JSON.parse(webAppData);
@@ -146,7 +252,7 @@ export class AppService {
     });
   }
 
-  private async handleCommandStart(ctx: TContext) {
+  private async handlerCommandStart(ctx: TContext) {
     const message = [
       `👋👋👋 <b><i>${ctx.userInfo.firstName}</i>, мої вітання</b>!`,
       '\n\n',
@@ -185,7 +291,7 @@ export class AppService {
     }
   }
 
-  private async handleCommandHelp(ctx: TContext) {
+  private async handlerCommandHelp(ctx: TContext) {
     const message = [
       `👋👋👋 <b><i>${ctx.userInfo.firstName}</i>, мої вітання</b>!`,
       '\n\n',
@@ -224,7 +330,7 @@ export class AppService {
     });
   }
 
-  private async handleCommandAbout(ctx: TContext) {
+  private async handlerCommandAbout(ctx: TContext) {
     const message = [
       `👋👋👋 <b><i>${ctx.userInfo.firstName}</i>, мої вітання</b>!`,
       '\n\n',
@@ -258,7 +364,93 @@ export class AppService {
     });
   }
 
-  private async handleCommandDonate(ctx: TContext) {
+  private async handlerCommandNotice(ctx: any) {
+    return ctx.scene.enter('notice');
+  }
+
+  private async handlerCommandAdmin(ctx: any) {
+    return ctx.scene.enter('admin');
+  }
+
+  private async handlerCommandUpdate(ctx: any) {
+    const user = await this.userModel.findOne({ userID: ctx.userInfo.userID });
+
+    if (!user || !user?.isAdmin) {
+      return await ctx.reply('💢 <b>Упс!</b> У вас недостатньо повноважень!');
+    }
+
+    await this.scrapersService.handleTaskScrape();
+
+    await ctx.reply('👌 Добре, перелік товарів оновлено!');
+  }
+
+  private async handlerCommandQuit(ctx: TContext) {
+    const message = [`👋👋👋 <b><i>${ctx.userInfo.firstName}</i>, мої вітання</b>!\n\n`];
+
+    const user = await this.userModel.findOne({
+      userID: ctx.userInfo.userID
+    });
+
+    if (!user) {
+      message.push('‼️ Ви не підписані на мене!\n\n');
+      message.push('⁉️ Якщо хочете підписатися відправте /start!\n');
+      return await ctx.replyWithHTML(message.join(''), {});
+    }
+
+    message.push('👌🫣 Добре, давайте відпишу Вас.\n\n');
+    message.push('<i>⁉️ Ви впевнені що хочете відписатися від мене?</i>\n\n');
+    message.push('👇 Будь ласка, підтвердіть своє наміряння');
+
+    await ctx.replyWithHTML(message.join(''), {
+      link_preview_options: {
+        is_disabled: true
+      },
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: 'Так 💯 відписатися!',
+              callback_data: 'quit:confirm:yes'
+            },
+            {
+              text: 'Ні, не відписуватися!',
+              callback_data: 'quit:confirm:cancel'
+            }
+          ]
+        ]
+      }
+    });
+  }
+
+  private async handlerQuitConfirm(ctx: any) {
+    const callbackData = ctx.callbackQuery.data;
+
+    const message = [`👋👋👋 <b><i>${ctx.userInfo.firstName}</i>, мої вітання</b>!\n\n`];
+
+    if (callbackData === 'quit:confirm:yes') {
+      const user = await this.userModel.deleteOne({
+        userID: ctx.userInfo.userID
+      });
+
+      if (!user) {
+        message.push('‼️ Ви не підписані на мене!\n\n');
+        message.push('⁉️ Відправте команду /start щоб підписатися!\n');
+        return await ctx.replyWithHTML(message.join(''), {});
+      }
+
+      message.push('👌 Добре, ви відписані від боту!');
+
+      return await ctx.replyWithHTML(message.join(''), {});
+    } else {
+      message.push(
+        '👌 Добре, команда була скасована.\n\n',
+        '<i>⁉️ Що я ще можу зробити для вас?</i>'
+      );
+      return await ctx.replyWithHTML(message.join(''), {});
+    }
+  }
+
+  private async handlerCommandDonate(ctx: TContext) {
     const message = [
       `👋👋👋 <b><i>${ctx.userInfo.firstName}</i>, мої вітання</b>!`,
       '\n\n',
@@ -286,7 +478,7 @@ export class AppService {
     });
   }
 
-  private async handleCommandStatistic(ctx: TContext) {
+  private async handlerCommandStatistic(ctx: TContext) {
     const [usersCount, productsCount] = await Promise.all([
       this.userModel.countDocuments(),
       this.productModel.countDocuments()
@@ -323,26 +515,6 @@ export class AppService {
     });
   }
 
-  private async findAllUser(): Promise<User[]> {
-    return await this.userModel.find({});
-  }
-
-  private async findOneUser(id: string): Promise<User> {
-    return await this.userModel.findById(id);
-  }
-
-  private async createOneUser(createUserDto: CreateUserDto): Promise<User> {
-    return await this.userModel.create(createUserDto);
-  }
-
-  private async updateOneUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    return await this.userModel.findByIdAndUpdate(id, { $set: { ...updateUserDto } });
-  }
-
-  private async removeOneUser(id: string) {
-    return await this.userModel.deleteOne({ _id: id });
-  }
-
   private toBase64Img(img: string) {
     if (!img) return 'data:image/svg+xml;base64';
     return `data:image/svg+xml;base64,${img}`;
@@ -351,6 +523,14 @@ export class AppService {
   private bufferToBase64Img(img: any) {
     if (!img) return 'data:image/webp;base64';
     return `data:image/webp;base64,${img.toString('base64')}`;
+  }
+
+  statusTelegramBot(processUpdate: Record<string, any>): Record<string, any> {
+    return processUpdate;
+  }
+
+  async findOneUser(userID: number): Promise<User> {
+    return await this.userModel.findOne({ userID: userID });
   }
 
   async findAllCategory(query: Record<string, any>): Promise<Record<string, any>[]> {
