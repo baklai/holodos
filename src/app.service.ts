@@ -110,7 +110,7 @@ export class AppService {
       const user = await this.userModel.findOne({ userID: ctx.userInfo.userID });
 
       if (!user || !user?.isAdmin) {
-        ctx.reply('💢 <b>Упс!</b> У вас недостатньо повноважень!');
+        ctx.replyWithHTML('💢 <b>Упс!</b> У вас недостатньо повноважень!');
         return ctx.scene.leave();
       }
 
@@ -119,7 +119,7 @@ export class AppService {
         '👉 Будь ласка, введіть текст повідомлення'
       ];
 
-      ctx.reply(message.join(''));
+      ctx.replyWithHTML(message.join(''));
     });
 
     scene.on<any>('text', async (ctx: any) => {
@@ -137,9 +137,11 @@ export class AppService {
             }
           }
         });
-        ctx.reply('💪 Повідомлення відправлено усім користувачам.');
+        ctx.replyWithHTML('💪 Повідомлення відправлено усім користувачам.');
       } catch (err) {
-        ctx.reply(`💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`);
+        ctx.replyWithHTML(
+          `💢 <b>Упс!</b> Щось пішло не так!. Виникла помилка: <i>${err.message}</i>`
+        );
       } finally {
         ctx.scene.leave();
       }
@@ -156,7 +158,7 @@ export class AppService {
         '👉 Будь ласка, введіть секретний ключ'
       ];
 
-      ctx.reply(message.join(''));
+      ctx.replyWithHTML(message.join(''));
     });
 
     scene.on<any>('text', async (ctx: any) => {
@@ -169,12 +171,12 @@ export class AppService {
           { $set: { isAdmin: true } }
         );
         if (user && user?.isAdmin) {
-          ctx.reply('👌 Добре, права адміністратора успішно надано!');
+          ctx.replyWithHTML('👌 Добре, права адміністратора успішно надано!');
         } else {
-          ctx.reply('💢 Упс, у правах адміністратора відмовлено!');
+          ctx.replyWithHTML('💢 <b>Упс</b>, у правах адміністратора відмовлено!');
         }
       } else {
-        ctx.reply('💢 Упс, у правах адміністратора відмовлено!');
+        ctx.replyWithHTML('💢 <b>Упс</b>, у правах адміністратора відмовлено!');
       }
 
       ctx.scene.leave();
@@ -303,19 +305,12 @@ export class AppService {
       '\n\n',
       `${MAIN_COMMANDS.commands.map(item => `/${item.command} - ${item.description}`).join('\n')}\n\n`,
       `<b><i>${OPERATION_COMMANDS.description}</i></b>\n`,
-      `${OPERATION_COMMANDS.commands.map(item => `/${item.command} - ${item.description}`).join('\n')}\n\n`
+      `${OPERATION_COMMANDS.commands.map(item => `/${item.command} - ${item.description}`).join('\n')}\n\n`,
+      `<b><i>${SYSTEM_COMMANDS.description}</i></b>\n`,
+      `${SYSTEM_COMMANDS.commands.map(item => `/${item.command} - ${item.description}`).join('\n')}`,
+      '\n\n\n',
+      '🚧 <b>Відкрий холодос, для початку</b> 👇'
     ];
-
-    const user = await this.userModel.findOne({ userID: ctx.userInfo.userID });
-
-    if (user?.isAdmin) {
-      message.push(
-        `<b><i>${SYSTEM_COMMANDS.description}</i></b>\n`,
-        `${SYSTEM_COMMANDS.commands.map(item => `/${item.command} - ${item.description}`).join('\n')}`
-      );
-    }
-
-    message.push('\n\n\n', '🚧 <b>Відкрий холодос, для початку</b> 👇');
 
     await ctx.replyWithHTML(message.join(''), {
       link_preview_options: { is_disabled: true },
@@ -380,12 +375,12 @@ export class AppService {
     const user = await this.userModel.findOne({ userID: ctx.userInfo.userID });
 
     if (!user || !user?.isAdmin) {
-      return await ctx.reply('💢 <b>Упс!</b> У вас недостатньо повноважень!');
+      return await ctx.replyWithHTML('💢 <b>Упс!</b> У вас недостатньо повноважень!');
     }
 
     await this.scrapersService.handleTaskScrape();
 
-    await ctx.reply('👌 Добре, перелік товарів оновлено!');
+    await ctx.replyWithHTML('👌 Добре, перелік товарів оновлено!');
   }
 
   private async handlerCommandQuit(ctx: TContext) {
