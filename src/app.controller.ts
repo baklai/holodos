@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
 
 import { AppService } from './app.service';
-import { Product } from './schemas/product.schema';
 
 @Controller()
 export class AppController {
