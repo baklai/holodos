@@ -1,7 +1,7 @@
-const PORT = 3000;
-const HOST = 'localhost';
+const PORT = 10000;
+const HOST = '0.0.0.0';
 const SECRET = '4EfVKy5nXIXgD6fNk2ssI';
-const DONATE = 'http://localhost:3000';
+const DONATE = 'http://localhost:10000';
 const MONGO_URI = 'mongodb://localhost:27017/holodos';
 
 export default () => ({
