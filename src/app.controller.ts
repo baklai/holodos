@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Request } from 'express';
 
 import { AppService } from './app.service';
 
@@ -12,7 +11,10 @@ export class AppController {
   ) {}
 
   @Post('bot*')
-  statusTelegramBot(@Req() req: Request, @Body() processUpdate: Record<string, any>): any {
+  statusTelegramBot(
+    @Req() req: Record<string, any>,
+    @Body() processUpdate: Record<string, any>
+  ): any {
     const requestPath: string = req.url;
     if (requestPath.includes(`bot${this.configService.get<string>('telegramBotToken')}`)) {
       return this.appService.statusTelegramBot(processUpdate);
