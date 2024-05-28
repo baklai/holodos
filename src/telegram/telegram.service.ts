@@ -25,23 +25,27 @@ export class TelegramService {
     //   await this.bot.createWebhook({ domain: this.configService.get<string>('WEB_APP') })
     // ).listen(this.configService.get<number>('PORT'));
 
-    this.bot.launch({
-      webhook: {
-        // Public domain for webhook; e.g.: example.com
-        domain: this.configService.get<string>('WEB_APP'),
+    createServer(
+      await this.bot.createWebhook({ domain: this.configService.get<string>('WEB_APP') })
+    ).listen(this.configService.get<number>('PORT'));
 
-        // Port to listen on; e.g.: 8080
-        port: 8000 // port: 80, // this.configService.get<number>('PORT'),
+    // this.bot.launch({
+    //   webhook: {
+    //     // Public domain for webhook; e.g.: example.com
+    //     domain: this.configService.get<string>('WEB_APP'),
 
-        // Optional path to listen for.
-        // `bot.secretPathComponent()` will be used by default
-        // path: '/webhook'
+    //     // Port to listen on; e.g.: 8080
+    //     port: 8000 // port: 80, // this.configService.get<number>('PORT'),
 
-        // Optional secret to be sent back in a header for security.
-        // e.g.: `crypto.randomBytes(64).toString("hex")`
-        // secretToken: randomAlphaNumericString
-      }
-    });
+    //     // Optional path to listen for.
+    //     // `bot.secretPathComponent()` will be used by default
+    //     // path: '/webhook'
+
+    //     // Optional secret to be sent back in a header for security.
+    //     // e.g.: `crypto.randomBytes(64).toString("hex")`
+    //     // secretToken: randomAlphaNumericString
+    //   }
+    // });
 
     // this.bot.launch({
     //   webhook: {
