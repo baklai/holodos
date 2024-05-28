@@ -10,7 +10,7 @@ export class AppController {
     private readonly configService: ConfigService
   ) {}
 
-  @Post('/bot*')
+  @Post('/webhook/bot*')
   statusTelegramBot(
     @Req() req: Record<string, any>,
     @Body() processUpdate: Record<string, any>
