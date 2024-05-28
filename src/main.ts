@@ -15,7 +15,7 @@ async function bootstrap() {
   const telegramService = app.get(TelegramService);
 
   await app.listen(port, host, async () => {
-    telegramService.botLaunch();
+    await telegramService.botLaunch();
     console.info(`Application is running on: ${await app.getUrl()}/`);
   });
 }
