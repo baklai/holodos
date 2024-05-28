@@ -51,7 +51,7 @@ export class AppService {
 
     this.telegramService.setOnСallbackQuery((ctx: any) => this.onСallbackQuery(ctx));
 
-    this.telegramService.botLaunch();
+    // this.telegramService.botLaunch();
   }
 
   private groupByMarketAndCategory(data: Record<string, any>) {
