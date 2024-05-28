@@ -50,8 +50,70 @@ export class AppService {
     this.telegramService.setOnMessage((ctx: any) => this.onMessage(ctx));
 
     this.telegramService.setOnСallbackQuery((ctx: any) => this.onСallbackQuery(ctx));
+  }
 
-    // this.telegramService.botLaunch();
+  createWebhookTelegramBot() {
+    return this.telegramService.botLaunch();
+  }
+
+  statusTelegramBot(processUpdate: Record<string, any>): Record<string, any> {
+    return processUpdate;
+  }
+
+  async findOneUser(userID: number): Promise<User> {
+    return await this.userModel.findOne({ userID: userID });
+  }
+
+  async findAllCategory(query: Record<string, any>): Promise<Record<string, any>[]> {
+    const { market = '' } = query;
+    try {
+      const categories = await this.productModel.aggregate([
+        { $match: { market: market } },
+        { $group: { _id: { categoryName: '$categoryName', categoryIcon: '$categoryIcon' } } },
+        {
+          $project: { categoryName: '$_id.categoryName', categoryIcon: '$_id.categoryIcon', _id: 0 }
+        }
+      ]);
+
+      return categories.map(category => {
+        return { ...category, categoryIcon: this.toBase64Img(category.categoryIcon) };
+      });
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
+  async findAllProduct(query: Record<string, any>): Promise<Record<string, any>[]> {
+    const { market = '', category = '' } = query;
+    try {
+      const products = await this.productModel
+        .find({ market: market, categoryName: category })
+        .select({
+          _id: 1,
+          title: 1,
+          img: 1,
+          pricePer: 1,
+          priceTitle: 1,
+          market: 1,
+          categoryName: 1
+        })
+        .lean()
+        .exec();
+
+      return products.map(product => {
+        return {
+          id: product._id,
+          title: product.title,
+          img: this.bufferToBase64Img(product.img),
+          pricePer: product.pricePer,
+          priceTitle: product.priceTitle,
+          market: product.market,
+          categoryName: product.categoryName
+        };
+      });
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
 
   private groupByMarketAndCategory(data: Record<string, any>) {
@@ -522,65 +584,5 @@ export class AppService {
   private bufferToBase64Img(img: any) {
     if (!img) return 'data:image/webp;base64';
     return `data:image/webp;base64,${img.toString('base64')}`;
-  }
-
-  statusTelegramBot(processUpdate: Record<string, any>): Record<string, any> {
-    return processUpdate;
-  }
-
-  async findOneUser(userID: number): Promise<User> {
-    return await this.userModel.findOne({ userID: userID });
-  }
-
-  async findAllCategory(query: Record<string, any>): Promise<Record<string, any>[]> {
-    const { market = '' } = query;
-    try {
-      const categories = await this.productModel.aggregate([
-        { $match: { market: market } },
-        { $group: { _id: { categoryName: '$categoryName', categoryIcon: '$categoryIcon' } } },
-        {
-          $project: { categoryName: '$_id.categoryName', categoryIcon: '$_id.categoryIcon', _id: 0 }
-        }
-      ]);
-
-      return categories.map(category => {
-        return { ...category, categoryIcon: this.toBase64Img(category.categoryIcon) };
-      });
-    } catch (err) {
-      throw new Error(err.message);
-    }
-  }
-
-  async findAllProduct(query: Record<string, any>): Promise<Record<string, any>[]> {
-    const { market = '', category = '' } = query;
-    try {
-      const products = await this.productModel
-        .find({ market: market, categoryName: category })
-        .select({
-          _id: 1,
-          title: 1,
-          img: 1,
-          pricePer: 1,
-          priceTitle: 1,
-          market: 1,
-          categoryName: 1
-        })
-        .lean()
-        .exec();
-
-      return products.map(product => {
-        return {
-          id: product._id,
-          title: product.title,
-          img: this.bufferToBase64Img(product.img),
-          pricePer: product.pricePer,
-          priceTitle: product.priceTitle,
-          market: product.market,
-          categoryName: product.categoryName
-        };
-      });
-    } catch (err) {
-      throw new Error(err.message);
-    }
   }
 }

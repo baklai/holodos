@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { BotCommand } from 'telegraf/typings/core/types/typegram';
 import { Telegraf, Scenes } from 'telegraf';
-import { createServer } from 'http';
 
 import { TContext } from './telegram.module';
 
@@ -21,46 +20,9 @@ export class TelegramService {
   }
 
   async botLaunch() {
-    // this.bot.launch();
-
-    // this.bot.launch({
-    //   webhook: {
-    //     domain: `${this.configService.get<string>('WEB_APP')}/bot${this.configService.get<string>('BOT_TOKEN')}`
-    //   }
-    // });
-
     return await this.bot.createWebhook({
       domain: `${this.configService.get<string>('WEB_APP')}`
     });
-
-    // createServer(
-    //   await this.bot.createWebhook({ domain: this.configService.get<string>('WEB_APP') })
-    // ).listen(this.configService.get<number>('PORT'));
-
-    // this.bot.launch({
-    //   webhook: {
-    //     // Public domain for webhook; e.g.: example.com
-    //     domain: this.configService.get<string>('WEB_APP'),
-
-    //     // Port to listen on; e.g.: 8080
-    //     port: 8000 // port: 80, // this.configService.get<number>('PORT'),
-
-    //     // Optional path to listen for.
-    //     // `bot.secretPathComponent()` will be used by default
-    //     // path: '/webhook'
-
-    //     // Optional secret to be sent back in a header for security.
-    //     // e.g.: `crypto.randomBytes(64).toString("hex")`
-    //     // secretToken: randomAlphaNumericString
-    //   }
-    // });
-
-    // this.bot.launch({
-    //   webhook: {
-    //     domain: this.configService.get<string>('WEB_APP')
-    //     // port: this.configService.get<number>('PORT')
-    //   }
-    // });
   }
 
   async setBotMyCommands(commands: BotCommand[]) {
