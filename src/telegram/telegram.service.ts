@@ -29,11 +29,9 @@ export class TelegramService {
     //   }
     // });
 
-    return createServer(
-      await this.bot.createWebhook({
-        domain: `${this.configService.get<string>('WEB_APP')}/bot${this.configService.get<string>('BOT_TOKEN')}`
-      })
-    ).listen(this.configService.get<number>('PORT'));
+    return await this.bot.createWebhook({
+      domain: `${this.configService.get<string>('WEB_APP')}`
+    });
 
     // createServer(
     //   await this.bot.createWebhook({ domain: this.configService.get<string>('WEB_APP') })
