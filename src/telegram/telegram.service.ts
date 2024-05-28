@@ -31,7 +31,7 @@ export class TelegramService {
         domain: this.configService.get<string>('WEB_APP'),
 
         // Port to listen on; e.g.: 8080
-        port: this.configService.get<number>('PORT'),
+        port: 443, // this.configService.get<number>('PORT'),
 
         // Optional path to listen for.
         // `bot.secretPathComponent()` will be used by default
