@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { Context, Scenes, Telegraf, Telegram, session } from 'telegraf';
+import { Context, Telegraf, Telegram, session } from 'telegraf';
 import { Update, UserFromGetMe } from 'telegraf/typings/core/types/typegram';
 
 import { TelegramService } from './telegram.service';
@@ -36,6 +36,24 @@ export class TelegramModule {
           provide: 'TELEGRAM_BOT',
           useFactory: async (...args: Record<string, any>[]) => {
             const tgOptions = await options.useFactory(...args);
+
+            /**  ADD PROXY AGENT
+             * 
+             * import { HttpsProxyAgent } from 'https-proxy-agent';
+
+             * const { HTTPS_PROXY_HOST, HTTPS_PROXY_PORT } = process.env;
+ 
+             * const agent = new HttpsProxyAgent({
+             *    host: HTTPS_PROXY_HOST,
+             *    port: HTTPS_PROXY_PORT
+             *  });
+
+             * const bot = new Telegraf(token, { telegram: { agent } });
+
+             * If you want to use agent for fetching files, as well, use:
+             * const bot = new Telegraf(BOT_TOKEN, { telegram: { agent, attachmentAgent: agent } })
+             * 
+             */
 
             const bot = new Telegraf(tgOptions.token, { contextType: TContext });
 
