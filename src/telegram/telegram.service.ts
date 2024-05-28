@@ -31,11 +31,11 @@ export class TelegramService {
         domain: this.configService.get<string>('WEB_APP'),
 
         // Port to listen on; e.g.: 8080
-        port: 80, // this.configService.get<number>('PORT'),
+        port: 8000 // port: 80, // this.configService.get<number>('PORT'),
 
         // Optional path to listen for.
         // `bot.secretPathComponent()` will be used by default
-        path: '/webhook'
+        // path: '/webhook'
 
         // Optional secret to be sent back in a header for security.
         // e.g.: `crypto.randomBytes(64).toString("hex")`
