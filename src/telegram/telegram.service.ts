@@ -23,13 +23,15 @@ export class TelegramService {
   async botLaunch() {
     // this.bot.launch();
 
-    // this.bot.launch({
-    //   webhook: { domain: this.configService.get<string>('WEB_APP') }
-    // });
+    this.bot.launch({
+      webhook: {
+        domain: `${this.configService.get<string>('WEB_APP')}/bot${this.configService.get<string>('BOT_TOKEN')}`
+      }
+    });
 
-    return createServer(
-      await this.bot.createWebhook({ domain: this.configService.get<string>('WEB_APP') })
-    ).listen(this.configService.get<number>('PORT'));
+    // return createServer(
+    //   await this.bot.createWebhook({ domain: this.configService.get<string>('WEB_APP') })
+    // ).listen(this.configService.get<number>('PORT'));
 
     // createServer(
     //   await this.bot.createWebhook({ domain: this.configService.get<string>('WEB_APP') })
