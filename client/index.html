@@ -25,8 +25,6 @@
       Telegram.WebApp.MainButton.hide();
       Telegram.WebApp.onEvent('themeChanged', setThemeClass);
       setThemeClass();
-
-      Telegram.WebApp.ready();
     </script>
 
     <style>
@@ -61,6 +59,20 @@
       </section>
     </template>
 
+    <template id="modal">
+      <div data-js="modal" class="modal">
+        <div class="modal-content">
+          <div style="text-align: center">
+            <img data-js="img" loading="lazy" style="width: 90%" />
+            <div style="padding: 2px 16px">
+              <p data-js="title" style="font-size: 14px"></p>
+              <p data-js="price" style="font-weight: 500; color: var(--main-color)"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
     <template id="fridge">
       <section class="fridge">
         <img src="img/logo.webp" alt="Холодос" width="200" />
@@ -86,7 +98,7 @@
       <div class="product">
         <div class="counter"></div>
         <div class="photo">
-          <img width="74" height="74" />
+          <img width="74" height="74" style="cursor: pointer" />
         </div>
         <div class="label">
           <span class="price"></span>

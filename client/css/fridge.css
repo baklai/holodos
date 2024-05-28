@@ -28,9 +28,6 @@ body {
 }
 
 body {
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
   font-family: var(--default-font);
   color: var(--text-color);
   color-scheme: var(--tg-color-scheme);
@@ -395,6 +392,38 @@ section.order {
     outline: none;
     border: none;
     resize: none;
+  }
+}
+
+.modal {
+  position: fixed;
+  z-index: 999;
+  padding-top: 100px;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0, 0.2);
+
+  & .modal-content {
+    background-color: var(--block-bg-color);
+    animation-name: modal-zoom;
+    animation-duration: 0.6s;
+    margin: auto;
+    padding: 10px;
+    max-width: 280px;
+    border-radius: 15px;
+  }
+}
+
+@keyframes modal-zoom {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
   }
 }
 

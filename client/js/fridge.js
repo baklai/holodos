@@ -223,6 +223,31 @@ export class Fridge {
       const isButtonIncr = event.target.closest('button.incr');
       const isButtonDecr = event.target.closest('button.decr');
 
+      const isImage = event.target.closest('img');
+
+      if (isImage) {
+        const product = event.target.closest('.product');
+
+        const template = document.querySelector('#modal');
+        const node = template.content.cloneNode(true);
+
+        const modal = node.querySelector('[data-js="modal"]');
+        modal.addEventListener('click', event => {
+          modal.remove();
+        });
+
+        const img = node.querySelector('[data-js="img"]');
+        img.src = isImage.src;
+
+        const title = node.querySelector('[data-js="title"]');
+        title.textContent = product.dataset.title;
+
+        const price = node.querySelector('[data-js="price"]');
+        price.textContent = product.dataset.pricePer + product.dataset.priceTitle;
+
+        this.#container.appendChild(node);
+      }
+
       if (isButtonIncr || isButtonDecr) {
         const product = event.target.closest('.product');
         const counter = product.querySelector('.counter');
