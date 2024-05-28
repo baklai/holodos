@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { BotCommand } from 'telegraf/typings/core/types/typegram';
 import { Telegraf, Scenes } from 'telegraf';
+import { createServer } from 'http';
 
 import { TContext } from './telegram.module';
 
@@ -20,12 +21,16 @@ export class TelegramService {
   }
 
   async botLaunch() {
-    this.bot.launch({
-      webhook: {
-        domain: this.configService.get<string>('WEB_APP')
-        // port: this.configService.get<number>('PORT')
-      }
-    });
+    createServer(
+      await this.bot.createWebhook({ domain: this.configService.get<string>('WEB_APP') })
+    ).listen(this.configService.get<number>('PORT'));
+
+    // this.bot.launch({
+    //   webhook: {
+    //     domain: this.configService.get<string>('WEB_APP')
+    //     // port: this.configService.get<number>('PORT')
+    //   }
+    // });
   }
 
   async setBotMyCommands(commands: BotCommand[]) {
