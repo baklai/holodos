@@ -22,8 +22,8 @@ export class TelegramService {
   async botLaunch() {
     this.bot.launch({
       webhook: {
-        domain: this.configService.get<string>('WEB_APP'),
-        port: this.configService.get<number>('PORT')
+        domain: this.configService.get<string>('WEB_APP')
+        // port: this.configService.get<number>('PORT')
       }
     });
   }
