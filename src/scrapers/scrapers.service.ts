@@ -19,11 +19,11 @@ export class ScrapersService {
 
   @Cron('0 0 * * *', { name: 'scrape-products', timeZone: 'UTC' })
   async handleTaskScrape() {
-    // await this.atbMarket(this.browserOptions, 'atb');
+    await this.atbMarket(this.browserOptions, 'atb');
 
     await this.silpoMarket(this.browserOptions, 'silpo');
 
-    // await this.novusMarket(this.browserOptions, 'novus');
+    await this.novusMarket(this.browserOptions, 'novus');
   }
 
   async atbMarket(browserOptions: Record<string, any>, market: string) {
