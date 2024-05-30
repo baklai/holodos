@@ -208,7 +208,9 @@ export class Fridge {
       if (!categories.length) {
         const paragraph = document.createElement('p');
         paragraph.style.width = '80%';
-        paragraph.textContent = 'Перелік товарів поки що порожній. Найближчим часов він оновиться.';
+        paragraph.style.color = 'var(--hint-color)';
+        paragraph.textContent =
+          'перелік товарів поки що порожній, та найближчим часов він оновиться';
         section.appendChild(paragraph);
       }
     } catch (err) {
@@ -348,6 +350,9 @@ export class Fridge {
         }
 
         const img = node.querySelector('div.photo img');
+        img.onerror = function () {
+          this.src = 'img/market/product.png';
+        };
         img.src = product.img;
         img.alt = product.title;
 
@@ -504,8 +509,6 @@ export class Fridge {
       const index = this.#products.findIndex(item => item.id == order.id);
       this.#products.splice(index, 1);
     }
-
-    console.log(this.#products);
 
     Telegram.WebApp.MainButton.setParams({
       text: `УСЬОГО ${this.getOrderPrice()}₴`,

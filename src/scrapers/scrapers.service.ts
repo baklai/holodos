@@ -23,7 +23,7 @@ export class ScrapersService {
 
     await this.silpoMarket(this.browserOptions, 'silpo');
 
-    await this.novusMarket(this.browserOptions, 'novus');
+    // await this.novusMarket(this.browserOptions, 'novus');
   }
 
   async atbMarket(browserOptions: Record<string, any>, market: string) {
@@ -71,18 +71,18 @@ export class ScrapersService {
           waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
         });
 
-        let paginationMore = false;
-        do {
-          try {
-            await page.waitForSelector('button.product-pagination__more', { timeout: 10000 });
-            await page.click('button.product-pagination__more');
-            paginationMore = true;
-          } catch (err) {
-            paginationMore = false;
-          } finally {
-            await this.sleep(30000);
-          }
-        } while (paginationMore);
+        // let paginationMore = false;
+        // do {
+        //   try {
+        //     await page.waitForSelector('button.product-pagination__more', { timeout: 10000 });
+        //     await page.click('button.product-pagination__more');
+        //     paginationMore = true;
+        //   } catch (err) {
+        //     paginationMore = false;
+        //   } finally {
+        //     await this.sleep(30000);
+        //   }
+        // } while (paginationMore);
 
         const data = await page.evaluate(
           ({ market, category }) => {
@@ -211,8 +211,6 @@ export class ScrapersService {
             return { page, icon, name };
           });
       }, url);
-
-      console.log(categories);
 
       for (const item of categories) {
         category.icon = item.icon;
