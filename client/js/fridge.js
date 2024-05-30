@@ -1,28 +1,12 @@
-const MARKETS = [
-  {
-    key: 'atb',
-    label: 'АТБ-Маркет',
-    icon: 'img/logo/atb-logo.svg'
-  },
-  {
-    key: 'silpo',
-    label: 'Сільпо-Маркет',
-    icon: 'img/logo/silpo-logo.svg'
-  },
-  {
-    key: 'novus',
-    label: 'NOVUS-Маркет',
-    icon: 'img/logo/novus-logo.svg'
-  }
-];
-
 export class Fridge {
   #container;
   #isClosed;
   #products;
+  #markets;
   constructor(container = '#app') {
     this.#container = document.querySelector(container);
     this.#isClosed = false;
+    this.#markets = [];
     this.#products = [];
 
     Telegram.WebApp.ready();
@@ -107,7 +91,7 @@ export class Fridge {
     initRippleEffect();
   }
 
-  showMarkets() {
+  async showMarkets() {
     const section = document.createElement('section');
     section.dataset.section = 'markets';
     section.classList.add('markets');
@@ -123,7 +107,22 @@ export class Fridge {
       }
     });
 
-    MARKETS.forEach(market => {
+    try {
+      const response = await fetch(`/markets`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      this.#markets = await response.json();
+    } catch (err) {
+      console.error('There has been a problem with your fetch operation:', err);
+    }
+
+    this.#markets.forEach(market => {
       const template = document.querySelector('#market');
       const node = template.content.cloneNode(true);
 
@@ -155,6 +154,13 @@ export class Fridge {
     const section = document.createElement('section');
     section.dataset.section = 'categories';
     section.classList.add('categories');
+
+    const img = document.createElement('img');
+    img.src = this.#markets.find(({ key }) => key === market).icon;
+    img.alt = this.#markets.find(({ key }) => key === market).label;
+    img.width = 120;
+
+    section.appendChild(img);
 
     section.addEventListener('click', event => {
       const button = event.target.closest('button');
@@ -198,6 +204,13 @@ export class Fridge {
 
         section.appendChild(node);
       });
+
+      if (!categories.length) {
+        const paragraph = document.createElement('p');
+        paragraph.style.width = '80%';
+        paragraph.textContent = 'Перелік товарів поки що порожній. Найближчим часов він оновиться.';
+        section.appendChild(paragraph);
+      }
     } catch (err) {
       console.error('There has been a problem with your fetch operation:', err);
     }
@@ -410,7 +423,7 @@ export class Fridge {
       const count = node.querySelector('[data-js="count"]');
       count.textContent = `${product.count}x`;
       const market = node.querySelector('[data-js="market"]');
-      market.textContent = `${MARKETS.find(({ key }) => product.market === key).label}/${product.category}`;
+      market.textContent = `${this.#markets.find(({ key }) => product.market === key).label}/${product.category}`;
       const pricePer = node.querySelector('[data-js="price-per"]');
       pricePer.textContent = product.pricePer;
       const priceTitle = node.querySelector('[data-js="price-title"]');

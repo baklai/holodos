@@ -1,6 +1,8 @@
 import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
+import { MARKETS } from './common/constants/markets.constant';
+
 import { AppService } from './app.service';
 
 @Controller()
@@ -21,6 +23,11 @@ export class AppController {
     } else {
       throw new Error('Invalid route');
     }
+  }
+
+  @Get('markets')
+  async getMarkets(): Promise<Record<string, any>[]> {
+    return MARKETS;
   }
 
   @Get('products')

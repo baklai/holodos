@@ -16,6 +16,7 @@ import {
   OPERATION_COMMANDS,
   SYSTEM_COMMANDS
 } from './common/constants/commands.constant';
+import { MARKETS } from './common/constants/markets.constant';
 
 @Injectable()
 export class AppService {
@@ -60,24 +61,16 @@ export class AppService {
     return processUpdate;
   }
 
-  async findOneUser(userID: number): Promise<User> {
-    return await this.userModel.findOne({ userID: userID });
-  }
-
   async findAllCategory(query: Record<string, any>): Promise<Record<string, any>[]> {
     const { market = '' } = query;
     try {
-      const categories = await this.productModel.aggregate([
+      return await this.productModel.aggregate([
         { $match: { market: market } },
         { $group: { _id: { categoryName: '$categoryName', categoryIcon: '$categoryIcon' } } },
         {
           $project: { categoryName: '$_id.categoryName', categoryIcon: '$_id.categoryIcon', _id: 0 }
         }
       ]);
-
-      return categories.map(category => {
-        return { ...category, categoryIcon: this.toBase64Img(category.categoryIcon) };
-      });
     } catch (err) {
       throw new Error(err.message);
     }
@@ -103,8 +96,8 @@ export class AppService {
       return products.map(product => {
         return {
           id: product._id,
+          img: product.img,
           title: product.title,
-          img: this.bufferToBase64Img(product.img),
           pricePer: product.pricePer,
           priceTitle: product.priceTitle,
           market: product.market,
@@ -440,9 +433,11 @@ export class AppService {
       return await ctx.replyWithHTML('💢 <b>Упс!</b> У вас недостатньо повноважень!');
     }
 
-    await this.scrapersService.handleTaskScrape();
+    this.scrapersService.handleTaskScrape();
 
-    await ctx.replyWithHTML('👌 Добре, перелік товарів оновлено!');
+    await ctx.replyWithHTML(
+      '👌 Добре, запущено оновлення переліку товарів! Це може зайняти деякий час!'
+    );
   }
 
   private async handlerCommandQuit(ctx: TContext) {
@@ -540,21 +535,37 @@ export class AppService {
   }
 
   private async handlerCommandStatistic(ctx: TContext) {
-    const [usersCount, productsCount] = await Promise.all([
-      this.userModel.countDocuments(),
-      this.productModel.countDocuments()
+    const usersCount = await this.userModel.countDocuments();
+    const marketsCount = await this.productModel.aggregate([
+      {
+        $group: {
+          _id: '$market',
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          market: '$_id',
+          count: 1
+        }
+      }
     ]);
 
     const message = [
       `👋👋👋 <b><i>${ctx.userInfo.firstName}</i>, мої вітання</b>!`,
       '\n\n',
-      '📊 <b>Статистика додатку:</b>',
+      '📊 <b>Статистика додатку:</b>\n',
       '\n',
-      `<i> 🔹 Кількість користувачів: ${usersCount}</i>`,
+      `<i> 😀 Кількість користувачів: ${usersCount}</i>`,
+      '\n\n',
+      `🏪 <b>Товари по маркетам:</b>\n`,
       '\n',
-      // `<i> 🔹 Кількість категорій товарів: ${categoriesCount}</i>`,
-      '\n',
-      `<i> 🔹 Кількість товарів у категоріях: ${productsCount}</i>`,
+      ...marketsCount.map(
+        (item: any) =>
+          `<i> 🏷 ${MARKETS.find(({ key }) => item.market === key).label}: ${item.count}</i>\n`
+      ),
+
       '\n\n',
       '👉 Надішліть <b>/help</b> для перегляду списку команд'
     ];
@@ -574,15 +585,5 @@ export class AppService {
         ]
       }
     });
-  }
-
-  private toBase64Img(img: string) {
-    if (!img) return 'data:image/svg+xml;base64';
-    return `data:image/svg+xml;base64,${img}`;
-  }
-
-  private bufferToBase64Img(img: any) {
-    if (!img) return 'data:image/webp;base64';
-    return `data:image/webp;base64,${img.toString('base64')}`;
   }
 }

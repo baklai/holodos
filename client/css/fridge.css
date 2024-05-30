@@ -90,7 +90,7 @@ button {
 section {
   display: flex;
   max-width: 640px;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -158,6 +158,7 @@ section.categories {
   flex-wrap: wrap;
   margin: 1rem auto;
   text-align: center;
+  width: 100%;
   justify-content: space-around;
 
   & img {

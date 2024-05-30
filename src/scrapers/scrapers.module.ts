@@ -14,7 +14,9 @@ import { ScrapersService } from './scrapers.service';
       provide: 'BROWSER_OPTIONS',
       useValue: {
         headless: process.env.NODE_ENV === 'production' ? true : false,
-        args: ['--no-sandbox']
+        dumpio: process.env.NODE_ENV === 'production' ? false : true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        ignoreHTTPSErrors: true
       }
     }
   ],

@@ -3,6 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Cron } from '@nestjs/schedule';
 import { Model } from 'mongoose';
 import puppeteer from 'puppeteer';
+import { writeFile, readFileSync, existsSync, mkdirSync, rmdirSync } from 'node:fs';
+import { join } from 'path';
+import * as sharp from 'sharp';
 
 import { Product } from 'src/schemas/product.schema';
 
@@ -13,150 +16,128 @@ export class ScrapersService {
     @InjectModel(Product.name) private readonly productModel: Model<Product>
   ) {}
 
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   @Cron('0 0 * * *', { name: 'scrape-products', timeZone: 'UTC' })
   async handleTaskScrape() {
-    await this.toDatabase(await this.atbMarket(this.browserOptions), 'atb-market');
-    await this.toDatabase(await this.silpoMarket(this.browserOptions), 'silpo-market');
+    // await this.atbMarket(this.browserOptions, 'atb');
+
+    await this.silpoMarket(this.browserOptions, 'silpo');
+
+    // await this.novusMarket(this.browserOptions, 'novus');
   }
 
-  async toDatabase(items: Record<string, any>[], catalog: string) {
-    // const categories = await Category.findAll(catalog);
-    // for (const item of categories) {
-    //   await Category.removeOne(item.id);
-    // }
-    // for (const item of items) {
-    //   const { data: svg } = await axios.get(item.category.icon, {
-    //     responseType: 'arraybuffer'
-    //   });
-    //   const category = await Category.createOne({
-    //     icon: Buffer.from(svg).toString('base64'),
-    //     title: item.category.title,
-    //     catalog: catalog
-    //   });
-    //   item.products.forEach(async item => {
-    //     const { data: img } = await axios.get(item.img, {
-    //       responseType: 'arraybuffer'
-    //     });
-    //     const product = {
-    //       img: await sharp(img).resize(256).webp().toBuffer(),
-    //       title: item.title,
-    //       pricePer: parseFloat(item.pricePer),
-    //       priceTitle: item.priceTitle,
-    //       category: category.id
-    //     };
-    //     await Product.createOne({ ...product });
-    //   });
-    // }
-  }
-
-  async atbMarket(browserOptions: Record<string, any>) {
-    const url = 'https://zakaz.atbmarket.com';
+  async atbMarket(browserOptions: Record<string, any>, market: string) {
+    const url = 'https://www.atbmarket.com';
     const browser = await puppeteer.launch(browserOptions);
+
+    await this.productModel.deleteMany({ market: market });
+
     try {
       const page = await browser.newPage();
-      await page.setViewport({ width: 1300, height: 10000 });
-      await page.goto(url, {
-        waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
-      });
 
-      const { menu } = await page.evaluate(url => {
-        const menu = [];
-        const items = document.querySelectorAll('ul.category-menu > li.category-menu__item');
-        for (const item of items) {
-          const icon =
-            item.querySelector('span.category-menu__icon') !== null
-              ? url +
-                item
-                  .querySelector('span.category-menu__icon')
-                  .getAttribute('style')
-                  .replace(/.*\s?url\([\'\"]?/, '')
-                  .replace(/[\'\"]?\).*/, '')
-              : null;
+      await page.setViewport({ width: 1300, height: 900 });
 
-          const href =
-            item.querySelector('a.category-menu__link') !== null
-              ? url + item.querySelector('a.category-menu__link').getAttribute('href').trim()
-              : null;
+      const cookies = [
+        { name: 'birthday', value: 'true', domain: '.www.atbmarket.com', path: '/' },
+        { name: 'lang', value: 'uk', domain: '.www.atbmarket.com', path: '/' }
+      ];
 
-          if (icon && href) {
-            menu.push({ icon, href });
-          }
-        }
-        return { menu };
+      await page.setCookie(...cookies);
+
+      await page.goto(url, { waitUntil: ['load', 'domcontentloaded'] });
+
+      const categories = await page.evaluate(url => {
+        const links = document.querySelectorAll('ul.category-menu > li > a');
+
+        return Array.from(links)
+          .slice(1)
+          .map((element: any) => {
+            const page = element.href;
+
+            const icon =
+              url +
+              element
+                .querySelector('.category-menu__icon')
+                .dataset.style.replace(/background-image: url\((.*?)\)/, '$1');
+            const name = element.querySelector('span.category-menu__link').textContent.trim();
+            return { page, icon, name };
+          });
       }, url);
 
-      const result = [];
+      for (const category of categories) {
+        await this.sleep(5000);
 
-      for (const el of menu) {
-        await page.goto(el.href, {
+        await page.goto(category.page, {
           waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
         });
 
-        try {
-          await page.waitForSelector('div.catalog-list');
-        } catch (err) {
-          continue;
-        }
+        let paginationMore = false;
+        do {
+          try {
+            await page.waitForSelector('button.product-pagination__more', { timeout: 10000 });
+            await page.click('button.product-pagination__more');
+            paginationMore = true;
+          } catch (err) {
+            paginationMore = false;
+          } finally {
+            await this.sleep(30000);
+          }
+        } while (paginationMore);
 
-        // await page.waitForTimeout(3000);
+        const data = await page.evaluate(
+          ({ market, category }) => {
+            const items = document.querySelectorAll('div.catalog-list > article.catalog-item');
 
-        const category = {
-          icon: el.icon,
-          title: await page.$eval('h1.page-title', e => e.innerText)
-        };
+            const data = [];
 
-        const { products } = await page.evaluate(() => {
-          const products = [];
-          const items = document.querySelectorAll('div.catalog-list > article.catalog-item');
-          for (const item of items) {
-            const img =
-              item.querySelector('div.catalog-item__photo > a > picture > img') !== null
-                ? item
-                    .querySelector('div.catalog-item__photo > a > picture > img')
-                    .getAttribute('src')
-                : null;
-            const title =
-              item.querySelector('div.catalog-item__info > div.catalog-item__title > a') !== null
-                ? item.querySelector('div.catalog-item__info > div.catalog-item__title > a')
-                : // .innerText.trim()
-                  null;
-            const pricePer =
-              item.querySelector(
-                'div.catalog-item__bottom > div.catalog-item__product-price > data'
-              ) !== null
-                ? item
-                    .querySelector(
-                      'div.catalog-item__bottom > div.catalog-item__product-price > data'
-                    )
-                    .getAttribute('value')
-                : null;
-            const priceTitle =
-              item.querySelector(
-                'div.catalog-item__bottom > div.catalog-item__product-price > data > abbr'
-              ) !== null
-                ? item.querySelector(
+            for (const item of items) {
+              const img =
+                item
+                  .querySelector('div.catalog-item__photo > a > picture > img')
+                  ?.getAttribute('src') || null;
+
+              const title =
+                item.querySelector('div.catalog-item__info > div.catalog-item__title > a')
+                  ?.textContent || null;
+
+              const pricePer =
+                item
+                  .querySelector(
+                    'div.catalog-item__bottom > div.catalog-item__product-price > data'
+                  )
+                  ?.getAttribute('value') || null;
+
+              const priceTitle =
+                item
+                  .querySelector(
                     'div.catalog-item__bottom > div.catalog-item__product-price > data > abbr'
                   )
-                : // .innerText.replace(' ', '')
-                  // .trim()
-                  null;
+                  ?.textContent?.replaceAll(' ', '')
+                  ?.trim() || null;
 
-            if (img && title && pricePer && priceTitle) {
-              products.push({
-                img,
-                title,
-                pricePer,
-                priceTitle
-              });
+              if (img && title && pricePer && priceTitle) {
+                data.push({
+                  img,
+                  title,
+                  pricePer,
+                  priceTitle,
+                  market: market,
+                  categoryIcon: category.icon,
+                  categoryName: category.name
+                });
+              }
             }
-          }
-          return { products };
-        });
 
-        result.push({ category, products });
+            return data;
+          },
+          { market, category }
+        );
+
+        await this.productModel.insertMany([...data]);
       }
-
-      return result;
     } catch (err) {
       console.error(err);
     } finally {
@@ -164,93 +145,88 @@ export class ScrapersService {
     }
   }
 
-  async silpoMarket(browserOptions: Record<string, any>) {
+  async silpoMarket(browserOptions: Record<string, any>, market: string) {
     const url = 'https://shop.silpo.ua';
     const browser = await puppeteer.launch(browserOptions);
+
+    await this.productModel.deleteMany({ market: market });
+
+    const category = {
+      icon: null,
+      name: null
+    };
+
+    const updateProducts = async (items: any) => {
+      const data = [];
+
+      for (const item of items) {
+        const img = `https://images.silpo.ua/products/300x300/webp/${item?.icon}`;
+        const title = item?.title || null;
+        const pricePer = item?.price || null;
+        const priceTitle = `грн/${item?.displayRatio}`;
+
+        if (img && title && pricePer && priceTitle && category.icon && category.name) {
+          data.push({
+            img,
+            title,
+            pricePer,
+            priceTitle,
+            market: market,
+            categoryIcon: category.icon,
+            categoryName: category.name
+          });
+        }
+      }
+
+      await this.productModel.insertMany([...data]);
+    };
+
     try {
       const page = await browser.newPage();
-      await page.setViewport({ width: 1300, height: 10000 });
+      await page.setViewport({ width: 1300, height: 900 });
+
+      page.on('response', async response => {
+        const url = response.url();
+        if (url.includes('sf-ecom-api.silpo.ua/v1') && url.includes('/products')) {
+          const data = await response.json();
+
+          await updateProducts(data.items);
+        }
+      });
+
       await page.goto(url, {
         waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
       });
-      await page.click('div.all-product_btn');
 
-      const { menu } = await page.evaluate(url => {
-        const menu = [];
-        const items = document.querySelectorAll('ul.main-menu-levels > li');
-        for (const item of items) {
-          const href = url + item.querySelector('a').getAttribute('href').trim();
-          const arr = href.split('-');
-          const icon = `https://content.silpo.ua/ecom/categoryclassifier/iconsforsite/${
-            arr[arr.length - 1]
-          }.svg`;
+      await page.click('button.category-menu-button');
 
-          if (icon && href) {
-            menu.push({ icon, href });
-          }
-        }
-        return { menu };
+      await this.sleep(60000);
+
+      const categories = await page.evaluate(url => {
+        const links = document.querySelectorAll('ul.menu-categories > li');
+
+        return Array.from(links)
+          .slice(1)
+          .map((element: any) => {
+            const name = element.querySelector('img').getAttribute('title')?.trim();
+            const icon = element.querySelector('img').getAttribute('src');
+            const page = element.querySelector('a').href;
+            return { page, icon, name };
+          });
       }, url);
 
-      const result = [];
+      console.log(categories);
 
-      for (const el of menu) {
-        await page.goto(el.href, {
+      for (const item of categories) {
+        category.icon = item.icon;
+        category.name = item.name;
+
+        await page.goto(item.page, {
           waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
         });
 
-        try {
-          await page.waitForSelector('div.category-page-heading');
-        } catch (err) {
-          continue;
-        }
-
-        // await page.waitForTimeout(3000);
-
-        const category = {
-          icon: el.icon,
-          title: await page.$eval('div.category-page-heading', e => e.innerText)
-        };
-
-        const { products } = await page.evaluate(() => {
-          const products = [];
-          const items = document.querySelectorAll('ul.product-list > div.lazyload-wrapper > li');
-          for (const item of items) {
-            const img =
-              item.querySelector('li.product-list-item-wrapper img') !== null
-                ? item.querySelector('li.product-list-item-wrapper img').getAttribute('src')
-                : null;
-            const title =
-              item.querySelector('li.product-list-item-wrapper img') !== null
-                ? item.querySelector('li.product-list-item-wrapper img').getAttribute('alt')
-                : null;
-            const pricePer =
-              item.querySelector('div.current-integer') !== null
-                ? item.querySelector('div.current-integer') //.innerText.trim()
-                : null;
-            // const priceTitle =
-            //   item.querySelector('span.price-currency') !== null &&
-            // item.querySelector('div.product-weight') !== null
-            //   ? item.querySelector('span.price-currency') //.innerText.trim() +
-            //     '/' +
-            //     item.querySelector('div.product-weight') //.innerText.trim()
-            //   : null;
-
-            // if (img && title && pricePer && priceTitle) {
-            //   products.push({
-            //     img,
-            //     title,
-            //     pricePer,
-            //     priceTitle
-            //   });
-            // }
-          }
-          return { products };
-        });
-
-        result.push({ category, products });
+        await this.sleep(60000);
       }
-      return result;
     } catch (err) {
       console.error(err);
     } finally {
@@ -258,7 +234,9 @@ export class ScrapersService {
     }
   }
 
-  async novusMarket(browserOptions: Record<string, any>) {
+  async novusMarket(browserOptions: Record<string, any>, market: string) {
     // url: 'https://novus.ua/';
+
+    return await null;
   }
 }
