@@ -3,9 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Cron } from '@nestjs/schedule';
 import { Model } from 'mongoose';
 import puppeteer from 'puppeteer';
-import { writeFile, readFileSync, existsSync, mkdirSync, rmdirSync } from 'node:fs';
-import { join } from 'path';
-import * as sharp from 'sharp';
 
 import { Product } from 'src/schemas/product.schema';
 
