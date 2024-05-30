@@ -249,7 +249,7 @@ export class ScrapersService {
       const data = [];
 
       for (const item of items) {
-        const img = `${url}${item?.images?.main?.thumb}`;
+        const img = `${url}${item?.images?.main?.default?.['320'] || item?.images?.main?.webp?.['320'] || item?.images?.main?.originalSrc || null}`;
         const title = item?.label || null;
         const pricePer = item?.priceData?.current || null;
         const priceTitle = `грн/${item?.saleData?.measure}`;
