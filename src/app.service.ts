@@ -45,8 +45,8 @@ export class AppService {
     );
 
     this.initSceneAdmin('admin');
-
     this.initSceneNotice('notice');
+    this.initSceneUpdate('update');
 
     this.telegramService.setOnMessage((ctx: any) => this.onMessage(ctx));
 
@@ -159,6 +159,41 @@ export class AppService {
     }
   }
 
+  private async initSceneAdmin(name: string) {
+    const scene = new Scenes.BaseScene<any>(name);
+    scene.enter(async ctx => {
+      const message = [
+        '👌 Добре, давайте отримаємо права адміністратора!\n\n',
+        '👉 Будь ласка, введіть секретний ключ'
+      ];
+
+      ctx.replyWithHTML(message.join(''));
+    });
+
+    scene.on<any>('text', async (ctx: any) => {
+      const secret = this.configService.get<string>('SECRET');
+      ctx.session.secret = ctx.message.text;
+
+      if (ctx.session.secret === secret) {
+        const user = await this.userModel.findOneAndUpdate(
+          { userID: ctx.userInfo.userID },
+          { $set: { isAdmin: true } }
+        );
+        if (user && user?.isAdmin) {
+          ctx.replyWithHTML('👌 Добре, права адміністратора успішно надано!');
+        } else {
+          ctx.replyWithHTML('💢 <b>Упс</b>, у правах адміністратора відмовлено!');
+        }
+      } else {
+        ctx.replyWithHTML('💢 <b>Упс</b>, у правах адміністратора відмовлено!');
+      }
+
+      ctx.scene.leave();
+    });
+
+    this.telegramService.registerBotScene(scene);
+  }
+
   private async initSceneNotice(name: string) {
     const scene = new Scenes.BaseScene<any>(name);
     scene.enter(async ctx => {
@@ -205,33 +240,76 @@ export class AppService {
     this.telegramService.registerBotScene(scene);
   }
 
-  private async initSceneAdmin(name: string) {
+  private async initSceneUpdate(name: string) {
     const scene = new Scenes.BaseScene<any>(name);
     scene.enter(async ctx => {
+      const user = await this.userModel.findOne({ userID: ctx.userInfo.userID });
+
+      if (!user || !user?.isAdmin) {
+        ctx.replyWithHTML('💢 <b>Упс!</b> У вас недостатньо повноважень!');
+        return ctx.scene.leave();
+      }
+
       const message = [
-        '👌 Добре, давайте отримаємо права адміністратора!\n\n',
-        '👉 Будь ласка, введіть секретний ключ'
+        `👋👋👋 <b><i>${ctx.userInfo.firstName}</i>, мої вітання</b>!`,
+        '\n\n',
+        '👌 Добре, давайте оновимо перелік товарів!\n\n',
+        '👉 Будь ласка, оберіть макрет зі списку.'
       ];
 
-      ctx.replyWithHTML(message.join(''));
+      ctx.replyWithHTML(message.join(''), {
+        link_preview_options: { is_disabled: true },
+        reply_markup: {
+          inline_keyboard: [
+            ...MARKETS.map(({ key, label }) => {
+              return [
+                {
+                  text: label,
+                  callback_data: JSON.stringify({
+                    label: label,
+                    cb: `update:market:${key}`
+                  })
+                }
+              ];
+            })
+          ]
+        }
+      });
     });
 
-    scene.on<any>('text', async (ctx: any) => {
-      const secret = this.configService.get<string>('SECRET');
-      ctx.session.secret = ctx.message.text;
+    scene.on<any>('callback_query', async (ctx: any) => {
+      const { label, cb } = JSON.parse(ctx.callbackQuery.data);
 
-      if (ctx.session.secret === secret) {
-        const user = await this.userModel.findOneAndUpdate(
-          { userID: ctx.userInfo.userID },
-          { $set: { isAdmin: true } }
-        );
-        if (user && user?.isAdmin) {
-          ctx.replyWithHTML('👌 Добре, права адміністратора успішно надано!');
-        } else {
-          ctx.replyWithHTML('💢 <b>Упс</b>, у правах адміністратора відмовлено!');
-        }
-      } else {
-        ctx.replyWithHTML('💢 <b>Упс</b>, у правах адміністратора відмовлено!');
+      ctx.session.callbackdata = cb;
+
+      const user = await this.userModel.findOne({ userID: ctx.userInfo.userID });
+
+      if (!user || !user?.isAdmin) {
+        ctx.replyWithHTML('💢 <b>Упс!</b> У вас недостатньо повноважень!');
+        return ctx.scene.leave();
+      }
+
+      switch (ctx.session.callbackdata) {
+        case 'update:market:atb':
+          this.scrapersService.handleAtbMarketScrape();
+          await ctx.replyWithHTML(
+            `👌 Добре, запущено оновлення переліку товарів з ${label}! Це може зайняти деякий час!`
+          );
+          break;
+        case 'update:market:silpo':
+          this.scrapersService.handleSilpoMarketScrape();
+          await ctx.replyWithHTML(
+            `👌 Добре, запущено оновлення переліку товарів з ${label}! Це може зайняти деякий час!`
+          );
+          break;
+        case 'update:market:novus':
+          this.scrapersService.handleNovusMarketScrape();
+          await ctx.replyWithHTML(
+            `👌 Добре, запущено оновлення переліку товарів з ${label}! Це може зайняти деякий час!`
+          );
+          break;
+        default:
+          await ctx.replyWithHTML('💢 <b>Упс!</b> Щось пішло не так!', {});
       }
 
       ctx.scene.leave();
@@ -427,17 +505,7 @@ export class AppService {
   }
 
   private async handlerCommandUpdate(ctx: any) {
-    const user = await this.userModel.findOne({ userID: ctx.userInfo.userID });
-
-    if (!user || !user?.isAdmin) {
-      return await ctx.replyWithHTML('💢 <b>Упс!</b> У вас недостатньо повноважень!');
-    }
-
-    this.scrapersService.handleTaskScrape();
-
-    await ctx.replyWithHTML(
-      '👌 Добре, запущено оновлення переліку товарів! Це може зайняти деякий час!'
-    );
+    return ctx.scene.enter('update');
   }
 
   private async handlerCommandQuit(ctx: TContext) {

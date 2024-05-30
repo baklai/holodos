@@ -13,20 +13,30 @@ export class ScrapersService {
     @InjectModel(Product.name) private readonly productModel: Model<Product>
   ) {}
 
-  sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   @Cron('0 0 * * *', { name: 'scrape-products', timeZone: 'UTC' })
   async handleTaskScrape() {
     await this.atbMarket(this.browserOptions, 'atb');
-
     await this.silpoMarket(this.browserOptions, 'silpo');
-
-    // await this.novusMarket(this.browserOptions, 'novus');
+    await this.novusMarket(this.browserOptions, 'novus');
   }
 
-  async atbMarket(browserOptions: Record<string, any>, market: string) {
+  async handleAtbMarketScrape() {
+    await this.atbMarket(this.browserOptions, 'atb');
+  }
+
+  async handleSilpoMarketScrape() {
+    await this.silpoMarket(this.browserOptions, 'silpo');
+  }
+
+  async handleNovusMarketScrape() {
+    await this.novusMarket(this.browserOptions, 'novus');
+  }
+
+  private sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  private async atbMarket(browserOptions: Record<string, any>, market: string) {
     const url = 'https://www.atbmarket.com';
     const browser = await puppeteer.launch(browserOptions);
 
@@ -142,7 +152,7 @@ export class ScrapersService {
     }
   }
 
-  async silpoMarket(browserOptions: Record<string, any>, market: string) {
+  private async silpoMarket(browserOptions: Record<string, any>, market: string) {
     const url = 'https://shop.silpo.ua';
     const browser = await puppeteer.launch(browserOptions);
 
@@ -229,9 +239,9 @@ export class ScrapersService {
     }
   }
 
-  async novusMarket(browserOptions: Record<string, any>, market: string) {
+  private async novusMarket(browserOptions: Record<string, any>, market: string) {
     // url: 'https://novus.ua/';
 
-    return await null;
+    return null;
   }
 }
