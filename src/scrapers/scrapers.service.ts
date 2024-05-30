@@ -81,18 +81,18 @@ export class ScrapersService {
           waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
         });
 
-        // let paginationMore = false;
-        // do {
-        //   try {
-        //     await page.waitForSelector('button.product-pagination__more', { timeout: 10000 });
-        //     await page.click('button.product-pagination__more');
-        //     paginationMore = true;
-        //   } catch (err) {
-        //     paginationMore = false;
-        //   } finally {
-        //     await this.sleep(30000);
-        //   }
-        // } while (paginationMore);
+        let paginationMore = false;
+        do {
+          try {
+            await page.waitForSelector('button.product-pagination__more', { timeout: 10000 });
+            await page.click('button.product-pagination__more');
+            paginationMore = true;
+          } catch (err) {
+            paginationMore = false;
+          } finally {
+            await this.sleep(30000);
+          }
+        } while (paginationMore);
 
         const data = await page.evaluate(
           ({ market, category }) => {
@@ -240,8 +240,115 @@ export class ScrapersService {
   }
 
   private async novusMarket(browserOptions: Record<string, any>, market: string) {
-    // url: 'https://novus.ua/';
+    const url = 'https://novus.online';
+    const browser = await puppeteer.launch(browserOptions);
 
-    return null;
+    await this.productModel.deleteMany({ market: market });
+
+    const updateProducts = async (items: any, category: any) => {
+      const data = [];
+
+      for (const item of items) {
+        const img = `${url}${item?.images?.main?.thumb}`;
+        const title = item?.label || null;
+        const pricePer = item?.priceData?.current || null;
+        const priceTitle = `грн/${item?.saleData?.measure}`;
+
+        if (img && title && pricePer && priceTitle && category?.icon && category?.name) {
+          data.push({
+            img,
+            title,
+            pricePer,
+            priceTitle,
+            market: market,
+            categoryIcon: category.icon,
+            categoryName: category.name
+          });
+        }
+      }
+
+      await this.productModel.insertMany([...data]);
+    };
+
+    try {
+      const page = await browser.newPage();
+      await page.setViewport({ width: 1300, height: 900 });
+
+      await page.goto(url, {
+        waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
+      });
+
+      await this.sleep(60000);
+
+      await page.click('button.header__button-catalog');
+
+      await this.sleep(5000);
+
+      await page.evaluate(() => {
+        const div = document.querySelector('div.categories-header-list');
+        div.scrollTop = div.scrollHeight;
+      });
+
+      await this.sleep(10000);
+
+      const categories = await page.evaluate(url => {
+        const links = document.querySelectorAll('ul.categories-header-list__items > li > a');
+
+        return Array.from(links)
+          .map((element: any) => {
+            const name = element?.textContent?.trim();
+            const icon = element?.querySelector('img')?.src;
+            const page = element?.getAttribute('href');
+            return { page, icon, name };
+          })
+          .filter(({ page, icon, name }) => page && icon && name);
+      }, url);
+
+      for (const category of categories) {
+        await this.sleep(60000);
+
+        const data = await page.evaluate(async category => {
+          async function fetchCategoryData(href: string) {
+            const headers = {
+              Accept: 'application/json, text/plain, */*',
+              'Accept-Language': 'uk',
+              Priority: 'u=1'
+            };
+
+            const response = await fetch(`/cms${href}`, {
+              method: 'GET',
+              headers: headers
+            });
+
+            const { data } = await response.json();
+
+            if (!data) return [];
+
+            const { products, children } = data;
+
+            let items = [];
+
+            if (products) items = products.items;
+
+            if (children) {
+              for (const childCategory of children) {
+                const childItems = await fetchCategoryData(childCategory.url);
+                items = items.concat(childItems);
+              }
+            }
+
+            return items;
+          }
+
+          return await fetchCategoryData(category.page);
+        }, category);
+
+        await updateProducts(data, category);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      await browser.close();
+    }
   }
 }
