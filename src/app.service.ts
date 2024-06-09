@@ -68,7 +68,12 @@ export class AppService {
         { $match: { market: market } },
         { $group: { _id: { categoryName: '$categoryName', categoryIcon: '$categoryIcon' } } },
         {
-          $project: { categoryName: '$_id.categoryName', categoryIcon: '$_id.categoryIcon', _id: 0 }
+          $project: {
+            market,
+            categoryName: '$_id.categoryName',
+            categoryIcon: '$_id.categoryIcon',
+            _id: 0
+          }
         }
       ]);
     } catch (err) {

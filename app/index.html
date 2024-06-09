@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <title>Холодос • мій список продуктів</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Холодос - це бот-додаток, що робить процес походу до магазину простіше, швидше, і найголовніше, ефективніше."
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="google" content="notranslate" />
+
+    <script src="https://tg.dev/js/telegram-web-app.js"></script>
+
+    <script>
+      function setThemeClass() {
+        document.documentElement.className = Telegram.WebApp.colorScheme;
+      }
+      Telegram.WebApp.BackButton.hide();
+      Telegram.WebApp.MainButton.hide();
+      Telegram.WebApp.onEvent('themeChanged', setThemeClass);
+      setThemeClass();
+    </script>
+
+    <style>
+      #app {
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+
+    <link href="css/fridge.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <script type="module" src="/js/components/status.component.js"></script>
+    <script type="module" src="/js/components/spinner.component.js"></script>
+    <script type="module" src="/js/components/signin.component.js"></script>
+    <script type="module" src="/js/components/markets.component.js"></script>
+    <script type="module" src="/js/components/categories.component.js"></script>
+    <script type="module" src="/js/components/products.component.js"></script>
+    <script type="module" src="/js/components/search.component.js"></script>
+    <script type="module" src="/js/components/modal.component.js"></script>
+    <script type="module" src="/js/components/order.component.js"></script>
+
+    <script type="module">
+      import { Fridge } from './js/fridge.js';
+
+      const holodos = new Fridge().mount('#app');
+    </script>
+  </body>
+</html>

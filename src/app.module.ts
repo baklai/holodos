@@ -25,7 +25,7 @@ import { Product, ProductSchema } from './schemas/product.schema';
       load: [AppConfig]
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client')
+      rootPath: join(__dirname, '..', 'app')
     }),
     ScheduleModule.forRoot(),
     MongooseModule.forRootAsync({
