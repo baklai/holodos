@@ -63,7 +63,7 @@ class SearchComponent extends HTMLElement {
           -webkit-appearance: none;
           color: var(--dark-gray);
           font-family: 'Noto Sans', Verdana, sans-serif;
-          font-size: 1rem;
+          font-size: 0.875rem;
         }
 
         .searchbox input[type='search']::placeholder {

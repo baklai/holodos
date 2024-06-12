@@ -192,7 +192,7 @@ export class Fridge {
         this.showSpinner();
         this.showProducts(market, category);
       });
-      products.setOrderProducts(args => {
+      products.setItemUpdate(args => {
         this.updateOrderProducts({ ...args });
       });
 

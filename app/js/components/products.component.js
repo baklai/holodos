@@ -10,7 +10,7 @@ class ProductsComponent extends HTMLElement {
           display: flex;
           flex-wrap: wrap;
           margin: 0 auto;
-          margin-top: 55px;
+          margin-top: 48px;
           max-width: 640px;
           height: 100vh;
           justify-content: space-around;
@@ -292,11 +292,17 @@ class ProductsComponent extends HTMLElement {
       if (isImage) {
         const product = event.target.closest('.product');
         const modal = document.createElement('fridge-modal');
-        modal.setAttribute('data-img', isImage.src);
-        modal.setAttribute('data-title', product.dataset.title);
-        modal.setAttribute('data-price', product.dataset.pricePer + product.dataset.priceTitle);
+        modal.setItems(product.dataset.id, [...this.items]);
+        modal.setItemUpdate(args => {
+          const itemIndex = this.items.findIndex(item => item.id === args.id);
+          if (itemIndex >= 0) this.items[itemIndex].count = args.count;
+          this.onItemUpdate({ ...args });
+        });
+        modal.setClose(() => {
+          this.renderItems();
+        });
 
-        document.body.append(modal);
+        this.shadowRoot.appendChild(modal);
       }
 
       if (isButtonIncr || isButtonDecr) {
@@ -337,7 +343,9 @@ class ProductsComponent extends HTMLElement {
 
         counter.textContent = parseInt(product.dataset.count, 10);
         const img = product.querySelector('img');
-        this.onUpdateItems({ ...product.dataset, img: img.src });
+        const itemIndex = this.items.findIndex(item => item.id === product.dataset.id);
+        if (itemIndex >= 0) this.items[itemIndex].count = product.dataset.count;
+        this.onItemUpdate({ ...product.dataset, img: img.src });
         if (!parseInt(product.dataset.count, 10)) {
           product.classList.remove('selected');
           counter.style.animationName = 'badge-hide';
@@ -348,8 +356,8 @@ class ProductsComponent extends HTMLElement {
     });
 
     this.items = [];
+    this.onItemUpdate = null;
     this.onClickHandler = null;
-    this.onUpdateItems = null;
 
     this.template = this.shadowRoot.querySelector('#product');
 
@@ -357,12 +365,9 @@ class ProductsComponent extends HTMLElement {
     search.setAttribute('placeholder', 'Пошук товару за назвою...');
     search.setOnChange(value => {
       const products = this.shadowRoot.querySelectorAll('.product');
-
       const filterValue = value.toLowerCase();
-
       products.forEach(function (product) {
         const title = product.dataset.title.toLowerCase();
-
         if (title.includes(filterValue) || !filterValue) {
           product.style.display = 'block';
         } else {
@@ -383,11 +388,14 @@ class ProductsComponent extends HTMLElement {
     this.onClickHandler = handler;
   }
 
-  setOrderProducts(handler) {
-    this.onUpdateItems = handler;
+  setItemUpdate(handler) {
+    this.onItemUpdate = handler;
   }
 
   renderItems() {
+    const elements = this.shadowRoot.querySelectorAll('div.product');
+    elements.forEach(element => element.remove());
+
     this.items.forEach(item => {
       const node = this.template.content.cloneNode(true);
 
@@ -432,20 +440,20 @@ class ProductsComponent extends HTMLElement {
     if (oldValue === newValue) return;
     switch (name) {
       case 'data-market':
-        this.shadowRoot['data-market'] = newValue;
+        this.dataset.market = newValue;
         break;
       case 'data-category':
-        this.shadowRoot['data-category'] = newValue;
+        this.dataset.category = newValue;
         break;
     }
   }
 
   connectedCallback() {
     if (this.hasAttribute('data-market')) {
-      this.shadowRoot['data-market'] = this.getAttribute('data-market');
+      this.dataset.market = this.getAttribute('data-market');
     }
     if (this.hasAttribute('data-category')) {
-      this.shadowRoot['data-category'] = this.getAttribute('data-category');
+      this.dataset.category = this.getAttribute('data-category');
     }
   }
 }
