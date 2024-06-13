@@ -224,7 +224,23 @@ export class AppService {
         const users = await this.userModel.find({}).select({ userID: 1 });
         users.forEach(async ({ userID }) => {
           try {
-            await this.telegramService.sendMessage(userID, ctx.session.message);
+            await this.telegramService.sendMessage(userID, ctx.session.message, {
+              link_preview_options: { is_disabled: true },
+              reply_markup: {
+                resize_keyboard: true,
+                keyboard: [
+                  [
+                    {
+                      text: 'Відкрити холодос',
+                      web_app: {
+                        url: this.configService.get<string>('WEB_APP')
+                      }
+                    }
+                  ],
+                  [{ text: '❓ Help' }, { text: '💸 Donate' }]
+                ]
+              }
+            });
           } catch (err) {
             console.error(err);
             if (err?.response?.error_code === 403) {

@@ -33,7 +33,7 @@ export class TelegramService {
     this.bot.command(command, ctx => handler(ctx));
   }
 
-  async sendMessage(userID: number, message: string) {
+  async sendMessage(userID: number, message: string, options: Record<string, any>) {
     return await this.bot.telegram.sendMessage(userID, message);
   }
 
