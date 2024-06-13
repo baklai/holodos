@@ -347,10 +347,16 @@ class ModalComponent extends HTMLElement {
     this.priceElement = this.shadowRoot.querySelector('[data-js="price"]');
     this.titleElement = this.shadowRoot.querySelector('[data-js="title"]');
 
+    this.addEventListener('click', event => {
+      this.onClose();
+      this.remove();
+    });
+
     this.shadowRoot.addEventListener('click', event => {
       const isButtonIncr = event.target.closest('button.incr');
       const isButtonDecr = event.target.closest('button.decr');
       const isImage = event.target.closest('img');
+
       if (isImage) {
         this.onClose();
         this.remove();
