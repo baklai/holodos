@@ -338,7 +338,6 @@ class ModalComponent extends HTMLElement {
 
     this.items = [];
     this.itemsIndex = 0;
-    this.onClose = 0;
     this.onItemUpdate = null;
 
     this.productElement = this.shadowRoot.querySelector('.product');
@@ -348,7 +347,6 @@ class ModalComponent extends HTMLElement {
     this.titleElement = this.shadowRoot.querySelector('[data-js="title"]');
 
     this.addEventListener('click', event => {
-      this.onClose();
       this.remove();
     });
 
@@ -358,7 +356,6 @@ class ModalComponent extends HTMLElement {
       const isImage = event.target.closest('img');
 
       if (isImage) {
-        this.onClose();
         this.remove();
       }
 
@@ -437,10 +434,6 @@ class ModalComponent extends HTMLElement {
 
   setItemUpdate(handler) {
     this.onItemUpdate = handler;
-  }
-
-  setClose(handler) {
-    this.onClose = handler;
   }
 
   renderItem() {

@@ -305,10 +305,15 @@ class ProductsComponent extends HTMLElement {
         modal.setItemUpdate(args => {
           const itemIndex = this.items.findIndex(item => item.id === args.id);
           if (itemIndex >= 0) this.items[itemIndex].count = args.count;
+          const product = this.shadowRoot.querySelector(`[data-id="${args.id}"]`);
+          product.dataset.count = args.count;
+          const counter = product.querySelector('[data-js="count"]');
+          counter.textContent = args.count;
+          if (parseInt(product.dataset.count, 10)) {
+            product.classList.add('selected');
+            counter.style.animationName = 'badge-show';
+          }
           this.onItemUpdate({ ...args });
-        });
-        modal.setClose(() => {
-          this.renderItems();
         });
 
         this.shadowRoot.appendChild(modal);
