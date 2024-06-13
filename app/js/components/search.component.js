@@ -11,7 +11,7 @@ class SearchComponent extends HTMLElement {
           --light-gray: var(--placeholder-color);
           --focus-blue: var(--main-color);
 
-          --target-size: 32px;
+          --target-size: 36px;
           --box-height: var(--target-size);
           --border-width: 1px;
           --border-radius: calc(var(--box-height) / 4);
@@ -21,7 +21,7 @@ class SearchComponent extends HTMLElement {
 
           position: fixed;
           top: 0;
-          width: 100%;
+          width: 95%;
           z-index: 10;
           background: var(--block-bg-color);
         }
@@ -41,8 +41,9 @@ class SearchComponent extends HTMLElement {
 
         .searchbox {
           height: var(--box-height);
+          margin: auto;
           max-width: 561px;
-          margin: 8px 20px;
+          margin: 8px auto;
         }
 
         .searchbox input[type='search'] {
