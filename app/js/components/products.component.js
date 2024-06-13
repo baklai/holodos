@@ -292,7 +292,16 @@ class ProductsComponent extends HTMLElement {
       if (isImage) {
         const product = event.target.closest('.product');
         const modal = document.createElement('fridge-modal');
-        modal.setItems(product.dataset.id, [...this.items]);
+        modal.setItems(product.dataset.id, [
+          ...this.items.filter(item => {
+            const title = item.title.toLowerCase();
+            if (!this.filterValue || title.includes(this.filterValue)) {
+              return true;
+            } else {
+              return false;
+            }
+          })
+        ]);
         modal.setItemUpdate(args => {
           const itemIndex = this.items.findIndex(item => item.id === args.id);
           if (itemIndex >= 0) this.items[itemIndex].count = args.count;
@@ -358,6 +367,7 @@ class ProductsComponent extends HTMLElement {
     this.items = [];
     this.onItemUpdate = null;
     this.onClickHandler = null;
+    this.filterValue = null;
 
     this.template = this.shadowRoot.querySelector('#product');
 
@@ -365,10 +375,10 @@ class ProductsComponent extends HTMLElement {
     search.setAttribute('placeholder', 'Пошук товару за назвою...');
     search.setOnChange(value => {
       const products = this.shadowRoot.querySelectorAll('.product');
-      const filterValue = value.toLowerCase();
-      products.forEach(function (product) {
+      this.filterValue = value.toLowerCase();
+      products.forEach(product => {
         const title = product.dataset.title.toLowerCase();
-        if (title.includes(filterValue) || !filterValue) {
+        if (!this.filterValue || title.includes(this.filterValue)) {
           product.style.display = 'block';
         } else {
           product.style.display = 'none';
@@ -407,6 +417,13 @@ class ProductsComponent extends HTMLElement {
       product.dataset.count = item.count;
       product.dataset.pricePer = item.pricePer;
       product.dataset.priceTitle = item.priceTitle;
+
+      const title = product.dataset.title.toLowerCase();
+      if (!this.filterValue || title.includes(this.filterValue)) {
+        product.style.display = 'block';
+      } else {
+        product.style.display = 'none';
+      }
 
       const counter = node.querySelector('[data-js="count"]');
       counter.textContent = product.dataset.count;
