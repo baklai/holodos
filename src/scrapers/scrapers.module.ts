@@ -15,7 +15,13 @@ import { ScrapersService } from './scrapers.service';
       useValue: {
         headless: process.env.NODE_ENV === 'production' ? true : false,
         dumpio: process.env.NODE_ENV === 'production' ? false : true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-features=IsolateOrigins,site-per-process,SitePerProcess',
+          '--flag-switches-begin --disable-site-isolation-trials --flag-switches-end'
+        ],
         ignoreHTTPSErrors: true
       }
     }

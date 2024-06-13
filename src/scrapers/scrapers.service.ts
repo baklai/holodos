@@ -3,6 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Cron } from '@nestjs/schedule';
 import { Model } from 'mongoose';
 import puppeteer from 'puppeteer';
+import puppeteerExtra from 'puppeteer-extra';
+
+puppeteerExtra.use(require('puppeteer-extra-plugin-anonymize-ua')());
 
 import { Product } from 'src/schemas/product.schema';
 
@@ -38,7 +41,7 @@ export class ScrapersService {
 
   private async atbMarket(browserOptions: Record<string, any>, market: string) {
     const url = 'https://www.atbmarket.com';
-    const browser = await puppeteer.launch(browserOptions);
+    const browser = await puppeteerExtra.launch(browserOptions);
 
     await this.productModel.deleteMany({ market: market });
 
@@ -54,7 +57,11 @@ export class ScrapersService {
 
       await page.setCookie(...cookies);
 
-      await page.goto(url, { waitUntil: ['load', 'domcontentloaded'] });
+      await page.goto(url, {
+        waitUntil: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2']
+      });
+
+      await this.sleep(60000);
 
       const categories = await page.evaluate(url => {
         const links = document.querySelectorAll('ul.category-menu > li > a');
