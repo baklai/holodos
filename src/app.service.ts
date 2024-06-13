@@ -226,8 +226,8 @@ export class AppService {
           try {
             await this.telegramService.sendMessage(userID, ctx.session.message);
           } catch (err) {
-            console.error(err);
             if (err?.response?.error_code === 403) {
+              console.error(err?.response?.description);
               await this.userModel.findOneAndDelete({ userID: userID });
             }
           }
