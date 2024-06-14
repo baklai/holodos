@@ -195,6 +195,32 @@ class ProductsComponent extends HTMLElement {
           height: 14px;
         }
 
+        .touch {
+          position: absolute;
+          top: calc(50% - 17px);
+          left: calc(50% - 17px);
+          transform: translate(-50%, -50%);
+          width: 34px;
+          height: 34px;
+          cursor: pointer;
+          animation: appear 1s forwards;
+        }
+
+        @keyframes appear {
+          0% {
+            opacity: 1;
+            transform: scale(1.5);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          100% {
+            opacity: 0;
+            transform: scale(0);
+          }
+        }
+
         @keyframes badge-show {
           from {
             transform: scale3d(0.5, 0.5, 1);
@@ -270,6 +296,22 @@ class ProductsComponent extends HTMLElement {
           <div class="counter" data-js="count"></div>
           <div class="photo">
             <img width="74" height="74" loading="lazy" data-js="img"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="34"
+              height="34"
+              viewBox="0 0 24 24"
+              class="touch"
+              data-js="svg"
+            >
+              <path
+                fill="#fff"
+                stroke="#f8a917"
+                stroke-width="1"
+                stroke-linejoin="round"
+                d="M10 11V8.99c0-.88.59-1.64 1.44-1.86h.05A1.99 1.99 0 0 1 14 9.05V12v-2c0-.88.6-1.65 1.46-1.87h.05A1.98 1.98 0 0 1 18 10.06V13v-1.94a2 2 0 0 1 1.51-1.94h0A2 2 0 0 1 22 11.06V14c0 .6-.08 1.27-.21 1.97a7.96 7.96 0 0 1-7.55 6.48 54.98 54.98 0 0 1-4.48 0 7.96 7.96 0 0 1-7.55-6.48C2.08 15.27 2 14.59 2 14v-1.49c0-1.11.9-2.01 2.01-2.01h0a2 2 0 0 1 2.01 2.03l-.01.97v-10c0-1.1.9-2 2-2h0a2 2 0 0 1 2 2V11Z"
+              />
+            </svg>
           </div>
           <div class="label">
             <span class="price" data-js="price-per"></span>
@@ -443,6 +485,11 @@ class ProductsComponent extends HTMLElement {
       img.onerror = function () {
         this.src = 'img/market/product.png';
       };
+
+      const svg = node.querySelector('[data-js="svg"]');
+      svg.addEventListener('animationend', function () {
+        svg.remove();
+      });
 
       const pricePer = node.querySelector('[data-js="price-per"');
       pricePer.textContent = item.pricePer;
