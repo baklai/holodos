@@ -56,6 +56,9 @@ export class Fridge {
     signin.setAttribute('data-src', 'img/logo.webp');
     signin.setAttribute('data-label', 'Відкрити холодос');
     signin.setAttribute('data-comment', 'бот агрегує товари із бази мереж супермаркетів');
+    signin.setRippleEffect(button => {
+      this.rippleEffect(button);
+    });
     signin.setOnSignin(() => {
       if (!this.#botclosed) {
         this.showSpinner();
@@ -113,6 +116,9 @@ export class Fridge {
 
       const markets = document.createElement('fridge-markets');
       markets.setAttribute('data-comment', 'бот агрегує товари із бази мереж супермаркетів');
+      markets.setRippleEffect(button => {
+        this.rippleEffect(button);
+      });
       markets.setItems([...this.#markets]);
       markets.setItemClick(key => {
         this.showSpinner();
@@ -146,6 +152,9 @@ export class Fridge {
 
       if (items?.length) {
         const categories = document.createElement('fridge-categories');
+        categories.setRippleEffect(button => {
+          this.rippleEffect(button);
+        });
         categories.setItems([...items]);
         categories.setItemClick((market, category) => {
           this.showSpinner();
@@ -183,6 +192,9 @@ export class Fridge {
       const products = document.createElement('fridge-products');
       products.setAttribute('data-market', market);
       products.setAttribute('data-category', category);
+      products.setRippleEffect(button => {
+        this.rippleEffect(button);
+      });
       products.setItems([
         ...items.map(item => {
           return { ...item, count: this.getOrderCount(item.id) };
@@ -219,6 +231,9 @@ export class Fridge {
     const order = document.createElement('fridge-order');
     order.setAttribute('data-number', `СПИСОК #${this.orderTimeStamp}`);
     order.setAttribute('data-price', `₴${this.orderPrice}`);
+    order.setRippleEffect(button => {
+      this.rippleEffect(button);
+    });
     order.setItems(
       this.#orderlist.map(item => {
         return {
@@ -315,10 +330,8 @@ export class Fridge {
       })
     );
   }
-}
 
-function initRippleEffect() {
-  document.querySelectorAll('button').forEach(button => {
+  rippleEffect(button) {
     button.addEventListener('click', event => {
       const ripple = document.createElement('span');
       ripple.style.position = 'absolute';
@@ -340,5 +353,5 @@ function initRippleEffect() {
         ripple.remove();
       });
     });
-  });
+  }
 }

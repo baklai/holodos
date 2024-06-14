@@ -17,6 +17,8 @@ class SigninComponent extends HTMLElement {
         }
 
         button {
+          position: relative;
+          overflow: hidden;
           font-family: var(--default-font);
           font-weight: 700;
           font-size: 14px;
@@ -37,6 +39,13 @@ class SigninComponent extends HTMLElement {
           margin: 0;
           color: var(--hint-color);
         }
+
+        @keyframes ripple {
+          to {
+            transform: scale(4);
+            opacity: 0;
+          }
+        }
       </style>
 
       <img alt="Холодос" width="200" />
@@ -48,17 +57,22 @@ class SigninComponent extends HTMLElement {
     this.paragraphElement = this.shadowRoot.querySelector('p');
     this.buttonElement = this.shadowRoot.querySelector('button');
 
-    this.buttonElement.addEventListener('click', () => {
+    this.buttonElement.addEventListener('click', event => {
       if (this.onClickHandler && typeof this.onClickHandler === 'function') {
         this.onClickHandler();
       }
     });
 
     this.onClickHandler = null;
+    this.onRippleEffect = null;
   }
 
   setOnSignin(handler) {
     this.onClickHandler = handler;
+  }
+
+  setRippleEffect(handler) {
+    this.onRippleEffect = handler;
   }
 
   static get observedAttributes() {
@@ -90,6 +104,10 @@ class SigninComponent extends HTMLElement {
     }
     if (this.hasAttribute('data-comment')) {
       this.paragraphElement.textContent = this.getAttribute('data-comment');
+    }
+
+    if (this.onRippleEffect && typeof this.onRippleEffect === 'function') {
+      this.onRippleEffect(this.buttonElement);
     }
   }
 }

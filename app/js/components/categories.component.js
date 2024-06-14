@@ -29,6 +29,8 @@ class CategoriesComponent extends HTMLElement {
         }
 
         button {
+          position: relative;
+          overflow: hidden;
           display: flex;
           padding: 0.5rem 1rem;
           width: 100%;
@@ -41,10 +43,15 @@ class CategoriesComponent extends HTMLElement {
           background-color: var(--main-color);
           color: #fff;
           cursor: pointer;
-          position: relative;
-          overflow: hidden;
           outline: none;
           border: none;
+        }
+
+        @keyframes ripple {
+          to {
+            transform: scale(4);
+            opacity: 0;
+          }
         }
       </style>
     `;
@@ -63,6 +70,7 @@ class CategoriesComponent extends HTMLElement {
 
     this.items = [];
     this.onClickHandler = null;
+    this.onRippleEffect = null;
   }
 
   setItems(items) {
@@ -71,6 +79,10 @@ class CategoriesComponent extends HTMLElement {
 
   setItemClick(handler) {
     this.onClickHandler = handler;
+  }
+
+  setRippleEffect(handler) {
+    this.onRippleEffect = handler;
   }
 
   renderItems() {
@@ -104,6 +116,12 @@ class CategoriesComponent extends HTMLElement {
 
   connectedCallback() {
     this.renderItems();
+
+    this.shadowRoot.querySelectorAll('button').forEach(button => {
+      if (this.onRippleEffect && typeof this.onRippleEffect === 'function') {
+        this.onRippleEffect(button);
+      }
+    });
   }
 }
 

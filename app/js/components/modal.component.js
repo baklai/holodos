@@ -32,6 +32,8 @@ class ModalComponent extends HTMLElement {
         }
 
         button {
+          position: relative;
+          overflow: hidden;
           display: inline-block;
           font-family: var(--default-font);
           font-weight: 700;
@@ -47,8 +49,6 @@ class ModalComponent extends HTMLElement {
           background-color: var(--main-color);
           color: #fff;
           cursor: pointer;
-          position: relative;
-          overflow: hidden;
           outline: none;
         }
 
@@ -232,6 +232,13 @@ class ModalComponent extends HTMLElement {
           }
         }
 
+        @keyframes ripple {
+          to {
+            transform: scale(4);
+            opacity: 0;
+          }
+        }
+
         @keyframes badge-show {
           from {
             transform: scale3d(0.5, 0.5, 1);
@@ -339,6 +346,7 @@ class ModalComponent extends HTMLElement {
     this.items = [];
     this.itemsIndex = 0;
     this.onItemUpdate = null;
+    this.onRippleEffect = null;
 
     this.productElement = this.shadowRoot.querySelector('.product');
     this.imgElement = this.shadowRoot.querySelector('[data-js="img"]');
@@ -436,6 +444,10 @@ class ModalComponent extends HTMLElement {
     this.onItemUpdate = handler;
   }
 
+  setRippleEffect(handler) {
+    this.onRippleEffect = handler;
+  }
+
   renderItem() {
     const item = this.items[this.itemsIndex];
 
@@ -473,7 +485,13 @@ class ModalComponent extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {}
 
-  connectedCallback() {}
+  connectedCallback() {
+    this.shadowRoot.querySelectorAll('button').forEach(button => {
+      if (this.onRippleEffect && typeof this.onRippleEffect === 'function') {
+        this.onRippleEffect(button);
+      }
+    });
+  }
 }
 
 customElements.define('fridge-modal', ModalComponent);

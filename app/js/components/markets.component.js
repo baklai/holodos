@@ -27,6 +27,8 @@ class MarketsComponent extends HTMLElement {
         }
 
         button {
+          position: relative;
+          overflow: hidden;
           display: inline-block;
           padding: 0.5em 1em;
           height: 38px;
@@ -47,6 +49,13 @@ class MarketsComponent extends HTMLElement {
           margin: 0;
           color: var(--hint-color);
         }
+
+        @keyframes ripple {
+          to {
+            transform: scale(4);
+            opacity: 0;
+          }
+        }
       </style>
 
       <div></div>
@@ -66,6 +75,7 @@ class MarketsComponent extends HTMLElement {
 
     this.items = [];
     this.onClickHandler = null;
+    this.onRippleEffect = null;
 
     this.contentElement = this.shadowRoot.querySelector('div');
     this.commentElement = this.shadowRoot.querySelector('p');
@@ -73,14 +83,18 @@ class MarketsComponent extends HTMLElement {
 
   setItems(itemsArray) {
     this.items = itemsArray;
-    this.renderButtons();
+    this.renderItems();
   }
 
   setItemClick(handler) {
     this.onClickHandler = handler;
   }
 
-  renderButtons() {
+  setRippleEffect(handler) {
+    this.onRippleEffect = handler;
+  }
+
+  renderItems() {
     this.items.forEach(item => {
       const button = document.createElement('button');
       button.dataset.market = item.key;
@@ -115,6 +129,12 @@ class MarketsComponent extends HTMLElement {
     if (this.hasAttribute('data-comment')) {
       this.commentElement.textContent = this.getAttribute('data-comment');
     }
+
+    this.shadowRoot.querySelectorAll('button').forEach(button => {
+      if (this.onRippleEffect && typeof this.onRippleEffect === 'function') {
+        this.onRippleEffect(button);
+      }
+    });
   }
 }
 

@@ -21,6 +21,8 @@ class OrderComponent extends HTMLElement {
         }
 
         button {
+          position: relative;
+          overflow: hidden;
           font-family: var(--default-font);
           font-weight: 700;
           font-size: 14px;
@@ -30,8 +32,6 @@ class OrderComponent extends HTMLElement {
           background-color: var(--main-color);
           color: #fff;
           cursor: pointer;
-          position: relative;
-          overflow: hidden;
           outline: none;
           border: none;
         }
@@ -64,6 +64,13 @@ class OrderComponent extends HTMLElement {
           width: 100%;
           max-height: 280px;
           overflow-y: auto;
+        }
+
+        @keyframes ripple {
+          to {
+            transform: scale(4);
+            opacity: 0;
+          }
         }
       </style>
 
@@ -137,6 +144,7 @@ class OrderComponent extends HTMLElement {
 
     this.onOrderClear = null;
     this.onCommentUpdate = null;
+    this.onRippleEffect = null;
 
     this.orderItems = this.shadowRoot.querySelector('.items');
     this.orderNumber = this.shadowRoot.querySelector('[data-js="order-number"]');
@@ -171,6 +179,10 @@ class OrderComponent extends HTMLElement {
 
   setOrderClear(handler) {
     this.onOrderClear = handler;
+  }
+
+  setRippleEffect(handler) {
+    this.onRippleEffect = handler;
   }
 
   renderItems() {
@@ -224,6 +236,12 @@ class OrderComponent extends HTMLElement {
     if (this.hasAttribute('data-price')) {
       this.totalPrice.textContent = this.getAttribute('data-price');
     }
+
+    this.shadowRoot.querySelectorAll('button').forEach(button => {
+      if (this.onRippleEffect && typeof this.onRippleEffect === 'function') {
+        this.onRippleEffect(button);
+      }
+    });
   }
 }
 

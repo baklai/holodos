@@ -126,11 +126,12 @@ class ProductsComponent extends HTMLElement {
         }
 
         .buttons {
+          position: relative;
+          overflow: hidden;
           display: flex;
           width: 80px;
           justify-content: space-between;
           margin: 10px auto 0;
-          position: relative;
           transition: all var(--animation);
         }
 
@@ -218,6 +219,13 @@ class ProductsComponent extends HTMLElement {
           100% {
             opacity: 0;
             transform: scale(0);
+          }
+        }
+
+        @keyframes ripple {
+          to {
+            transform: scale(4);
+            opacity: 0;
           }
         }
 
@@ -334,6 +342,9 @@ class ProductsComponent extends HTMLElement {
       if (isImage) {
         const product = event.target.closest('.product');
         const modal = document.createElement('fridge-modal');
+        modal.setRippleEffect(button => {
+          this.onRippleEffect(button);
+        });
         modal.setItems(product.dataset.id, [
           ...this.items.filter(item => {
             const title = item.title.toLowerCase();
@@ -412,9 +423,11 @@ class ProductsComponent extends HTMLElement {
     });
 
     this.items = [];
+    this.filterValue = null;
+
     this.onItemUpdate = null;
     this.onClickHandler = null;
-    this.filterValue = null;
+    this.onRippleEffect = null;
 
     this.template = this.shadowRoot.querySelector('#product');
 
@@ -447,6 +460,10 @@ class ProductsComponent extends HTMLElement {
 
   setItemUpdate(handler) {
     this.onItemUpdate = handler;
+  }
+
+  setRippleEffect(handler) {
+    this.onRippleEffect = handler;
   }
 
   renderItems() {
@@ -524,6 +541,12 @@ class ProductsComponent extends HTMLElement {
     if (this.hasAttribute('data-category')) {
       this.dataset.category = this.getAttribute('data-category');
     }
+
+    this.shadowRoot.querySelectorAll('button').forEach(button => {
+      if (this.onRippleEffect && typeof this.onRippleEffect === 'function') {
+        this.onRippleEffect(button);
+      }
+    });
   }
 }
 
