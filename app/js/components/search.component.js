@@ -83,7 +83,7 @@ class SearchComponent extends HTMLElement {
         }
 
         button {
-          display: inline-flex;
+          display: none;
           align-items: center;
           justify-content: center;
           border: none;
@@ -165,11 +165,17 @@ class SearchComponent extends HTMLElement {
     };
 
     this.input.addEventListener('input', event => {
+      if (event.target.value) {
+        this.clearButton.style.display = 'inline-flex';
+      } else {
+        this.clearButton.style.display = 'none';
+      }
       this.onInputHandler(event.target.value);
     });
 
     this.clearButton.addEventListener('click', () => {
       this.input.value = '';
+      this.clearButton.style.display = 'none';
       this.onInputHandler(this.input.value);
     });
   }
